@@ -202,7 +202,8 @@
     "deleteConfirm": "Po, fshije përgjithmonë",
     "cancel": "Anulo",
     "saved": "U ruajt",
-    "saveError": "Nuk u ruajt. Provo përsëri."
+    "saveError": "Nuk u ruajt. Provo përsëri.",
+    "seePremium": "Shih Premium"
   },
   "cookies": {
     "title": "Cookies",
@@ -451,7 +452,9 @@
       "Mund ta anulosh kurdo me një prekje nga faqja e llogarisë. Premium vazhdon deri në fund të periudhës që ke paguar.",
       "Rimbursim i plotë brenda 14 ditëve, nëse pothuajse nuk i ke përdorur veçoritë me pagesë."
     ],
-    "refundLink": "Lexo politikën e rimbursimit"
+    "refundLink": "Lexo politikën e rimbursimit",
+    "youArePremium": "Premium yt është aktiv",
+    "seeAccount": "Shih në llogari"
   },
   "faq": {
     "title": "Pyetje të shpeshta",
@@ -517,7 +520,7 @@
     "nextUp": "Në vijim",
     "done": "Përfunduar",
     "best": "Më e mira: {n}%",
-    "locked": "Premium (së shpejti)",
+    "locked": "Premium",
     "lessons": "{n} mësime",
     "minutes": "~5 min",
     "unverified": "Mësimet janë të reja; përmbajtja shqipe po kontrollohet nga folës vendas të Prishtinës.",
@@ -556,6 +559,11 @@
     "reviewSubtitle": "Fjalët që të kanë vështirësuar, në një raund të shkurtër.",
     "reviewEmptyTitle": "S'ka fjalë për përsëritje",
     "reviewEmptyBody": "Sa më shumë mësime të përfundosh, fjalët e vështira mblidhen këtu.",
-    "loading": "Duke u ngarkuar…"
+    "loading": "Duke u ngarkuar…",
+    "lockedTitle": "Ky mësim është pjesë e Premium",
+    "lockedBody": "Me Premium hapen mësimet në të gjitha kurset.",
+    "lockedSignInHint": "Nëse ke Premium, hyr në llogari.",
+    "seePremium": "Shih Premium",
+    "signIn": "Hyr"
   }
 }

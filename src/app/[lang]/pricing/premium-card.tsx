@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Crown } from "lucide-react";
+import Link from "next/link";
+import { Check, Crown } from "lucide-react";
 import type { Messages } from "@/i18n/dictionaries";
+import { usePremium } from "@/lib/billing/use-premium";
 
 type T = Messages["pricing"];
 
@@ -16,14 +18,17 @@ export function PremiumCard({
   yearly,
   yearlyPerMonth,
   savePercent,
+  accountHref,
 }: {
   t: T;
   monthly: string;
   yearly: string;
   yearlyPerMonth: string;
   savePercent: number;
+  accountHref: string;
 }) {
   const [interval, setInterval] = useState<"month" | "year">("year");
+  const premium = usePremium();
 
   return (
     <div className="flex flex-col rounded-3xl bg-surface p-5 shadow-card ring-2 ring-accent">
@@ -66,17 +71,31 @@ export function PremiumCard({
         {interval === "year" ? t.yearlyEquivalent.replace("{price}", yearlyPerMonth) : ""}
       </p>
 
-      <button
-        type="button"
-        disabled
-        aria-describedby="payment-note"
-        className="mt-3 inline-flex h-12 cursor-not-allowed items-center justify-center rounded-full bg-accent/50 px-5 text-[17px] font-semibold text-on-accent"
-      >
-        {t.premiumSoon}
-      </button>
-      <p id="payment-note" className="mt-2 text-[13px] text-muted">
-        {t.paymentNote}
-      </p>
+      {premium ? (
+        <div className="mt-3 flex flex-col items-center gap-2">
+          <p className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-accent-soft px-5 text-[17px] font-semibold text-accent-text">
+            <Check aria-hidden="true" className="h-5 w-5" />
+            {t.youArePremium}
+          </p>
+          <Link href={accountHref} className="text-[15px] font-medium text-accent-text">
+            {t.seeAccount}
+          </Link>
+        </div>
+      ) : (
+        <>
+          <button
+            type="button"
+            disabled
+            aria-describedby="payment-note"
+            className="mt-3 inline-flex h-12 cursor-not-allowed items-center justify-center rounded-full bg-accent/50 px-5 text-[17px] font-semibold text-on-accent"
+          >
+            {t.premiumSoon}
+          </button>
+          <p id="payment-note" className="mt-2 text-[13px] text-muted">
+            {t.paymentNote}
+          </p>
+        </>
+      )}
     </div>
   );
 }

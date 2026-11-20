@@ -57,7 +57,12 @@ export function AccountSettings({
                 {t.premium} · {t.activeUntil.replace("{date}", activeUntil)}
               </span>
             ) : (
-              t.free
+              <span className="flex items-center gap-2">
+                {t.free}
+                <Link href={`/${lang}/pricing`} className="font-medium text-accent-text">
+                  {t.seePremium}
+                </Link>
+              </span>
             )
           }
         />

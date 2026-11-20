@@ -68,6 +68,7 @@ export default async function PricingPage({ params }: PageProps<"/[lang]/pricing
           yearly={amount(yearly.priceEur, lang)}
           yearlyPerMonth={amount(yearly.priceEur / 12, lang)}
           savePercent={YEARLY_SAVING_PERCENT}
+          accountHref={`/${lang}/app`}
         />
       </div>
 

@@ -6,6 +6,7 @@ import { hasLocale, type Locale } from "@/i18n/config";
 import { findGlossaryMatches } from "@/lib/glossary";
 import { FREE_TEXT_TRANSLATIONS_PER_DAY, MAX_TRANSLATION_CHARS, PAID_TEXT_TRANSLATIONS_PER_DAY } from "@/lib/plans";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { getEntitlement } from "@/lib/billing/entitlement";
 import { createClient } from "@/lib/supabase/server";
 import { checkLimit, checkLimits, clientIp } from "@/lib/rate-limit";
 import {
@@ -65,7 +66,7 @@ export async function translateText(raw: z.input<typeof inputSchema>): Promise<T
   const admin = createAdminClient();
 
   // 2) Count it against today's quota (atomic, can't be raced past the limit).
-  const { data: paid } = await supabase.rpc("has_active_subscription");
+  const { premium: paid } = await getEntitlement();
   const limit = paid ? PAID_TEXT_TRANSLATIONS_PER_DAY : FREE_TEXT_TRANSLATIONS_PER_DAY;
   const { data: left, error: quotaError } = await admin.rpc("consume_text_translation", { uid: userId, daily_limit: limit });
   if (quotaError) return { ok: false, error: "generic" };

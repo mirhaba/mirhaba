@@ -202,7 +202,8 @@
     "deleteConfirm": "Evet, kalıcı olarak sil",
     "cancel": "Vazgeç",
     "saved": "Kaydedildi",
-    "saveError": "Kaydedilemedi. Tekrar dene."
+    "saveError": "Kaydedilemedi. Tekrar dene.",
+    "seePremium": "Premium'u gör"
   },
   "cookies": {
     "title": "Çerezler",
@@ -451,7 +452,9 @@
       "İstediğin zaman, hesap sayfasından tek dokunuşla iptal edebilirsin. Ödediğin dönemin sonuna kadar Premium devam eder.",
       "Ücretli özellikleri neredeyse hiç kullanmadıysan 14 gün içinde tam iade."
     ],
-    "refundLink": "İade politikasını oku"
+    "refundLink": "İade politikasını oku",
+    "youArePremium": "Premium'un aktif",
+    "seeAccount": "Hesabında gör"
   },
   "faq": {
     "title": "Sık sorulan sorular",
@@ -517,7 +520,7 @@
     "nextUp": "Sıradaki",
     "done": "Tamamlandı",
     "best": "En iyi: %{n}",
-    "locked": "Premium (yakında)",
+    "locked": "Premium",
     "lessons": "{n} ders",
     "minutes": "~5 dk",
     "unverified": "Dersler yeni; Arnavutça içerik anadili Priştine Arnavutçası olan kişilerce kontrol ediliyor.",
@@ -556,6 +559,11 @@
     "reviewSubtitle": "Zorlandığın kelimeler, kısa bir turda.",
     "reviewEmptyTitle": "Tekrar edilecek kelime yok",
     "reviewEmptyBody": "Ders bitirdikçe zorlandığın kelimeler burada birikir.",
-    "loading": "Yükleniyor…"
+    "loading": "Yükleniyor…",
+    "lockedTitle": "Bu ders Premium'a dahil",
+    "lockedBody": "Premium ile tüm parkurlardaki dersler açılır.",
+    "lockedSignInHint": "Premium'un varsa giriş yap.",
+    "seePremium": "Premium'u gör",
+    "signIn": "Giriş yap"
   }
 }

@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { hasLocale, intlLocale, type Locale } from "@/i18n/config";
 import { getDictionary, type Messages } from "@/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/server";
+import { getEntitlement } from "@/lib/billing/entitlement";
 import { AccountSettings } from "./account-settings";
 import { ConsentForm } from "./consent-form";
 
@@ -31,27 +33,21 @@ export default async function AccountPage({ params }: PageProps<"/[lang]/app">) 
 }
 
 async function Account({ lang, t }: { lang: Locale; t: Messages }) {
+  await connection(); // the session check compares token expiry with the current time
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) redirect(`/${lang}/login?next=/${lang}/app`); // the proxy already guards; this is defence in depth
 
-  const [{ data: profile }, { data: subscription }, { data: isModerator }] = await Promise.all([
+  const [{ data: profile }, entitlement, { data: isModerator }] = await Promise.all([
     supabase.from("profiles").select("ui_lang, marketing_opt_in, age_confirmed_at").eq("id", auth.user.id).single(),
-    supabase
-      .from("subscriptions")
-      .select("status, current_period_end")
-      .eq("status", "active")
-      .gt("current_period_end", new Date().toISOString())
-      .order("current_period_end", { ascending: false })
-      .limit(1)
-      .maybeSingle(),
+    getEntitlement(),
     supabase.rpc("is_moderator"),
   ]);
 
   if (!profile?.age_confirmed_at) return <ConsentForm lang={lang} t={t.consent} />;
 
-  const activeUntil = subscription?.current_period_end
-    ? new Intl.DateTimeFormat(intlLocale[lang], { dateStyle: "long" }).format(new Date(subscription.current_period_end))
+  const activeUntil = entitlement.activeUntil
+    ? new Intl.DateTimeFormat(intlLocale[lang], { dateStyle: "long" }).format(new Date(entitlement.activeUntil))
     : null;
 
   return (

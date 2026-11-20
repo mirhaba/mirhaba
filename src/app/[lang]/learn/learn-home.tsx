@@ -7,6 +7,7 @@ import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import { tracks, type Track } from "@/content/lessons";
 import { fill } from "@/lib/format";
+import { usePremium } from "@/lib/billing/use-premium";
 import { getLessonProgress, getStreak, syncWithAccount, weakItemIds, type Streak } from "@/lib/learn/progress";
 import type { LessonProgressRow } from "@/lib/offline-db";
 
@@ -17,6 +18,7 @@ type State = { progress: Record<string, LessonProgressRow>; streak: Streak; weak
 
 export function LearnHome({ lang, t }: { lang: Locale; t: T }) {
   const [state, setState] = useState<State>(null); // null = still reading the device
+  const premium = usePremium() === true; // UI only: the lesson page checks access on the server
 
   useEffect(() => {
     const load = () =>
@@ -31,8 +33,8 @@ export function LearnHome({ lang, t }: { lang: Locale; t: T }) {
       });
   }, []);
 
-  // The next lesson to do: the first free lesson not completed yet.
-  const allLessons = tracks.flatMap((tr) => tr.units.filter((u) => u.isFree).flatMap((u) => u.lessons));
+  // The next lesson to do: the first open lesson not completed yet.
+  const allLessons = tracks.flatMap((tr) => tr.units.filter((u) => u.isFree || premium).flatMap((u) => u.lessons));
   const next = state ? allLessons.find((l) => !state.progress[l.slug]) : undefined;
 
   return (
@@ -110,7 +112,7 @@ export function LearnHome({ lang, t }: { lang: Locale; t: T }) {
                   {unit.lessons.map((lesson, i) => {
                     const done = state?.progress[lesson.slug];
                     const isNext = next?.slug === lesson.slug;
-                    const locked = !unit.isFree;
+                    const locked = !unit.isFree && !premium;
                     const content = (
                       <>
                         <span
@@ -139,17 +141,14 @@ export function LearnHome({ lang, t }: { lang: Locale; t: T }) {
                     );
                     return (
                       <li key={lesson.slug} className="border-b border-hairline last:border-b-0">
-                        {locked ? (
-                          <div className="flex min-h-16 items-center gap-3 px-4 py-3 opacity-60">{content}</div>
-                        ) : (
-                          <Link
-                            href={`/${lang}/learn/${lesson.slug}`}
-                            aria-label={`${lesson.title[lang]}${done ? `, ${t.done}` : ""}`}
-                            className="flex min-h-16 items-center gap-3 px-4 py-3 transition-colors duration-150 active:bg-surface-2"
-                          >
-                            {content}
-                          </Link>
-                        )}
+                        {/* Locked lessons still open: the lesson page explains how to unlock them. */}
+                        <Link
+                          href={`/${lang}/learn/${lesson.slug}`}
+                          aria-label={`${lesson.title[lang]}${locked ? `, ${t.locked}` : done ? `, ${t.done}` : ""}`}
+                          className={`flex min-h-16 items-center gap-3 px-4 py-3 transition-colors duration-150 active:bg-surface-2 ${locked ? "opacity-60" : ""}`}
+                        >
+                          {content}
+                        </Link>
                       </li>
                     );
                   })}

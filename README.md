@@ -102,7 +102,27 @@ Hosted setup when you go live (Supabase dashboard):
   the most recently practised word state wins, the later streak wins (longest = max). Symmetric and idempotent, so
   syncing twice or from several phones is safe. Tables `user_progress`, `user_item_stats`, `user_learning` (own rows only,
   included in data export, deleted with the account). Signed out or offline: progress just stays on the phone.
-- `isFree` on units: Premium units are locked until payments exist (all current units are free).
+- `isFree` on units: units with `isFree: false` are Premium (see below). All current units are free.
+
+## Premium
+
+- **One source of truth**: a row in `subscriptions` with `status = 'active'` and `current_period_end` in the future.
+  Server code asks `getEntitlement()` (`src/lib/billing/entitlement.ts`, cached per request); SQL asks `has_active_subscription()`.
+  Translation limits, the account page and Premium lessons all read it from there.
+- **Turning Premium on**: only the SQL function `activate_subscription(uid, plan, ref, days)` (service role / SQL editor; users can't call it).
+  It reuses the user's row, adds one billing period (or `days`), extends from the current end when renewing early,
+  restarts from now after a lapse, and writes `audit_log`. The RaiAccept webhook will call it after a verified payment.
+  Until then, grant Premium by hand in the SQL editor:
+  `select activate_subscription('<user id>', 'monthly');` or `select activate_subscription('<user id>', 'yearly', null, 30);` (30 free days).
+- **Premium lessons**: `/[lang]/learn/<lesson>` of a Premium unit checks the account on every request and shows
+  "this lesson is part of Premium" (with sign-in / pricing links) instead of the lesson. Free lessons stay static and offline.
+- **UI hints**: `usePremium()` (`src/lib/billing/use-premium.ts`) unlocks Premium units in the Learn list and shows
+  "Premium is active" on the pricing card. It remembers the last answer on the phone (until the period ends) so it works offline,
+  and never sends a request for signed-out visitors. It only changes what's shown; access is decided on the server.
+- **Before writing Premium lessons**: lesson items are bundled into the browser JavaScript (`src/content/lessons.ts`,
+  used by the lesson player and review). Move Premium units' items to the server (pass them as props, and look up
+  review words through a server action) so they can't be read from the bundle.
+- Tests: `supabase/tests/database/premium.test.sql` (`npm run db:test`).
 
 ## Public pages (bank audit + SEO)
 
