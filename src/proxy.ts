@@ -1,0 +1,77 @@
+import { NextResponse, type NextRequest } from "next/server";
+import { createServerClient } from "@supabase/ssr";
+import { defaultLocale, hasLocale, LOCALE_COOKIE, type Locale } from "@/i18n/config";
+import { sessionCookieWrites } from "@/lib/supabase/cookies";
+import { supabasePublishableKey, supabaseUrl } from "@/lib/supabase/env";
+
+function pickLocale(request: NextRequest): Locale {
+  const fromCookie = request.cookies.get(LOCALE_COOKIE)?.value;
+  if (hasLocale(fromCookie)) return fromCookie;
+
+  // Albanian browsers get Albanian; everyone else gets Turkish (the default).
+  const accept = request.headers.get("accept-language") ?? "";
+  const first = accept.split(",")[0]?.trim().slice(0, 2).toLowerCase();
+  return first === "sq" ? "sq" : defaultLocale;
+}
+
+/** Routes that need a fresh session. Everything else (Quick Talk!) never waits on auth. */
+const AUTH_ROUTE = /^\/(tr|sq)\/(app|login|translate)(\/|$)/;
+
+export async function proxy(request: NextRequest) {
+  const { pathname, search } = request.nextUrl;
+  const segment = pathname.split("/")[1];
+
+  // 1) Locale prefix: "/" → "/tr", "/foo" → "/tr/foo".
+  if (!hasLocale(segment)) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${pickLocale(request)}${pathname === "/" ? "" : pathname}`;
+    return NextResponse.redirect(url);
+  }
+
+  if (!AUTH_ROUTE.test(pathname)) return NextResponse.next();
+
+  // 2) Refresh the Supabase session (rotates tokens into httpOnly cookies) and guard routes.
+  let response = NextResponse.next({ request });
+  const supabase = createServerClient(supabaseUrl, supabasePublishableKey, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet, headers) {
+        for (const { name, value } of cookiesToSet) request.cookies.set(name, value);
+        response = NextResponse.next({ request });
+        for (const { name, value, options } of sessionCookieWrites(cookiesToSet)) response.cookies.set(name, value, options);
+        // Auth responses must never be cached by a CDN.
+        for (const [key, value] of Object.entries(headers ?? {})) response.headers.set(key, value);
+      },
+    },
+  });
+
+  // getUser() asks Supabase to verify the token; never trust the cookie alone.
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const redirectKeepingCookies = (to: string) => {
+    const redirect = NextResponse.redirect(new URL(to, request.url));
+    for (const cookie of response.cookies.getAll()) redirect.cookies.set(cookie);
+    return redirect;
+  };
+
+  const isApp = /^\/(tr|sq)\/app(\/|$)/.test(pathname);
+  if (isApp && !user) {
+    return redirectKeepingCookies(`/${segment}/login?next=${encodeURIComponent(pathname + search)}`);
+  }
+  const isLogin = /^\/(tr|sq)\/login(\/|$)/.test(pathname);
+  if (isLogin && user) {
+    return redirectKeepingCookies(`/${segment}/app`);
+  }
+
+  response.headers.set("Cache-Control", "private, no-store");
+  return response;
+}
+
+export const config = {
+  // Skip Next internals, API routes, metadata/PWA files and anything with an extension.
+  matcher: ["/((?!_next|api|monitoring|icons|manifest.webmanifest|sw.js|robots.txt|sitemap.xml|.*\\..*).*)"],
+};

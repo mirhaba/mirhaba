@@ -1,0 +1,40 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { CircleAlert } from "lucide-react";
+import { hasLocale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/dictionaries";
+import { LearnHome } from "./learn-home";
+
+export async function generateMetadata({ params }: PageProps<"/[lang]/learn">): Promise<Metadata> {
+  const { lang } = await params;
+  if (!hasLocale(lang)) return {};
+  const t = (await getDictionary(lang)).learn;
+  return {
+    title: t.title,
+    description: t.metaDescription,
+    alternates: { canonical: `/${lang}/learn`, languages: { tr: "/tr/learn", sq: "/sq/learn", "x-default": "/tr/learn" } },
+  };
+}
+
+export default async function LearnPage({ params }: PageProps<"/[lang]/learn">) {
+  const { lang } = await params;
+  if (!hasLocale(lang)) notFound();
+  const t = (await getDictionary(lang)).learn;
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div>
+        <h1 className="text-[34px] leading-tight font-bold">{t.title}</h1>
+        <p className="mt-1 text-[15px] text-muted">{t.subtitle}</p>
+      </div>
+      <LearnHome lang={lang} t={t} />
+      <div className="space-y-2 text-[13px] text-muted">
+        <p className="flex items-start gap-2">
+          <CircleAlert aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" />
+          {t.unverified}
+        </p>
+        <p>{t.deviceNote}</p>
+      </div>
+    </div>
+  );
+}

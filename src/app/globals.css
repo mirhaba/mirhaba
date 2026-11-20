@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+/*
+ * Brand palette (Mirhaba brand sheet). Use the semantic tokens below in components;
+ * the brand-* tokens are exposed too (bg-brand-red, text-brand-ink, …) for brand artwork.
+ *   brand-red   #C1272D  primary, app icon, Turkish-side bubble  (white on it: 5.8:1)
+ *   brand-ink   #1E1A22  text, dark backgrounds, Albanian-side bubble
+ *   brand-gold  #E3B23C  small accents only (dotted arc on dark)
+ *   brand-paper #FBF9F8  light background
+ *   brand-mist  #F2EEEE  secondary light background
+ *   brand-body  #4A4550  body text on light
+ *
+ * Still ONE accent colour (brand red), no gradients. Glass only on chrome floating over content.
+ * - accent:      fills (buttons, selected states), white text on top, ≥ 4.5:1
+ * - accent-text: the same hue tuned for text/icons on the page background, ≥ 4.5:1
+ */
+:root {
+  --brand-red: #c1272d;
+  --brand-ink: #1e1a22;
+  --brand-gold: #e3b23c;
+  --brand-paper: #fbf9f8;
+  --brand-mist: #f2eeee;
+  --brand-body: #4a4550;
+
+  --background: var(--brand-paper);
+  --surface: #ffffff;
+  --surface-2: var(--brand-mist);
+  --glass: rgb(251 249 248 / 0.72);
+  --glass-strong: rgb(255 255 255 / 0.94);
+  --foreground: var(--brand-ink);
+  --body: var(--brand-body);
+  --muted: #6b6572;
+  --hairline: rgb(30 26 34 / 0.1);
+  --accent: var(--brand-red);
+  --accent-pressed: #a11f25;
+  --on-accent: #ffffff;
+  --accent-text: var(--brand-red);
+  --accent-soft: rgb(193 39 45 / 0.08);
+  --shadow: 0 1px 2px rgb(30 26 34 / 0.05), 0 1px 1px rgb(30 26 34 / 0.03);
+  --shadow-lg: 0 10px 40px rgb(30 26 34 / 0.14);
+  /* Logo colours (light): ink arc, red Turkish bubble, ink Albanian bubble */
+  --logo-arc: var(--brand-ink);
+  --logo-left: var(--brand-red);
+  --logo-right: var(--brand-ink);
+  --logo-text: var(--brand-ink);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--brand-ink);
+    --surface: #29242e;
+    --surface-2: #352f3b;
+    --glass: rgb(30 26 34 / 0.72);
+    --glass-strong: rgb(41 36 46 / 0.94);
+    --foreground: var(--brand-paper);
+    --body: #d9d3dc;
+    --muted: #b5aebb;
+    --hairline: rgb(251 249 248 / 0.1);
+    --accent: var(--brand-red);
+    --accent-pressed: #a11f25;
+    --on-accent: #ffffff;
+    --accent-text: #ff6b6f;
+    --accent-soft: rgb(255 107 111 / 0.14);
+    --shadow: none;
+    --shadow-lg: 0 10px 40px rgb(0 0 0 / 0.5);
+    /* Logo colours (dark): gold arc, red Turkish bubble, paper Albanian bubble */
+    --logo-arc: var(--brand-gold);
+    --logo-left: var(--brand-red);
+    --logo-right: var(--brand-paper);
+    --logo-text: var(--brand-paper);
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-brand-red: var(--brand-red);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-paper: var(--brand-paper);
+  --color-brand-mist: var(--brand-mist);
+  --color-brand-body: var(--brand-body);
+  --color-body: var(--body);
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-glass: var(--glass);
+  /* Floating cards over content (banner, install hint) need near-opaque glass to stay readable. */
+  --color-glass-strong: var(--glass-strong);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+  --color-accent-pressed: var(--accent-pressed);
+  --color-on-accent: var(--on-accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+  --shadow-card: var(--shadow);
+  --shadow-float: var(--shadow-lg);
+  --font-sans: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-text);
+  outline-offset: 2px;
+}
+
+/* ---------- Motion: tiny, functional, 150–300 ms, never decoration ---------- */
+
+/* Press state on everything tappable. */
+.pressable {
+  touch-action: manipulation;
+  transition:
+    transform 150ms var(--ease-out-soft),
+    background-color 150ms ease-out,
+    color 150ms ease-out,
+    border-color 150ms ease-out,
+    opacity 150ms ease-out;
+}
+.pressable:active {
+  transform: scale(0.97);
+}
+
+/* Lists and screens fade in once; items stagger by --i (capped). */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.fade-in {
+  animation: fade-up 220ms var(--ease-out-soft) both;
+  animation-delay: calc(min(var(--i, 0), 6) * 25ms);
+}
+
+/* Bottom sheet / dialog. */
+@keyframes sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.sheet[open] {
+  animation: sheet-in 260ms var(--ease-out-soft);
+}
+.sheet::backdrop {
+  background: rgb(0 0 0 / 0.4);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  animation: backdrop-in 200ms ease-out;
+}
+
+/* Skeleton shimmer is a slow opacity pulse, not a sweeping gradient. */
+@keyframes breathe {
+  50% {
+    opacity: 0.55;
+  }
+}
+.skeleton {
+  background: var(--surface-2);
+  animation: breathe 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pressable,
+  .pressable:active {
+    transition: none;
+    transform: none;
+  }
+  .fade-in,
+  .sheet[open],
+  .sheet::backdrop,
+  .skeleton {
+    animation: none;
+  }
+}
+
+/* Hide horizontal scrollbars on chip rows (still scrollable). */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

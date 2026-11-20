@@ -1,0 +1,561 @@
+{
+  "meta": {
+    "title": "Mirhaba: Fol shqip në Kosovë",
+    "description": "Për çdo turk që jeton ose do të jetojë në Kosovë: fjali të gatshme, zhargon prishtinas dhe shqipja ashtu siç flitet. Punon edhe pa internet."
+  },
+  "common": {
+    "skipToContent": "Kalo te përmbajtja",
+    "language": "Gjuha",
+    "switchTo": "Kalo në turqisht",
+    "back": "Kthehu",
+    "close": "Mbyll",
+    "comingSoon": "Së shpejti",
+    "comingSoonBody": "Kjo pjesë ende nuk është gati. Tani për tani përdor Bisedën e shpejtë; punon edhe pa internet.",
+    "loading": "Duke u ngarkuar…"
+  },
+  "nav": {
+    "quickTalk": "Bisedë e shpejtë",
+    "translate": "Përkthim",
+    "learn": "Mëso",
+    "dictionary": "Fjalori i zhargonit",
+    "account": "Llogaria",
+    "main": "Menyja kryesore",
+    "signIn": "Hyr"
+  },
+  "quickTalk": {
+    "title": "Bisedë e shpejtë",
+    "subtitle": "Prek një fjali, tregoja ose dëgjoja personit përballë.",
+    "categories": "Kategoritë",
+    "favorites": "Të preferuarat",
+    "favoritesEmpty": "Prek yllin e një fjalie që të qëndrojë këtu lart (deri në 6).",
+    "favoritesFull": "Mund të fiksosh deri në 6 fjali. Hiq njërën së pari.",
+    "pin": "Shto te të preferuarat",
+    "unpin": "Hiq nga të preferuarat",
+    "play": "Lexoje me zë",
+    "stop": "Ndal",
+    "noVoice": "Kjo pajisje nuk ka zë shqip. Trego tekstin.",
+    "showTitle": "Tregoje këtë",
+    "replyBoard": "Butonat e përgjigjes",
+    "replyHint": "Personi përballë le të prekë një përgjigje:",
+    "replyHintSq": "Prekni një përgjigje:",
+    "theyAnswered": "Përgjigja",
+    "chooseOption": "Zgjidh",
+    "reading": "Shqiptimi",
+    "offlineReady": "Gati për përdorim pa internet",
+    "searchPlaceholder": "p.sh. derë, mjek, qira",
+    "noResults": "Asnjë rezultat. Provo një fjalë tjetër.",
+    "favoritesEmptyTitle": "Ende nuk ka fjali të fiksuara",
+    "noResultsTitle": "Nuk u gjet asgjë",
+    "clearSearch": "Pastro kërkimin",
+    "saveError": "Nuk u ruajt. Provo përsëri.",
+    "searchLabel": "Kërko fjali"
+  },
+  "offline": {
+    "title": "Nuk ka internet",
+    "body": "Biseda e shpejtë vazhdon të punojë pa internet. Për përkthim dhe mësime duhet lidhje.",
+    "cta": "Shko te Biseda e shpejtë"
+  },
+  "notFound": {
+    "title": "Faqja nuk u gjet",
+    "body": "Faqja që kërkon nuk ekziston ose është zhvendosur.",
+    "cta": "Kthehu në fillim"
+  },
+  "error": {
+    "title": "Diçka shkoi keq",
+    "body": "Provo përsëri. Nëse problemi vazhdon, na shkruaj.",
+    "retry": "Provo përsëri"
+  },
+  "install": {
+    "title": "Shto në ekranin kryesor",
+    "body": "Hape Mirhaba-n si aplikacion dhe përdore pa internet.",
+    "action": "Shto",
+    "iosBody": "Në iPhone: prek butonin Ndaj, pastaj \"Shto në ekranin bazë\".",
+    "dismiss": "Jo tani"
+  },
+  "footer": {
+    "privacy": "Privatësia",
+    "terms": "Kushtet e përdorimit",
+    "refunds": "Politika e rimbursimit",
+    "cookies": "Cookies",
+    "contact": "Kontakti",
+    "disclaimer": "Përkthimet janë ndihmë; nuk janë këshillë ligjore apo mjekësore.",
+    "about": "Rreth nesh",
+    "pricing": "Çmimet",
+    "faq": "Pyetje",
+    "company": "Kompania",
+    "registration": "Nr. i regjistrimit",
+    "fiscal": "Nr. fiskal",
+    "address": "Adresa",
+    "email": "Email",
+    "phone": "Telefoni",
+    "companyPending": "Të dhënat e kompanisë do të publikohen këtu pasi të përfundojë regjistrimi i biznesit në Kosovë."
+  },
+  "legal": {
+    "draft": "Draft: Ky tekst është draft i publikuar para kontrollit nga avokati.",
+    "privacy": {
+      "title": "Politika e privatësisë",
+      "body": [
+        "Mirhaba nuk kërkon llogari për Bisedën e shpejtë dhe nuk mbledh të dhëna personale. Fjalitë e preferuara ruhen në pajisjen tënde; nëse ke hyrë në llogari, sinkronizohen me llogarinë që të shfaqen edhe në pajisjet e tjera.",
+        "Bisedat dhe përkthimet nuk i ruajmë si parazgjedhje; mbahen vetëm numra anonimë të përdorimit.",
+        "Rezultatet e përkthimit ruhen 30 ditë në memorie që i njëjti tekst të përkthehet më shpejt. Vetë teksti yt nuk ruhet (vetëm një përmbledhje e pakthyeshme), as kush e përktheu. Për përkthim, teksti dërgohet te inteligjenca artificiale e Anthropic (Claude).",
+        "Që t'i rregullojmë gabimet, kur aplikacioni prishet, një regjistër teknik i gabimit dërgohet te Sentry (serverë në BE). Ky regjistër nuk përmban adresë IP, cookies, email apo tekstin që shkruan.",
+        "Kur të shtohen llogaritë, pagesat dhe analitika, kjo faqe do të listojë në detaje të dhënat që mblidhen, qëllimin, kohëzgjatjen e ruajtjes, palët e treta dhe të drejtat e tua.",
+        "Për pyetje rreth privatësisë: privacy@mirhaba.app"
+      ]
+    },
+    "terms": {
+      "title": "Kushtet e përdorimit",
+      "body": [
+        "Mirhaba është mjet që ndihmon komunikimin mes turqishtes dhe shqipes. Përkthimet janë ndihmë; nuk zëvendësojnë këshillën ligjore, mjekësore apo zyrtare.",
+        "Për ta përdorur aplikacionin duhet të jesh të paktën 16 vjeç.",
+        "Ligji i zbatueshëm: Republika e Kosovës."
+      ]
+    },
+    "refunds": {
+      "title": "Politika e rimbursimit",
+      "body": [
+        "Aktualisht nuk ka veçori me pagesë. Kur të fillojnë planet me pagesë, do të mund të marrësh rimbursim të plotë brenda 14 ditëve nëse pothuajse nuk i ke përdorur veçoritë me pagesë."
+      ]
+    },
+    "cookies": {
+      "title": "Politika e cookies",
+      "body": [
+        "Cookies të domosdoshme (nuk kërkojnë pëlqim, duhen që aplikacioni të punojë):",
+        "MIRHABA_LOCALE: mban mend gjuhën e ndërfaqes. Kohëzgjatja: 1 vit.",
+        "MIRHABA_CONSENT: mban mend zgjedhjen tënde për cookies. Kohëzgjatja: 6 muaj.",
+        "MIRHABA_ANON: një identifikues i rastësishëm për të vërtetuar zgjedhjen e vizitorit pa llogari. Nuk përdoret për ndjekje. Kohëzgjatja: 6 muaj.",
+        "sb-…-auth-token: seanca e hyrjes (vetëm nëse ke hyrë në llogari). Nuk lexohet nga JavaScript (httpOnly). Kohëzgjatja: gjatë seancës.",
+        "MIRHABA_SIGNED_IN: tregon vetëm që ke hyrë në llogari (vlera \"1\"), që aplikacioni ta dijë kur t'i sinkronizojë fjalitë e preferuara me llogarinë. Nuk përmban të dhëna personale. Kohëzgjatja: derisa të dalësh nga llogaria.",
+        "Cookies analitike (vetëm nëse zgjedh \"Prano\"):",
+        "ph_…_posthog: statistika anonime përdorimi nga PostHog (serverë në BE). Teksti i ekranit dhe ajo që shkruan nuk dërgohen. Kohëzgjatja: 1 vit.",
+        "Në pajisjen tënde ruhen edhe fjalitë e preferuara dhe përparimi në mësime (IndexedDB), si dhe gjendja e këshillës për ekranin kryesor (localStorage). Nëse ke hyrë në llogari, fjalitë e preferuara dhe përparimi sinkronizohen me llogarinë; përndryshe nuk largohen kurrë nga pajisja.",
+        "Mund ta ndryshosh zgjedhjen kurdo nga lidhja \"Cilësimet e cookies\" në fund të faqes."
+      ]
+    },
+    "contact": {
+      "title": "Kontakti",
+      "body": [
+        "Na shkruaj për pyetje, sugjerime ose përkthime të gabuara. Zakonisht përgjigjemi brenda pak ditësh."
+      ]
+    }
+  },
+  "auth": {
+    "title": "Hyr",
+    "subtitle": "Nëse nuk ke llogari, krijohet automatikisht. Për Bisedën e shpejtë nuk duhet llogari.",
+    "google": "Vazhdo me Google",
+    "or": "ose",
+    "emailLabel": "Email",
+    "emailPlaceholder": "shembull@gmail.com",
+    "sendCode": "Dërgo kodin",
+    "sending": "Duke dërguar…",
+    "codeTitle": "Shkruaj kodin",
+    "codeSentTo": "Të dërguam një kod 6-shifror në {email}.",
+    "codeLabel": "Kodi i verifikimit",
+    "verify": "Verifiko",
+    "verifying": "Duke verifikuar…",
+    "resend": "Dërgo kodin përsëri",
+    "resendIn": "Mund ta dërgosh përsëri pas {s} s",
+    "codeResent": "Kodi i ri u dërgua.",
+    "changeEmail": "Ndrysho emailin",
+    "errors": {
+      "invalidEmail": "Shkruaj një adresë emaili të vlefshme.",
+      "invalidCode": "Kodi duhet të ketë 6 shifra.",
+      "wrongCode": "Kodi është i gabuar ose ka skaduar.",
+      "tooMany": "Shumë përpjekje. Prit pak dhe provo përsëri.",
+      "captcha": "Kontrolli i sigurisë nuk u krye. Provo përsëri.",
+      "oauth": "Hyrja me Google nuk u krye. Provo me kod në email.",
+      "generic": "Diçka shkoi keq. Provo përsëri."
+    }
+  },
+  "consent": {
+    "title": "Para se të fillosh",
+    "body": "Për ta përdorur llogarinë duhet të japësh pëlqimin një herë.",
+    "ageTerms": "Jam mbi 16 vjeç dhe pranoj Kushtet e përdorimit dhe Politikën e privatësisë.",
+    "marketing": "Dua të marr email me të reja dhe këshilla (opsionale).",
+    "required": "Shëno këtë kuti për të vazhduar.",
+    "continue": "Vazhdo",
+    "readTerms": "Lexo kushtet",
+    "readPrivacy": "Lexo politikën e privatësisë",
+    "saveError": "Nuk u ruajt. Provo përsëri."
+  },
+  "account": {
+    "title": "Llogaria",
+    "email": "Email",
+    "plan": "Plani",
+    "free": "Falas",
+    "premium": "Premium",
+    "activeUntil": "Aktiv deri më {date}",
+    "language": "Gjuha e ndërfaqes",
+    "marketing": "Emailet e marketingut",
+    "marketingHint": "Të reja dhe këshilla. Mund t’i çaktivizosh kurdo.",
+    "yourData": "Të dhënat e tua",
+    "export": "Shkarko të dhënat e mia",
+    "exportHint": "Të gjitha të dhënat e llogarisë, në një skedar JSON.",
+    "sessions": "Seanca",
+    "signOut": "Dil",
+    "signOutAll": "Dil nga të gjitha pajisjet",
+    "deleteTitle": "Fshi llogarinë",
+    "deleteHint": "Profili, progresi dhe të preferuarat fshihen përgjithmonë. Të dhënat e pagesave ruhen vetëm aq sa kërkon ligji tatimor.",
+    "deleteButton": "Fshi llogarinë",
+    "deleteConfirmTitle": "Të fshihet llogaria përgjithmonë?",
+    "deleteConfirmBody": "Ky veprim nuk mund të kthehet.",
+    "deleteConfirm": "Po, fshije përgjithmonë",
+    "cancel": "Anulo",
+    "saved": "U ruajt",
+    "saveError": "Nuk u ruajt. Provo përsëri."
+  },
+  "cookies": {
+    "title": "Cookies",
+    "body": "Cookies e domosdoshme janë gjithmonë aktive që aplikacioni të punojë. Nëse lejon, mbledhim edhe statistika përdorimi për ta përmirësuar Mirhaba-n (PostHog, serverë në BE).",
+    "accept": "Prano",
+    "reject": "Refuzo",
+    "settings": "Cilësimet",
+    "policy": "Politika e cookies",
+    "settingsTitle": "Cilësimet e cookies",
+    "settingsBody": "Zgjidh cilat cookies i lejon. Mund ta ndryshosh kurdo nga lidhja Cilësimet e cookies në fund të faqes.",
+    "necessary": "Të domosdoshme",
+    "necessaryHint": "Gjuha, seanca e hyrjes dhe kjo zgjedhje. Pa to aplikacioni nuk punon.",
+    "alwaysOn": "Gjithmonë aktive",
+    "analytics": "Analitika",
+    "analyticsHint": "Mat në mënyrë anonime cilat ekrane përdoren (PostHog, BE). Përmbajtja e bisedave nuk dërgohet kurrë.",
+    "save": "Ruaj zgjedhjen",
+    "cancel": "Anulo",
+    "footerLink": "Cilësimet e cookies"
+  },
+  "translate": {
+    "title": "Përkthim",
+    "subtitle": "Shkruaj ose ngjit tekstin. Zhargoni dhe e folmja e Kosovës përkthehen sipas kuptimit.",
+    "direction": "Drejtimi i përkthimit",
+    "trToSq": "Turqisht → Shqip",
+    "sqToTr": "Shqip → Turqisht",
+    "swap": "Ndrysho drejtimin",
+    "style": "Lloji i shqipes",
+    "kosovan": "Kosovë",
+    "standard": "Standarde",
+    "inputLabelTr": "Teksti në turqisht",
+    "inputLabelSq": "Teksti në shqip",
+    "placeholderTr": "p.sh. Kanka, 10 dakikaya kapıdayım",
+    "placeholderSq": "p.sh. Qysh je, lali?",
+    "chars": "{n} / {max}",
+    "submit": "Përkthe",
+    "translating": "Duke përkthyer…",
+    "result": "Përkthimi",
+    "copy": "Kopjo",
+    "copied": "U kopjua",
+    "notes": "Kuptimi",
+    "left": "Sot të kanë mbetur {n} përkthime falas.",
+    "leftOne": "Sot të ka mbetur 1 përkthim falas.",
+    "signInTitle": "Hyr për të përkthyer",
+    "signInBody": "Me llogari falas mund të bësh {n} përkthime në ditë. Biseda e shpejtë punon edhe pa llogari.",
+    "signIn": "Hyr",
+    "wrong": "Përkthim i gabuar?",
+    "wrongLabel": "Si duhet të jetë?",
+    "wrongPlaceholder": "Shkruaj përkthimin e saktë ose problemin",
+    "wrongSend": "Dërgo",
+    "wrongThanks": "Faleminderit! Do ta shqyrtojmë korrigjimin.",
+    "offline": "Nuk ka internet. Përkthimi kërkon lidhje; Biseda e shpejtë punon pa internet.",
+    "disclaimer": "Përkthimet janë ndihmë; për gjëra të rëndësishme (shëndet, ligj) pyet një përkthyes.",
+    "errors": {
+      "empty": "Shkruaj një tekst për ta përkthyer.",
+      "tooLong": "Teksti mund të ketë deri në {max} shkronja.",
+      "limit": "Përkthimet falas për sot mbaruan. Rifillojnë nesër.",
+      "busy": "Shërbimi i përkthimit është i ngarkuar. Provo pak më vonë.",
+      "refused": "Ky tekst nuk mund të përkthehej.",
+      "generic": "Diçka shkoi keq. Provo përsëri.",
+      "auth": "Duhet të hysh për të përkthyer.",
+      "consent": "Para se të vazhdosh duhet të pranosh kushtet.",
+      "slowDown": "Po shkon shumë shpejt. Prit pak sekonda dhe provo përsëri."
+    },
+    "consentCta": "Shko te pëlqimi"
+  },
+  "moderation": {
+    "title": "Moderimi",
+    "subtitle": "Korrigjimet e përkthimeve të dërguara nga përdoruesit.",
+    "tabs": "Statusi",
+    "pending": "Në pritje",
+    "approved": "Të pranuara",
+    "rejected": "Të refuzuara",
+    "source": "Burimi dhe përkthimi",
+    "suggestion": "Korrigjimi i propozuar",
+    "sent": "Dërguar",
+    "approve": "Prano",
+    "reject": "Refuzo",
+    "saved": "U ruajt",
+    "saveError": "Nuk u ruajt. Provo përsëri.",
+    "emptyPending": "Nuk ka korrigjime në pritje",
+    "emptyPendingBody": "Kur vjen një njoftim i ri \"Përkthim i gabuar?\", shfaqet këtu.",
+    "emptyReviewed": "Ende nuk ka asgjë",
+    "emptyReviewedBody": "Korrigjimet e shqyrtuara shfaqen këtu.",
+    "noAccessTitle": "Nuk ke qasje në këtë faqe",
+    "noAccessBody": "Moderimi është vetëm për moderatorët dhe administratorët.",
+    "back": "Kthehu te llogaria",
+    "open": "Radha e moderimit",
+    "openHint": "Shqyrto korrigjimet"
+  },
+  "dictionary": {
+    "title": "Fjalori i zhargonit",
+    "subtitle": "Fjalët që fliten vërtet në Kosovë e Prishtinë, me kuptimin në turqisht.",
+    "metaDescription": "Fjalor i zhargonit dhe i fjalëve të përditshme kosovare: qysh, çka, kerr, gepek, fjalë me prejardhje turke (belesh, zor, avash) dhe si thuhet në Kosovë zhargoni turk si kanka, abi.",
+    "searchLabel": "Kërko fjalë",
+    "searchPlaceholder": "p.sh. qysh, kanka, kerr",
+    "filters": "Lloji",
+    "all": "Të gjitha",
+    "kosovan": "Fjalë kosovare",
+    "loanword": "Nga turqishtja",
+    "turkish_slang": "Zhargon turk → shqip",
+    "kindHint": {
+      "kosovan": "Fjalë që në Kosovë thuhen ndryshe nga shqipja standarde.",
+      "loanword": "Fjalë me prejardhje turke që ende përdoren në Kosovë.",
+      "turkish_slang": "Si thuhen në Kosovë shprehjet e zhargonit turk."
+    },
+    "count": "{n} fjalë",
+    "noResultsTitle": "Nuk u gjet asnjë fjalë",
+    "noResults": "Provo një shkrim tjetër ose hiq filtrin.",
+    "clearSearch": "Pastro kërkimin",
+    "unverifiedBanner": "Fjalori është i ri. Fjalët po kontrollohen nga folës vendas të Prishtinës; nëse sheh gabim, njoftoje nga ekrani i Përkthimit.",
+    "register": {
+      "neutral": "Neutral",
+      "casual": "Familjar",
+      "vulgar": "Vulgar"
+    },
+    "registerLabel": "Regjistri",
+    "origin": {
+      "albanian": "Shqip",
+      "turkish": "Me prejardhje turke",
+      "serbian": "Me prejardhje serbe",
+      "german": "Me prejardhje gjermane",
+      "english": "Me prejardhje angleze",
+      "latin": "Me prejardhje latine"
+    },
+    "originLabel": "Prejardhja",
+    "turkish": "Turqisht",
+    "standard": "Shqip standarde",
+    "kosovo": "Në Kosovë",
+    "meaning": "Kuptimi",
+    "example": "Shembull",
+    "sources": "Burimet",
+    "sourceTeam": "Ekipi i Mirhaba-s (ende pa u kontrolluar nga një folës vendas)",
+    "unverified": "Ende pa u kontrolluar nga një folës vendas.",
+    "verified": "E kontrolluar nga një folës vendas.",
+    "related": "Fjalë të ngjashme",
+    "back": "Kthehu te fjalori",
+    "tryTranslate": "Përkthe një fjali",
+    "tryQuickTalk": "Hap Bisedën e shpejtë",
+    "titleSq": "{term}: kuptimi dhe në turqisht",
+    "titleTr": "{term}: si thuhet në shqip?",
+    "descSq": "{term} në të folmen kosovare do të thotë \"{tr}\" në turqisht. Në shqip standarde: {std}.",
+    "descTr": "{term} në shqip: {std}. Në Kosovë: {ks}."
+  },
+  "about": {
+    "metaTitle": "Shqipja për turqit që jetojnë në Kosovë",
+    "metaDescription": "Për çdo turk që jeton ose do të jetojë në Kosovë: fjalia e duhur shqip për dy sekonda, përkthim që e kupton zhargonin dhe të folmen e Kosovës, dhe fjalët që përdoren vërtet në Kosovë. Punon edhe pa internet.",
+    "eyebrow": "Për të gjithë ata që jetojnë ose vijnë në Kosovë",
+    "title": "Shqipja e Kosovës, për pak sekonda.",
+    "subtitle": "Te dera, te mjeku, me qiradhënësin: fjalia e duhur gati për dy sekonda. Zhargoni dhe e folmja kosovare përkthehen sipas kuptimit.",
+    "ctaPrimary": "Hap Bisedën e shpejtë",
+    "ctaSecondary": "Shiko çmimet",
+    "featuresTitle": "Çfarë ka?",
+    "features": [
+      {
+        "title": "Bisedë e shpejtë",
+        "body": "Fjali të gatshme, shkronja të mëdha dhe butona përgjigjeje. Punon pa internet."
+      },
+      {
+        "title": "Përkthim",
+        "body": "Turqisht ↔ shqip, në të folmen e Kosovës ose në standard. Zhargoni përkthehet sipas kuptimit."
+      },
+      {
+        "title": "Fjalori i zhargonit",
+        "body": "qysh, çka, kerr… fjalët që përdoren vërtet në Kosovë dhe ato që vijnë nga turqishtja."
+      },
+      {
+        "title": "Privatësia",
+        "body": "Ajo që shkruan nuk ruhet. Për Bisedën e shpejtë nuk të duhet as llogari."
+      }
+    ],
+    "audienceTitle": "Për kë është?",
+    "audience": [
+      "Korrierë, shoferë, punëtorë ndërtimi dhe restorantesh",
+      "Familje, studentë dhe pensionistë",
+      "Ata që bëjnë biznes në Kosovë",
+      "Ata që planifikojnë të vijnë në Kosovë"
+    ],
+    "howTitle": "Si funksionon?",
+    "how": [
+      "Prek një fjali.",
+      "Tregoja ekranin personit përballë ose lexoje me zë.",
+      "Personi përballë prek një buton përgjigjeje; ti e sheh përgjigjen në turqisht."
+    ],
+    "honestyTitle": "Të jemi të sinqertë",
+    "honesty": "Përkthimet janë ndihmë dhe jo gjithmonë të përsosura. Fjalitë dhe fjalët po kontrollohen nga folës vendas të Prishtinës. Për gjëra të rëndësishme si shëndeti dhe ligji, pyet një përkthyes.",
+    "comingTitle": "Së shpejti",
+    "coming": [
+      "Bisedë e drejtpërdrejtë: përkthim me zë, në të dy drejtimet",
+      "Mësime shqipe: 5 minuta në ditë"
+    ]
+  },
+  "pricing": {
+    "title": "Çmimet",
+    "subtitle": "Biseda e shpejtë është gjithmonë falas. Për më shumë: Premium.",
+    "metaDescription": "Çmimet e Mirhaba-s: Biseda e shpejtë dhe fjalori falas; Premium {monthly} € në muaj ose {yearly} € në vit. TVSH e përfshirë, pa tarifa të fshehura, anulim me një prekje.",
+    "plansLabel": "Planet",
+    "free": "Falas",
+    "freeTagline": "Te dera dhe në jetën e përditshme",
+    "premium": "Premium",
+    "premiumTagline": "Përkthim pa kufi dhe së shpejti bisedë e drejtpërdrejtë",
+    "monthly": "Mujore",
+    "yearly": "Vjetore",
+    "perMonth": "/ muaj",
+    "perYear": "/ vit",
+    "yearlyEquivalent": "Del {price} € në muaj",
+    "save": "Kursen {n}%",
+    "vat": "Çmimet përfshijnë TVSH-në. Pa tarifa të fshehura.",
+    "feature": "Veçoria",
+    "rows": [
+      {
+        "label": "Bisedë e shpejtë dhe butonat e përgjigjes",
+        "free": "Po",
+        "premium": "Po"
+      },
+      {
+        "label": "Fjalori i zhargonit",
+        "free": "Po",
+        "premium": "Po, me zë (së shpejti)"
+      },
+      {
+        "label": "Përkthim teksti",
+        "free": "{freeTranslations} në ditë",
+        "premium": "Pa kufi (përdorim i arsyeshëm)"
+      },
+      {
+        "label": "Bisedë e drejtpërdrejtë",
+        "free": "Disa në ditë (së shpejti)",
+        "premium": "Pa kufi (së shpejti)"
+      },
+      {
+        "label": "Mësime shqipe",
+        "free": "Njësitë e para (së shpejti)",
+        "premium": "Të gjitha kurset (së shpejti)"
+      },
+      {
+        "label": "Paketat pa internet",
+        "free": "Bazat e përditshme",
+        "premium": "Të gjitha kategoritë"
+      }
+    ],
+    "startFree": "Fillo falas",
+    "premiumSoon": "Premium së shpejti",
+    "paymentNote": "Pagesa me kartelë do të hapet pasi banka ta miratojë. Pagesa bëhet në faqen e sigurt të Raiffeisen Bank; të dhënat e kartelës nuk vijnë kurrë te ne.",
+    "cancelTitle": "Anulimi dhe rimbursimi",
+    "cancel": [
+      "Mund ta anulosh kurdo me një prekje nga faqja e llogarisë. Premium vazhdon deri në fund të periudhës që ke paguar.",
+      "Rimbursim i plotë brenda 14 ditëve, nëse pothuajse nuk i ke përdorur veçoritë me pagesë."
+    ],
+    "refundLink": "Lexo politikën e rimbursimit"
+  },
+  "faq": {
+    "title": "Pyetje të shpeshta",
+    "subtitle": "Përgjigje të shkurtra për Mirhaba-n.",
+    "metaDescription": "Pyetje të shpeshta për Mirhaba-n: përdorimi pa internet, çmimet, shqipja e Kosovës, privatësia dhe anulimi.",
+    "items": [
+      {
+        "q": "Çfarë është Mirhaba?",
+        "a": "Një aplikacion për çdo turk që jeton ose do të vijë në Kosovë: fjali të gatshme shqip, përkthim dhe fjalët që përdoren vërtet në Kosovë."
+      },
+      {
+        "q": "A punon pa internet?",
+        "a": "Po. Biseda e shpejtë punon pa internet pasi ta hapësh një herë. Për përkthim duhet lidhje."
+      },
+      {
+        "q": "A duhet të hap llogari?",
+        "a": "Për Bisedën e shpejtë dhe fjalorin, jo. Për përkthim duhet një llogari falas; hyn me kodin që të vjen në email ose me Google."
+      },
+      {
+        "q": "A është falas?",
+        "a": "Biseda e shpejtë dhe fjalori janë falas; edhe {freeTranslations} përkthime në ditë. Premium kushton {monthly} € në muaj ose {yearly} € në vit (me TVSH)."
+      },
+      {
+        "q": "A ndryshon shqipja e Kosovës nga standardi?",
+        "a": "Po, pak. Në Kosovë flitet gegërisht: \"qysh\" në vend të \"si\", \"çka\" në vend të \"çfarë\". Te përkthimi mund të zgjedhësh \"Kosovë\" ose \"Standarde\"."
+      },
+      {
+        "q": "Sa të sakta janë përkthimet?",
+        "a": "Përkthimet bëhen me inteligjencë artificiale dhe e kuptojnë zhargonin; zakonisht të ndihmojnë, por nuk janë të përsosura. Për gjëra të rëndësishme pyet një përkthyes. Një përkthim të gabuar mund ta njoftosh me \"Përkthim i gabuar?\"."
+      },
+      {
+        "q": "A ruhet ajo që shkruaj?",
+        "a": "Jo. Teksti që shkruan nuk ruhet; mbahen vetëm numra anonimë të përdorimit. Hollësitë janë te politika e privatësisë."
+      },
+      {
+        "q": "Si ta shtoj në telefon?",
+        "a": "Në Android, nga menyja e shfletuesit: \"Shto në ekranin kryesor\". Në iPhone: butoni Ndaj, pastaj \"Shto në ekranin bazë\". Hapet si aplikacion."
+      },
+      {
+        "q": "Si ta anuloj Premium-in?",
+        "a": "Me një prekje nga faqja e llogarisë. Premium vazhdon deri në fund të periudhës së paguar; nuk ka tarifa të fshehura."
+      },
+      {
+        "q": "A mund ta fshij llogarinë dhe të dhënat?",
+        "a": "Po. Nga faqja e llogarisë mund t'i shkarkosh të dhënat ose ta fshish llogarinë përgjithmonë."
+      }
+    ],
+    "contactTitle": "Nuk e gjen pyetjen tënde?",
+    "contactBody": "Na shkruaj, të ndihmojmë:"
+  },
+  "learn": {
+    "title": "Mëso shqip",
+    "subtitle": "Mësime 5-minutëshe për situata të vërteta, të shpjeguara në turqisht.",
+    "metaDescription": "Shqip nga zero për turqishtfolësit: përshëndetje, dorëzime te dera, pazari dhe e folmja e Kosovës. Mësime 5-minutëshe, punon edhe pa internet.",
+    "streak": "Seri {n}-ditore",
+    "streakZero": "Përfundo një mësim sot dhe fillo serinë.",
+    "longest": "Seria më e gjatë: {n} ditë",
+    "review": "Përsërit fjalët e dobëta",
+    "reviewCount": "{n} fjalë të presin",
+    "reviewEmpty": "Tani për tani s'ka fjalë për përsëritje.",
+    "start": "Fillo",
+    "continue": "Vazhdo",
+    "nextUp": "Në vijim",
+    "done": "Përfunduar",
+    "best": "Më e mira: {n}%",
+    "locked": "Premium (së shpejti)",
+    "lessons": "{n} mësime",
+    "minutes": "~5 min",
+    "unverified": "Mësimet janë të reja; përmbajtja shqipe po kontrollohet nga folës vendas të Prishtinës.",
+    "deviceNote": "Progresi ruhet në këtë pajisje dhe punon edhe pa internet.",
+    "player": {
+      "close": "Dil nga mësimi",
+      "progress": "Progresi",
+      "newWord": "E re",
+      "gotIt": "E kuptova",
+      "listen": "Dëgjo",
+      "reading": "Shqiptimi",
+      "chooseMeaning": "Zgjidh kuptimin e saktë",
+      "chooseAlbanian": "Zgjidh fjalën shqip",
+      "matchTitle": "Gjej çiftet",
+      "matchHint": "Prek së pari një fjalë shqip, pastaj përkthimin turqisht.",
+      "orderTitle": "Ndërto fjalinë",
+      "orderHint": "Prek fjalët me radhë.",
+      "answer": "Përgjigja jote",
+      "typeTitle": "Shkruaj shqip",
+      "typeLabel": "Përgjigja jote shqip",
+      "typePlaceholder": "Shkruaj këtu",
+      "insertLetter": "Shto shkronjën {c}",
+      "check": "Kontrollo",
+      "next": "Vazhdo",
+      "correct": "Saktë!",
+      "wrong": "E sakta:",
+      "accents": "Saktë! Shkruhet:",
+      "finishTitle": "Mësimi përfundoi!",
+      "reviewFinishTitle": "Përsëritja përfundoi!",
+      "score": "Saktë në provën e parë",
+      "again": "Provo përsëri",
+      "backToLessons": "Kthehu te mësimet",
+      "nextLesson": "Mësimi tjetër"
+    },
+    "reviewTitle": "Përsëritje",
+    "reviewSubtitle": "Fjalët që të kanë vështirësuar, në një raund të shkurtër.",
+    "reviewEmptyTitle": "S'ka fjalë për përsëritje",
+    "reviewEmptyBody": "Sa më shumë mësime të përfundosh, fjalët e vështira mblidhen këtu.",
+    "loading": "Duke u ngarkuar…"
+  }
+}

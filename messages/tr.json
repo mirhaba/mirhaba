@@ -1,0 +1,561 @@
+{
+  "meta": {
+    "title": "Mirhaba: Kosova'da Arnavutça konuş",
+    "description": "Kosova'da yaşayan ve oraya taşınacak herkes için: hazır cümleler, Priştine argosu ve gerçek konuşulan Arnavutça. İnternetsiz çalışır."
+  },
+  "common": {
+    "skipToContent": "İçeriğe geç",
+    "language": "Dil",
+    "switchTo": "Arnavutçaya geç",
+    "back": "Geri",
+    "close": "Kapat",
+    "comingSoon": "Yakında",
+    "comingSoonBody": "Bu bölüm henüz hazır değil. Şimdilik Hızlı Konuş'u kullanabilirsin; internetsiz de çalışır.",
+    "loading": "Yükleniyor…"
+  },
+  "nav": {
+    "quickTalk": "Hızlı Konuş",
+    "translate": "Çeviri",
+    "learn": "Öğren",
+    "dictionary": "Argo Sözlük",
+    "account": "Hesap",
+    "main": "Ana menü",
+    "signIn": "Giriş yap"
+  },
+  "quickTalk": {
+    "title": "Hızlı Konuş",
+    "subtitle": "Cümleye dokun, karşındakine göster ya da dinlet.",
+    "categories": "Kategoriler",
+    "favorites": "Sık kullandıklarım",
+    "favoritesEmpty": "Bir cümlenin yıldızına dokun, en üstte burada dursun (en fazla 6).",
+    "favoritesFull": "En fazla 6 cümle sabitleyebilirsin. Önce birini kaldır.",
+    "pin": "Sık kullanılanlara ekle",
+    "unpin": "Sık kullanılanlardan çıkar",
+    "play": "Sesli oku",
+    "stop": "Durdur",
+    "noVoice": "Bu cihazda Arnavutça ses yok. Metni göster.",
+    "showTitle": "Bunu göster",
+    "replyBoard": "Cevap düğmeleri",
+    "replyHint": "Karşındaki kişi bir cevaba dokunsun:",
+    "replyHintSq": "Prekni një përgjigje:",
+    "theyAnswered": "Cevap",
+    "chooseOption": "Seç",
+    "reading": "Okunuşu",
+    "offlineReady": "İnternetsiz kullanıma hazır",
+    "searchPlaceholder": "örn. kapı, doktor, kira",
+    "noResults": "Sonuç yok. Başka bir kelime dene.",
+    "favoritesEmptyTitle": "Henüz sabitlenmiş cümle yok",
+    "noResultsTitle": "Sonuç bulunamadı",
+    "clearSearch": "Aramayı temizle",
+    "saveError": "Kaydedilemedi. Tekrar dene.",
+    "searchLabel": "Cümle ara"
+  },
+  "offline": {
+    "title": "İnternet yok",
+    "body": "Hızlı Konuş internetsiz çalışmaya devam ediyor. Çeviri ve dersler için bağlantı gerekiyor.",
+    "cta": "Hızlı Konuş'a git"
+  },
+  "notFound": {
+    "title": "Sayfa bulunamadı",
+    "body": "Aradığın sayfa yok ya da taşındı.",
+    "cta": "Ana sayfaya dön"
+  },
+  "error": {
+    "title": "Bir şeyler ters gitti",
+    "body": "Tekrar dene. Sorun sürerse bize yaz.",
+    "retry": "Tekrar dene"
+  },
+  "install": {
+    "title": "Ana ekrana ekle",
+    "body": "Mirhaba'yı uygulama gibi aç, internetsiz kullan.",
+    "action": "Ekle",
+    "iosBody": "iPhone'da: Paylaş düğmesine, sonra \"Ana Ekrana Ekle\"ye dokun.",
+    "dismiss": "Şimdi değil"
+  },
+  "footer": {
+    "privacy": "Gizlilik",
+    "terms": "Kullanım koşulları",
+    "refunds": "İade politikası",
+    "cookies": "Çerezler",
+    "contact": "İletişim",
+    "disclaimer": "Çeviriler yardım amaçlıdır; hukuki veya tıbbi tavsiye değildir.",
+    "about": "Hakkında",
+    "pricing": "Fiyatlar",
+    "faq": "SSS",
+    "company": "Şirket",
+    "registration": "Kayıt no",
+    "fiscal": "Vergi no",
+    "address": "Adres",
+    "email": "E-posta",
+    "phone": "Telefon",
+    "companyPending": "Şirket bilgileri, Kosova'daki şirket kaydı tamamlanınca burada yayınlanacak."
+  },
+  "legal": {
+    "draft": "Taslak: Bu metin avukat kontrolünden önce yayınlanmış bir taslaktır.",
+    "privacy": {
+      "title": "Gizlilik politikası",
+      "body": [
+        "Mirhaba, Hızlı Konuş için hesap istemez ve kişisel veri toplamaz. Sık kullandığın cümleler senin cihazında saklanır; giriş yaptıysan diğer cihazlarında da görünmeleri için hesabınla eşitlenir.",
+        "Konuşma ve çeviri içeriklerini varsayılan olarak saklamayız; yalnızca anonim kullanım sayıları tutulur.",
+        "Çeviri sonuçları, aynı metin tekrar çevrildiğinde hızlı olsun diye 30 gün önbellekte tutulur. Yazdığın metnin kendisi saklanmaz (yalnızca geri çevrilemeyen bir özeti), kimin çevirdiği de kaydedilmez. Çeviri için metin Anthropic (Claude) yapay zekâsına gönderilir.",
+        "Hataları düzeltebilmek için uygulama çöktüğünde teknik hata kaydı Sentry'ye (AB sunucuları) gönderilir. Bu kayıtlar IP adresi, çerez, e-posta veya yazdığın metni içermez.",
+        "Hesap, ödeme ve analiz özellikleri eklendiğinde bu sayfa; toplanan verileri, amaçlarını, saklama sürelerini, üçüncü tarafları ve haklarını ayrıntılı olarak listeleyecek.",
+        "Gizlilik soruların için: privacy@mirhaba.app"
+      ]
+    },
+    "terms": {
+      "title": "Kullanım koşulları",
+      "body": [
+        "Mirhaba, Türkçe ile Arnavutça arasında iletişime yardımcı olan bir araçtır. Çeviriler yardım amaçlıdır; hukuki, tıbbi veya resmi tavsiye yerine geçmez.",
+        "Uygulamayı kullanmak için en az 16 yaşında olmalısın.",
+        "Uygulanacak hukuk: Kosova Cumhuriyeti."
+      ]
+    },
+    "refunds": {
+      "title": "İade politikası",
+      "body": [
+        "Şu anda ücretli bir özellik yok. Ücretli planlar başladığında, ücretli özellikleri neredeyse hiç kullanmadıysan 14 gün içinde tam iade alabileceksin."
+      ]
+    },
+    "cookies": {
+      "title": "Çerez politikası",
+      "body": [
+        "Zorunlu çerezler (onay gerektirmez, uygulamanın çalışması için gerekli):",
+        "MIRHABA_LOCALE: arayüz dilini hatırlar. Süre: 1 yıl.",
+        "MIRHABA_CONSENT: çerez tercihini hatırlar. Süre: 6 ay.",
+        "MIRHABA_ANON: giriş yapmamış ziyaretçinin çerez tercihini kanıtlamak için rastgele bir kimlik. İzleme için kullanılmaz. Süre: 6 ay.",
+        "sb-…-auth-token: giriş oturumu (yalnızca giriş yaptıysan). JavaScript tarafından okunamaz (httpOnly). Süre: oturum boyunca.",
+        "MIRHABA_SIGNED_IN: yalnızca giriş yaptığını gösterir (değeri \"1\"), böylece uygulama sık kullanılanları ne zaman hesabınla eşitleyeceğini bilir. Kişisel veri içermez. Süre: çıkış yapana kadar.",
+        "Analiz çerezleri (yalnızca \"Kabul et\" dersen):",
+        "ph_…_posthog: PostHog (AB sunucuları) anonim kullanım istatistikleri. Ekran metinleri ve yazdıkların gönderilmez. Süre: 1 yıl.",
+        "Cihazında ayrıca sık kullandığın cümleler ve ders ilerlemen (IndexedDB) ile ana ekrana ekleme ipucunun durumu (localStorage) saklanır. Giriş yaptıysan sık kullanılanlar ve ders ilerlemen hesabınla eşitlenir; giriş yapmadıysan cihazından hiç çıkmaz.",
+        "Tercihini istediğin zaman sayfanın altındaki \"Çerez ayarları\" bağlantısından değiştirebilirsin."
+      ]
+    },
+    "contact": {
+      "title": "İletişim",
+      "body": [
+        "Sorular, öneriler ve hatalı çeviri bildirimleri için bize yaz. Genellikle birkaç gün içinde cevap veririz."
+      ]
+    }
+  },
+  "auth": {
+    "title": "Giriş yap",
+    "subtitle": "Hesabın yoksa otomatik oluşturulur. Hızlı Konuş için hesap gerekmez.",
+    "google": "Google ile devam et",
+    "or": "veya",
+    "emailLabel": "E-posta",
+    "emailPlaceholder": "ornek@gmail.com",
+    "sendCode": "Kod gönder",
+    "sending": "Gönderiliyor…",
+    "codeTitle": "Kodu gir",
+    "codeSentTo": "{email} adresine 6 haneli bir kod gönderdik.",
+    "codeLabel": "Doğrulama kodu",
+    "verify": "Doğrula",
+    "verifying": "Doğrulanıyor…",
+    "resend": "Kodu tekrar gönder",
+    "resendIn": "{s} sn sonra tekrar gönderebilirsin",
+    "codeResent": "Yeni kod gönderildi.",
+    "changeEmail": "E-postayı değiştir",
+    "errors": {
+      "invalidEmail": "Geçerli bir e-posta adresi gir.",
+      "invalidCode": "Kod 6 rakamdan oluşmalı.",
+      "wrongCode": "Kod yanlış ya da süresi dolmuş.",
+      "tooMany": "Çok fazla deneme. Biraz bekleyip tekrar dene.",
+      "captcha": "Güvenlik kontrolü tamamlanamadı. Tekrar dene.",
+      "oauth": "Google ile giriş yapılamadı. E-posta koduyla dene.",
+      "generic": "Bir şeyler ters gitti. Tekrar dene."
+    }
+  },
+  "consent": {
+    "title": "Başlamadan önce",
+    "body": "Hesabını kullanmak için bir kez onay vermen gerekiyor.",
+    "ageTerms": "16 yaşından büyüğüm; Kullanım koşullarını ve Gizlilik politikasını kabul ediyorum.",
+    "marketing": "Yenilikler ve ipuçları için e-posta almak istiyorum (isteğe bağlı).",
+    "required": "Devam etmek için bu kutuyu işaretle.",
+    "continue": "Devam et",
+    "readTerms": "Koşulları oku",
+    "readPrivacy": "Gizlilik politikasını oku",
+    "saveError": "Kaydedilemedi. Tekrar dene."
+  },
+  "account": {
+    "title": "Hesap",
+    "email": "E-posta",
+    "plan": "Plan",
+    "free": "Ücretsiz",
+    "premium": "Premium",
+    "activeUntil": "{date} tarihine kadar aktif",
+    "language": "Arayüz dili",
+    "marketing": "Pazarlama e-postaları",
+    "marketingHint": "Yenilikler ve ipuçları. İstediğin zaman kapatabilirsin.",
+    "yourData": "Verilerin",
+    "export": "Verilerimi indir",
+    "exportHint": "Hesabındaki tüm veriler, tek bir JSON dosyası olarak.",
+    "sessions": "Oturum",
+    "signOut": "Çıkış yap",
+    "signOutAll": "Tüm cihazlardan çıkış yap",
+    "deleteTitle": "Hesabı sil",
+    "deleteHint": "Profilin, ilerlemen ve favorilerin kalıcı olarak silinir. Ödeme kayıtları yalnızca vergi yasasının gerektirdiği süre kadar saklanır.",
+    "deleteButton": "Hesabı sil",
+    "deleteConfirmTitle": "Hesabın kalıcı olarak silinsin mi?",
+    "deleteConfirmBody": "Bu işlem geri alınamaz.",
+    "deleteConfirm": "Evet, kalıcı olarak sil",
+    "cancel": "Vazgeç",
+    "saved": "Kaydedildi",
+    "saveError": "Kaydedilemedi. Tekrar dene."
+  },
+  "cookies": {
+    "title": "Çerezler",
+    "body": "Zorunlu çerezler uygulamanın çalışması için her zaman açık. İzin verirsen, Mirhaba'yı geliştirmek için kullanım istatistikleri de topluyoruz (PostHog, AB sunucuları).",
+    "accept": "Kabul et",
+    "reject": "Reddet",
+    "settings": "Ayarlar",
+    "policy": "Çerez politikası",
+    "settingsTitle": "Çerez ayarları",
+    "settingsBody": "Hangi çerezlere izin verdiğini seç. Kararını istediğin zaman sayfanın altındaki Çerez ayarları bağlantısından değiştirebilirsin.",
+    "necessary": "Zorunlu",
+    "necessaryHint": "Dil seçimi, giriş oturumu ve bu tercih. Bunlar olmadan uygulama çalışmaz.",
+    "alwaysOn": "Her zaman açık",
+    "analytics": "Analiz",
+    "analyticsHint": "Hangi ekranların kullanıldığını anonim olarak ölçer (PostHog, AB). Konuşma içeriği asla gönderilmez.",
+    "save": "Seçimi kaydet",
+    "cancel": "Vazgeç",
+    "footerLink": "Çerez ayarları"
+  },
+  "translate": {
+    "title": "Çeviri",
+    "subtitle": "Yaz ya da yapıştır. Argo ve Kosova ağzı anlamına göre çevrilir.",
+    "direction": "Çeviri yönü",
+    "trToSq": "Türkçe → Arnavutça",
+    "sqToTr": "Arnavutça → Türkçe",
+    "swap": "Yönü değiştir",
+    "style": "Arnavutça türü",
+    "kosovan": "Kosova",
+    "standard": "Standart",
+    "inputLabelTr": "Türkçe metin",
+    "inputLabelSq": "Arnavutça metin",
+    "placeholderTr": "örn. Kanka, 10 dakikaya kapıdayım",
+    "placeholderSq": "p.sh. Qysh je, lali?",
+    "chars": "{n} / {max}",
+    "submit": "Çevir",
+    "translating": "Çevriliyor…",
+    "result": "Çeviri",
+    "copy": "Kopyala",
+    "copied": "Kopyalandı",
+    "notes": "Anlamı",
+    "left": "Bugün {n} ücretsiz çeviri hakkın kaldı.",
+    "leftOne": "Bugün 1 ücretsiz çeviri hakkın kaldı.",
+    "signInTitle": "Çeviri için giriş yap",
+    "signInBody": "Ücretsiz hesapla her gün {n} çeviri yapabilirsin. Hızlı Konuş girişsiz çalışmaya devam eder.",
+    "signIn": "Giriş yap",
+    "wrong": "Yanlış çeviri mi?",
+    "wrongLabel": "Doğrusu ne olmalı?",
+    "wrongPlaceholder": "Doğru çeviriyi ya da sorunu yaz",
+    "wrongSend": "Gönder",
+    "wrongThanks": "Teşekkürler! Düzeltmeni inceleyeceğiz.",
+    "offline": "İnternet yok. Çeviri için bağlantı gerekiyor; Hızlı Konuş internetsiz çalışır.",
+    "disclaimer": "Çeviriler yardım amaçlıdır; önemli konularda (sağlık, hukuk) bir tercümana danış.",
+    "errors": {
+      "empty": "Çevrilecek bir metin yaz.",
+      "tooLong": "Metin en fazla {max} karakter olabilir.",
+      "limit": "Bugünkü ücretsiz çeviri hakkın bitti. Yarın yenilenir.",
+      "busy": "Çeviri servisi şu anda yoğun. Biraz sonra tekrar dene.",
+      "refused": "Bu metin çevrilemedi.",
+      "generic": "Bir şeyler ters gitti. Tekrar dene.",
+      "auth": "Çeviri için giriş yapmalısın.",
+      "consent": "Devam etmeden önce koşulları onaylaman gerekiyor.",
+      "slowDown": "Çok hızlı gidiyorsun. Birkaç saniye bekleyip tekrar dene."
+    },
+    "consentCta": "Onaylamaya git"
+  },
+  "moderation": {
+    "title": "Moderasyon",
+    "subtitle": "Kullanıcıların gönderdiği çeviri düzeltmeleri.",
+    "tabs": "Durum",
+    "pending": "Bekleyen",
+    "approved": "Onaylanan",
+    "rejected": "Reddedilen",
+    "source": "Kaynak ve çeviri",
+    "suggestion": "Önerilen düzeltme",
+    "sent": "Gönderildi",
+    "approve": "Onayla",
+    "reject": "Reddet",
+    "saved": "Kaydedildi",
+    "saveError": "Kaydedilemedi. Tekrar dene.",
+    "emptyPending": "Bekleyen düzeltme yok",
+    "emptyPendingBody": "Yeni bir \"Yanlış çeviri mi?\" bildirimi geldiğinde burada görünür.",
+    "emptyReviewed": "Henüz kayıt yok",
+    "emptyReviewedBody": "İncelenen düzeltmeler burada listelenir.",
+    "noAccessTitle": "Bu sayfaya erişimin yok",
+    "noAccessBody": "Moderasyon yalnızca moderatör ve yöneticiler içindir.",
+    "back": "Hesaba dön",
+    "open": "Moderasyon kuyruğu",
+    "openHint": "Düzeltmeleri incele"
+  },
+  "dictionary": {
+    "title": "Argo Sözlük",
+    "subtitle": "Kosova ve Priştine'de gerçekten konuşulan kelimeler, Türkçe karşılıklarıyla.",
+    "metaDescription": "Kosova Arnavutçası argo ve günlük kelimeler sözlüğü: qysh, çka, kerr, gepek, Türkçeden geçen kelimeler (belesh, zor, avash) ve kanka, abi gibi Türk argosunun Kosova'daki karşılıkları.",
+    "searchLabel": "Kelime ara",
+    "searchPlaceholder": "örn. qysh, kanka, araba",
+    "filters": "Tür",
+    "all": "Tümü",
+    "kosovan": "Kosova kelimeleri",
+    "loanword": "Türkçeden geçenler",
+    "turkish_slang": "Türk argosu → Arnavutça",
+    "kindHint": {
+      "kosovan": "Kosova'da standart Arnavutçadan farklı söylenen kelimeler.",
+      "loanword": "Türkçeden geçmiş, Kosova'da hâlâ kullanılan kelimeler. Bunları zaten biliyorsun!",
+      "turkish_slang": "Türkçe argo ve kalıpların Kosova'da nasıl söylendiği."
+    },
+    "count": "{n} kelime",
+    "noResultsTitle": "Kelime bulunamadı",
+    "noResults": "Başka bir yazım dene ya da filtreyi kaldır.",
+    "clearSearch": "Aramayı temizle",
+    "unverifiedBanner": "Sözlük yeni. Kelimeler anadili Priştine Arnavutçası olan kişilerce kontrol ediliyor; hata görürsen Çeviri ekranından bildir.",
+    "register": {
+      "neutral": "Nötr",
+      "casual": "Samimi",
+      "vulgar": "Kaba"
+    },
+    "registerLabel": "Üslup",
+    "origin": {
+      "albanian": "Arnavutça",
+      "turkish": "Türkçe kökenli",
+      "serbian": "Sırpça kökenli",
+      "german": "Almanca kökenli",
+      "english": "İngilizce kökenli",
+      "latin": "Latince kökenli"
+    },
+    "originLabel": "Köken",
+    "turkish": "Türkçe",
+    "standard": "Standart Arnavutça",
+    "kosovo": "Kosova'da",
+    "meaning": "Anlamı",
+    "example": "Örnek",
+    "sources": "Kaynaklar",
+    "sourceTeam": "Mirhaba ekibi (henüz anadili konuşan biri tarafından kontrol edilmedi)",
+    "unverified": "Henüz anadili konuşan biri tarafından kontrol edilmedi.",
+    "verified": "Anadili konuşan biri tarafından kontrol edildi.",
+    "related": "Benzer kelimeler",
+    "back": "Sözlüğe dön",
+    "tryTranslate": "Bir cümle çevir",
+    "tryQuickTalk": "Hızlı Konuş'u aç",
+    "titleSq": "{term} ne demek? Anlamı ve Türkçesi",
+    "titleTr": "{term} Arnavutça nasıl söylenir?",
+    "descSq": "{term}: Kosova Arnavutçasında \"{tr}\" anlamına gelir. Standart Arnavutça: {std}.",
+    "descTr": "{term} Arnavutçada: {std}. Kosova'da: {ks}."
+  },
+  "about": {
+    "metaTitle": "Kosova'da yaşayanlar için Arnavutça",
+    "metaDescription": "Kosova'da yaşayan ya da taşınacak herkes için: iki saniyede doğru Arnavutça cümle, argo ve Kosova ağzını anlamına göre çeviren çeviri ve Kosova'da gerçekten kullanılan kelimeler. İnternetsiz çalışır.",
+    "eyebrow": "Kosova'da yaşayan ve taşınacak herkes için",
+    "title": "Kosova'da Arnavutça, saniyeler içinde.",
+    "subtitle": "Kapıda, doktorda, ev sahibiyle: doğru cümle iki saniyede hazır. Argo ve Kosova ağzı anlamına göre çevrilir.",
+    "ctaPrimary": "Hızlı Konuş'u aç",
+    "ctaSecondary": "Fiyatlara bak",
+    "featuresTitle": "Neler var?",
+    "features": [
+      {
+        "title": "Hızlı Konuş",
+        "body": "Hazır cümleler, büyük yazı ve cevap düğmeleri. İnternetsiz çalışır."
+      },
+      {
+        "title": "Çeviri",
+        "body": "Türkçe ↔ Arnavutça, Kosova ağzı ya da standart. Argo, anlamına göre çevrilir."
+      },
+      {
+        "title": "Argo Sözlük",
+        "body": "qysh, çka, kerr… Kosova'da gerçekten kullanılan kelimeler ve Türkçeden geçenler."
+      },
+      {
+        "title": "Gizlilik",
+        "body": "Yazdıkların saklanmaz. Hızlı Konuş için hesap bile gerekmez."
+      }
+    ],
+    "audienceTitle": "Kimler için?",
+    "audience": [
+      "Kuryeler, şoförler, inşaat ve restoran çalışanları",
+      "Aileler, öğrenciler ve emekliler",
+      "Kosova'da iş yapanlar",
+      "Kosova'ya taşınmayı planlayanlar"
+    ],
+    "howTitle": "Nasıl çalışır?",
+    "how": [
+      "Cümleye dokun.",
+      "Ekranı karşındakine göster ya da sesli oku.",
+      "O bir cevap düğmesine dokunsun; cevabı Türkçe gör."
+    ],
+    "honestyTitle": "Dürüst olalım",
+    "honesty": "Çeviriler yardım amaçlıdır ve her zaman kusursuz değildir. Cümleler ve kelimeler anadili Priştine Arnavutçası olan kişilerce kontrol ediliyor. Sağlık ve hukuk gibi önemli konularda bir tercümana danış.",
+    "comingTitle": "Yakında",
+    "coming": [
+      "Canlı konuşma: sesli, iki yönlü çeviri",
+      "Arnavutça dersleri: günde 5 dakika"
+    ]
+  },
+  "pricing": {
+    "title": "Fiyatlar",
+    "subtitle": "Hızlı Konuş her zaman ücretsiz. Daha fazlası için Premium.",
+    "metaDescription": "Mirhaba fiyatları: Hızlı Konuş ve sözlük ücretsiz; Premium aylık {monthly} € ya da yıllık {yearly} €. KDV dahil, gizli ücret yok, tek dokunuşla iptal.",
+    "plansLabel": "Planlar",
+    "free": "Ücretsiz",
+    "freeTagline": "Kapıda ve günlük hayatta",
+    "premium": "Premium",
+    "premiumTagline": "Sınırsız çeviri ve yakında canlı konuşma",
+    "monthly": "Aylık",
+    "yearly": "Yıllık",
+    "perMonth": "/ ay",
+    "perYear": "/ yıl",
+    "yearlyEquivalent": "Aylık {price} €'ya denk gelir",
+    "save": "%{n} tasarruf",
+    "vat": "Fiyatlara KDV dahildir. Gizli ücret yok.",
+    "feature": "Özellik",
+    "rows": [
+      {
+        "label": "Hızlı Konuş ve cevap düğmeleri",
+        "free": "Var",
+        "premium": "Var"
+      },
+      {
+        "label": "Argo sözlük",
+        "free": "Var",
+        "premium": "Var, sesli (yakında)"
+      },
+      {
+        "label": "Metin çevirisi",
+        "free": "Günde {freeTranslations}",
+        "premium": "Sınırsız (adil kullanım)"
+      },
+      {
+        "label": "Canlı konuşma",
+        "free": "Günde birkaç (yakında)",
+        "premium": "Sınırsız (yakında)"
+      },
+      {
+        "label": "Arnavutça dersleri",
+        "free": "İlk üniteler (yakında)",
+        "premium": "Tüm parkurlar (yakında)"
+      },
+      {
+        "label": "İnternetsiz paketler",
+        "free": "Günlük temel",
+        "premium": "Tüm kategoriler"
+      }
+    ],
+    "startFree": "Ücretsiz başla",
+    "premiumSoon": "Premium yakında",
+    "paymentNote": "Kartla ödeme, banka onayı tamamlanınca açılacak. Ödeme Raiffeisen Bank'ın güvenli sayfasında yapılır; kart bilgilerin bize hiç ulaşmaz.",
+    "cancelTitle": "İptal ve iade",
+    "cancel": [
+      "İstediğin zaman, hesap sayfasından tek dokunuşla iptal edebilirsin. Ödediğin dönemin sonuna kadar Premium devam eder.",
+      "Ücretli özellikleri neredeyse hiç kullanmadıysan 14 gün içinde tam iade."
+    ],
+    "refundLink": "İade politikasını oku"
+  },
+  "faq": {
+    "title": "Sık sorulan sorular",
+    "subtitle": "Mirhaba hakkında kısa cevaplar.",
+    "metaDescription": "Mirhaba hakkında sık sorulan sorular: internetsiz kullanım, fiyatlar, Kosova Arnavutçası, gizlilik ve iptal.",
+    "items": [
+      {
+        "q": "Mirhaba nedir?",
+        "a": "Kosova'da yaşayan ya da taşınacak Türkiye'den herkes için bir uygulama: hazır Arnavutça cümleler, çeviri ve Kosova'da gerçekten kullanılan kelimeler."
+      },
+      {
+        "q": "İnternetsiz çalışıyor mu?",
+        "a": "Evet. Hızlı Konuş, bir kez açtıktan sonra internetsiz çalışır. Çeviri için bağlantı gerekir."
+      },
+      {
+        "q": "Hesap açmam gerekiyor mu?",
+        "a": "Hızlı Konuş ve sözlük için hayır. Çeviri için ücretsiz bir hesap gerekir; e-postana gelen kodla ya da Google ile giriş yapabilirsin."
+      },
+      {
+        "q": "Ücretsiz mi?",
+        "a": "Hızlı Konuş ve sözlük ücretsiz; günde {freeTranslations} çeviri de ücretsiz. Premium aylık {monthly} € ya da yıllık {yearly} € (KDV dahil)."
+      },
+      {
+        "q": "Kosova Arnavutçası standart Arnavutçadan farklı mı?",
+        "a": "Evet, biraz. Kosova'da kuzey (Geg) ağzı konuşulur: \"si\" yerine \"qysh\", \"çfarë\" yerine \"çka\" denir. Çeviride \"Kosova\" ya da \"Standart\" seçebilirsin."
+      },
+      {
+        "q": "Çeviriler ne kadar doğru?",
+        "a": "Çeviriler yapay zekâ ile ve argo anlamına göre yapılır; çoğu zaman işini görür ama kusursuz değildir. Önemli konularda bir tercümana danış. Hatalı bir çeviriyi \"Yanlış çeviri mi?\" ile bildirebilirsin."
+      },
+      {
+        "q": "Yazdıklarım saklanıyor mu?",
+        "a": "Hayır. Yazdığın metin saklanmaz; yalnızca anonim kullanım sayıları tutulur. Ayrıntılar gizlilik politikasında."
+      },
+      {
+        "q": "Telefonuma nasıl eklerim?",
+        "a": "Android'de tarayıcı menüsünden \"Ana ekrana ekle\"; iPhone'da Paylaş düğmesi, sonra \"Ana Ekrana Ekle\". Uygulama gibi açılır."
+      },
+      {
+        "q": "Premium'u nasıl iptal ederim?",
+        "a": "Hesap sayfasından tek dokunuşla. Ödediğin dönemin sonuna kadar Premium devam eder; gizli ücret yoktur."
+      },
+      {
+        "q": "Hesabımı ve verilerimi silebilir miyim?",
+        "a": "Evet. Hesap sayfasından verilerini indirebilir ya da hesabını kalıcı olarak silebilirsin."
+      }
+    ],
+    "contactTitle": "Sorunun burada yok mu?",
+    "contactBody": "Bize yaz, yardımcı olalım:"
+  },
+  "learn": {
+    "title": "Arnavutça öğren",
+    "subtitle": "Gerçek durumlar için 5 dakikalık dersler, Türkçe anlatımla.",
+    "metaDescription": "Sıfırdan Arnavutça: selamlaşma, kapıda teslimat, alışveriş ve Kosova ağzı. 5 dakikalık dersler, Türkçe anlatım, internetsiz çalışır.",
+    "streak": "{n} günlük seri",
+    "streakZero": "Bugün bir ders bitir, serini başlat.",
+    "longest": "En uzun seri: {n} gün",
+    "review": "Zayıf kelimeleri tekrar et",
+    "reviewCount": "{n} kelime seni bekliyor",
+    "reviewEmpty": "Şimdilik tekrar edilecek kelime yok.",
+    "start": "Başla",
+    "continue": "Devam et",
+    "nextUp": "Sıradaki",
+    "done": "Tamamlandı",
+    "best": "En iyi: %{n}",
+    "locked": "Premium (yakında)",
+    "lessons": "{n} ders",
+    "minutes": "~5 dk",
+    "unverified": "Dersler yeni; Arnavutça içerik anadili Priştine Arnavutçası olan kişilerce kontrol ediliyor.",
+    "deviceNote": "İlerlemen bu cihazda saklanır ve internetsiz de çalışır.",
+    "player": {
+      "close": "Dersten çık",
+      "progress": "İlerleme",
+      "newWord": "Yeni",
+      "gotIt": "Anladım",
+      "listen": "Dinle",
+      "reading": "Okunuşu",
+      "chooseMeaning": "Doğru anlamı seç",
+      "chooseAlbanian": "Arnavutçasını seç",
+      "matchTitle": "Eşleri bul",
+      "matchHint": "Önce bir Arnavutça kelimeye, sonra Türkçesine dokun.",
+      "orderTitle": "Cümleyi kur",
+      "orderHint": "Kelimelere sırayla dokun.",
+      "answer": "Cevabın",
+      "typeTitle": "Arnavutça yaz",
+      "typeLabel": "Arnavutça cevabın",
+      "typePlaceholder": "Buraya yaz",
+      "insertLetter": "{c} harfini ekle",
+      "check": "Kontrol et",
+      "next": "Devam",
+      "correct": "Doğru!",
+      "wrong": "Doğrusu:",
+      "accents": "Doğru! Yazılışı:",
+      "finishTitle": "Ders bitti!",
+      "reviewFinishTitle": "Tekrar bitti!",
+      "score": "İlk denemede doğru",
+      "again": "Tekrar yap",
+      "backToLessons": "Derslere dön",
+      "nextLesson": "Sıradaki ders"
+    },
+    "reviewTitle": "Tekrar",
+    "reviewSubtitle": "Zorlandığın kelimeler, kısa bir turda.",
+    "reviewEmptyTitle": "Tekrar edilecek kelime yok",
+    "reviewEmptyBody": "Ders bitirdikçe zorlandığın kelimeler burada birikir.",
+    "loading": "Yükleniyor…"
+  }
+}
