@@ -3,12 +3,32 @@
  * this deployment's Vercel URL (previews) → localhost.
  */
 function resolveSiteUrl(): string {
-  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
-  if (process.env.VERCEL_ENV === "production" && process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  const candidates = [
+    process.env.NEXT_PUBLIC_SITE_URL,
+    process.env.VERCEL_ENV === "production" ? process.env.VERCEL_PROJECT_PRODUCTION_URL : undefined,
+    process.env.VERCEL_URL,
+  ];
+  for (const candidate of candidates) {
+    const url = toOrigin(candidate);
+    if (url) return url;
   }
-  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   return "http://localhost:3000";
+}
+
+/**
+ * Accepts values pasted into a dashboard in any common form ("mirhaba.app", " https://x.com/ ",
+ * "\"https://x.com\"") and returns a clean origin, or null if it still isn't a valid URL.
+ */
+function toOrigin(raw: string | undefined): string | null {
+  const value = raw?.trim().replace(/^["']|["']$/g, "").trim();
+  if (!value) return null;
+  const withScheme = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+  try {
+    return new URL(withScheme).origin;
+  } catch {
+    console.warn(`[site] Ignoring invalid site URL: ${JSON.stringify(raw)}`);
+    return null;
+  }
 }
 
 export const siteUrl = resolveSiteUrl();
