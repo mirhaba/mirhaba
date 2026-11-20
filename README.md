@@ -127,13 +127,13 @@ Hosted setup when you go live (Supabase dashboard):
 ## Text translation
 
 - Page: `/[lang]/translate`. Directions TR → SQ (Kosovan or standard) and SQ → TR. Needs an account (consent given).
-- Engine: Claude (`claude-opus-5-5`, effort `low`, structured JSON output, server-side refusal fallback) in `src/lib/translate/translator.ts`. The user's text is wrapped as data, never as instructions.
+- Engine: OpenAI's open-weight `gpt-oss-120b` on Groq (OpenAI-compatible API, reasoning effort `low`, strict JSON-schema output, one retry on 429/5xx) in `src/lib/translate/translator.ts`. Override the model with `TRANSLATION_MODEL`. The user's text is wrapped as data, never as instructions.
 - Slang: `src/content/slang.ts` (starter glossary, **needs native-speaker review**). Matching entries are injected into the prompt and become the "meaning" notes.
 - Limits (`src/lib/plans.ts`): free 5/day, paid 300/day (fair use), counted atomically in Postgres; failed AI calls are refunded.
 - Global AI spending cap: `AI_DAILY_SPEND_CAP_EUR` (default 5). Over the cap, translation pauses ("busy") instead of billing more.
 - Cache: identical requests reuse the answer for 30 days. Only a hash of the input is stored, never the input or who sent it. Run `select prune_translation_cache()` daily once live.
 - "Wrong translation?" saves a correction to the moderation queue (`corrections`, pending).
-- Local dev without a key: `TRANSLATION_MOCK=1` returns `[mock]` translations (ignored on Vercel production). With a key: set `ANTHROPIC_API_KEY` and remove `TRANSLATION_MOCK`.
+- Local dev without a key: `TRANSLATION_MOCK=1` returns `[mock]` translations (ignored on Vercel production). With a key: set `GROQ_API_KEY` and remove `TRANSLATION_MOCK`.
 
 ## Launch essentials
 
@@ -169,7 +169,7 @@ Hosting is Vercel. (Turnstile, the bot check, is a Cloudflare widget, not Cloudf
 1. Import the GitHub repo in Vercel. Framework: Next.js. No build settings to change.
 2. Environment variables (Production + Preview), from `.env.example`. Minimum to run:
    - `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` (hosted project)
-   - `ANTHROPIC_API_KEY` (translation) and `AI_DAILY_SPEND_CAP_EUR`
+   - `GROQ_API_KEY` (translation) and `AI_DAILY_SPEND_CAP_EUR`
    - `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` (rate limits) and `NEXT_PUBLIC_SENTRY_DSN` (+ `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_AUTH_TOKEN`)
    - Optional now: `NEXT_PUBLIC_POSTHOG_KEY`, Turnstile keys, `NEXT_PUBLIC_AUTH_GOOGLE_ENABLED`
    - `NEXT_PUBLIC_SITE_URL` only once you have your own domain (otherwise Vercel's URL is used).

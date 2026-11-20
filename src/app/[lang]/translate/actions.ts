@@ -10,7 +10,7 @@ import { createClient } from "@/lib/supabase/server";
 import { checkLimit, checkLimits, clientIp } from "@/lib/rate-limit";
 import {
   PROMPT_VERSION,
-  translateWithClaude,
+  translateWithAi,
   TranslationRefused,
   TranslationUnavailable,
 } from "@/lib/translate/translator";
@@ -96,7 +96,7 @@ export async function translateText(raw: z.input<typeof inputSchema>): Promise<T
 
   // 5) Translate by meaning, with the slang glossary for any slang in the text.
   try {
-    const result = await translateWithClaude({ text, direction, variant, uiLang: lang, glossary: findGlossaryMatches(text) });
+    const result = await translateWithAi({ text, direction, variant, uiLang: lang, glossary: findGlossaryMatches(text) });
 
     await Promise.all([
       admin.rpc("record_ai_spend", {

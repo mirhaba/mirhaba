@@ -14,7 +14,6 @@
     "icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^1.11.0",
     "@sentry/nextjs": "^11.16.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.119.2",

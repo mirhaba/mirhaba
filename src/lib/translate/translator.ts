@@ -1,6 +1,4 @@
 import "server-only";
-import Anthropic from "@anthropic-ai/sdk";
-import { betaZodOutputFormat } from "@anthropic-ai/sdk/helpers/beta/zod";
 import { z } from "zod";
 import type { Locale } from "@/i18n/config";
 import type { SlangEntry } from "@/content/slang";
@@ -19,18 +17,46 @@ export type TranslationResult = {
 export class TranslationRefused extends Error {}
 export class TranslationUnavailable extends Error {}
 
-/** Bump when the prompt changes so cached outputs from the old prompt aren't reused. */
-export const PROMPT_VERSION = "v1";
+/** Bump when the prompt or model changes so cached outputs from the old setup aren't reused. */
+export const PROMPT_VERSION = "v2-groq";
 
-const MODEL = process.env.TRANSLATION_MODEL || "claude-opus-5-5";
-// Per-million-token prices for the default model (USD; used as EUR, which slightly over-counts: the safe side).
-const PRICE_IN = 4;
-const PRICE_OUT = 20;
+// Groq's OpenAI-compatible API, serving OpenAI's open-weight gpt-oss-120b.
+const ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
+const MODEL = process.env.TRANSLATION_MODEL || "openai/gpt-oss-120b";
+// Per-million-token prices for the default model on Groq (USD; used as EUR, which slightly over-counts: the safe side).
+const PRICE_IN = 0.15;
+const PRICE_OUT = 0.6;
 
 const OutputSchema = z.object({
   translation: z.string(),
   notes: z.array(z.object({ term: z.string(), meaning: z.string() })),
 });
+
+// The same shape as JSON Schema for Groq strict mode (every field required, no extra properties).
+const RESPONSE_FORMAT = {
+  type: "json_schema",
+  json_schema: {
+    name: "translation",
+    strict: true,
+    schema: {
+      type: "object",
+      additionalProperties: false,
+      required: ["translation", "notes"],
+      properties: {
+        translation: { type: "string" },
+        notes: {
+          type: "array",
+          items: {
+            type: "object",
+            additionalProperties: false,
+            required: ["term", "meaning"],
+            properties: { term: { type: "string" }, meaning: { type: "string" } },
+          },
+        },
+      },
+    },
+  },
+} as const;
 
 // Stable system prompt: everything request-specific goes in the user message.
 const SYSTEM = `You translate between Turkish and Albanian for people from Turkey who live in Kosovo, and the Kosovans they talk to: couriers, workers, families, landlords, doctors, shop owners.
@@ -56,18 +82,50 @@ Notes:
 
 const LANGUAGE_NAME: Record<Locale, string> = { tr: "Turkish", sq: "Albanian" };
 
-let client: Anthropic | null = null;
-function getClient() {
+/** Busy or temporarily failing on Groq's side: worth one retry (Groq doesn't bill server errors). */
+const RETRYABLE = new Set([429, 498, 500, 502, 503, 504]);
+
+type ChatCompletion = {
+  choices?: { finish_reason?: string; message?: { content?: string | null; refusal?: string | null } }[];
+  usage?: { prompt_tokens?: number; completion_tokens?: number };
+};
+
+async function callGroq(body: unknown): Promise<ChatCompletion> {
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) throw new Error("GROQ_API_KEY is not set");
+
+  let lastError = "";
   // 15 s per attempt, one retry: a person is waiting at a door.
-  client ??= new Anthropic({ timeout: 15_000, maxRetries: 1 });
-  return client;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    let res: Response;
+    try {
+      res = await fetch(ENDPOINT, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(15_000),
+        cache: "no-store",
+      });
+    } catch (error) {
+      lastError = error instanceof Error ? error.message : String(error); // network error or timeout
+      continue;
+    }
+    if (res.ok) return (await res.json()) as ChatCompletion;
+    lastError = `groq ${res.status}: ${(await res.text().catch(() => "")).slice(0, 300)}`;
+    if (!RETRYABLE.has(res.status)) throw new Error(lastError);
+    if (attempt === 0) {
+      const waitSeconds = Math.min(Number(res.headers.get("retry-after")) || 1, 3);
+      await new Promise((r) => setTimeout(r, waitSeconds * 1000));
+    }
+  }
+  throw new TranslationUnavailable(lastError);
 }
 
 function isMock() {
   return process.env.TRANSLATION_MOCK === "1" && process.env.VERCEL_ENV !== "production";
 }
 
-export async function translateWithClaude(input: {
+export async function translateWithAi(input: {
   text: string;
   direction: Direction;
   variant: AlbanianVariant;
@@ -97,33 +155,37 @@ export async function translateWithClaude(input: {
     .filter(Boolean)
     .join("\n\n");
 
-  let response;
+  const response = await callGroq({
+    model: MODEL,
+    // Caps cost. Reasoning tokens count against it too; a 1,000-character translation needs far less.
+    max_completion_tokens: 4000,
+    reasoning_effort: "low",
+    include_reasoning: false,
+    temperature: 0.3,
+    response_format: RESPONSE_FORMAT,
+    messages: [
+      { role: "system", content: SYSTEM },
+      { role: "user", content: userMessage },
+    ],
+  });
+
+  const choice = response.choices?.[0];
+  if (choice?.message?.refusal || choice?.finish_reason === "content_filter") {
+    throw new TranslationRefused(choice.message?.refusal ?? "content_filter");
+  }
+
+  let parsed: z.infer<typeof OutputSchema> | null = null;
   try {
-    response = await getClient().beta.messages.parse({
-      model: MODEL,
-      max_tokens: 4000, // caps cost; a 1,000-character translation needs far less
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default", // if the model declines, Anthropic retries on a fallback model
-      output_config: { effort: "low", format: betaZodOutputFormat(OutputSchema) },
-      system: SYSTEM,
-      messages: [{ role: "user", content: userMessage }],
-    });
-  } catch (error) {
-    if (error instanceof Anthropic.RateLimitError || error instanceof Anthropic.InternalServerError) {
-      throw new TranslationUnavailable(error.message);
-    }
-    if (error instanceof Anthropic.APIConnectionError) throw new TranslationUnavailable(error.message);
-    throw error;
+    parsed = OutputSchema.parse(JSON.parse(choice?.message?.content ?? ""));
+  } catch {
+    parsed = null;
+  }
+  if (choice?.finish_reason === "length" || !parsed?.translation.trim()) {
+    throw new TranslationUnavailable(`unusable response (${choice?.finish_reason ?? "no choice"})`);
   }
 
-  if (response.stop_reason === "refusal") throw new TranslationRefused(response.stop_details?.category ?? "refusal");
-  const parsed = response.parsed_output;
-  if (response.stop_reason === "max_tokens" || !parsed?.translation.trim()) {
-    throw new TranslationUnavailable(`unusable response (${response.stop_reason})`);
-  }
-
-  const inputTokens = response.usage.input_tokens + (response.usage.cache_read_input_tokens ?? 0);
-  const outputTokens = response.usage.output_tokens;
+  const inputTokens = response.usage?.prompt_tokens ?? 0;
+  const outputTokens = response.usage?.completion_tokens ?? 0;
   return {
     translation: parsed.translation.trim().slice(0, 4000),
     notes: parsed.notes.slice(0, 3).map((n) => ({ term: n.term.slice(0, 80), meaning: n.meaning.slice(0, 200) })),

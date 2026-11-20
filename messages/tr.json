@@ -97,7 +97,7 @@
       "body": [
         "Mirhaba, Hızlı Konuş için hesap istemez ve kişisel veri toplamaz. Sık kullandığın cümleler senin cihazında saklanır; giriş yaptıysan diğer cihazlarında da görünmeleri için hesabınla eşitlenir.",
         "Konuşma ve çeviri içeriklerini varsayılan olarak saklamayız; yalnızca anonim kullanım sayıları tutulur.",
-        "Çeviri sonuçları, aynı metin tekrar çevrildiğinde hızlı olsun diye 30 gün önbellekte tutulur. Yazdığın metnin kendisi saklanmaz (yalnızca geri çevrilemeyen bir özeti), kimin çevirdiği de kaydedilmez. Çeviri için metin Anthropic (Claude) yapay zekâsına gönderilir.",
+        "Çeviri sonuçları, aynı metin tekrar çevrildiğinde hızlı olsun diye 30 gün önbellekte tutulur. Yazdığın metnin kendisi saklanmaz (yalnızca geri çevrilemeyen bir özeti), kimin çevirdiği de kaydedilmez. Çeviri için metin Groq üzerinde çalışan OpenAI gpt-oss yapay zekâsına gönderilir.",
         "Hataları düzeltebilmek için uygulama çöktüğünde teknik hata kaydı Sentry'ye (AB sunucuları) gönderilir. Bu kayıtlar IP adresi, çerez, e-posta veya yazdığın metni içermez.",
         "Hesap, ödeme ve analiz özellikleri eklendiğinde bu sayfa; toplanan verileri, amaçlarını, saklama sürelerini, üçüncü tarafları ve haklarını ayrıntılı olarak listeleyecek.",
         "Gizlilik soruların için: privacy@mirhaba.app"

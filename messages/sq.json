@@ -97,7 +97,7 @@
       "body": [
         "Mirhaba nuk kërkon llogari për Bisedën e shpejtë dhe nuk mbledh të dhëna personale. Fjalitë e preferuara ruhen në pajisjen tënde; nëse ke hyrë në llogari, sinkronizohen me llogarinë që të shfaqen edhe në pajisjet e tjera.",
         "Bisedat dhe përkthimet nuk i ruajmë si parazgjedhje; mbahen vetëm numra anonimë të përdorimit.",
-        "Rezultatet e përkthimit ruhen 30 ditë në memorie që i njëjti tekst të përkthehet më shpejt. Vetë teksti yt nuk ruhet (vetëm një përmbledhje e pakthyeshme), as kush e përktheu. Për përkthim, teksti dërgohet te inteligjenca artificiale e Anthropic (Claude).",
+        "Rezultatet e përkthimit ruhen 30 ditë në memorie që i njëjti tekst të përkthehet më shpejt. Vetë teksti yt nuk ruhet (vetëm një përmbledhje e pakthyeshme), as kush e përktheu. Për përkthim, teksti dërgohet te inteligjenca artificiale OpenAI gpt-oss, që punon në Groq.",
         "Që t'i rregullojmë gabimet, kur aplikacioni prishet, një regjistër teknik i gabimit dërgohet te Sentry (serverë në BE). Ky regjistër nuk përmban adresë IP, cookies, email apo tekstin që shkruan.",
         "Kur të shtohen llogaritë, pagesat dhe analitika, kjo faqe do të listojë në detaje të dhënat që mblidhen, qëllimin, kohëzgjatjen e ruajtjes, palët e treta dhe të drejtat e tua.",
         "Për pyetje rreth privatësisë: privacy@mirhaba.app"
