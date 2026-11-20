@@ -1,4 +1,4 @@
-# Mirhaba
+# Mirhaba App
 
 Turkish ↔ Kosovan Albanian for everyone from Turkey living in Kosovo. PWA, Turkish-first UI (Albanian as the second language), Quick Talk works offline.
 
