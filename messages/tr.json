@@ -204,7 +204,9 @@
     "cancel": "Vazgeç",
     "saved": "Kaydedildi",
     "saveError": "Kaydedilemedi. Tekrar dene.",
-    "seePremium": "Premium'u gör"
+    "seePremium": "Premium'u gör",
+    "adminOpen": "Yönetim paneli",
+    "adminOpenHint": "İçerik, kullanıcılar, raporlar ve Premium"
   },
   "cookies": {
     "title": "Çerezler",

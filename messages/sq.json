@@ -204,7 +204,9 @@
     "cancel": "Anulo",
     "saved": "U ruajt",
     "saveError": "Nuk u ruajt. Provo përsëri.",
-    "seePremium": "Shih Premium"
+    "seePremium": "Shih Premium",
+    "adminOpen": "Paneli i administrimit",
+    "adminOpenHint": "Përmbajtja, përdoruesit, raportet dhe Premium"
   },
   "cookies": {
     "title": "Cookies",

@@ -5,6 +5,7 @@ import { hasLocale, intlLocale, type Locale } from "@/i18n/config";
 import { getDictionary, type Messages } from "@/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/server";
 import { getEntitlement } from "@/lib/billing/entitlement";
+import { getAdmin } from "@/lib/admin/auth";
 import { AccountSettings } from "./account-settings";
 import { ConsentForm } from "./consent-form";
 
@@ -36,10 +37,11 @@ async function Account({ lang, t }: { lang: Locale; t: Messages }) {
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) redirect(`/${lang}/login?next=/${lang}/app`); // the proxy already guards; this is defence in depth
 
-  const [{ data: profile }, entitlement, { data: isModerator }] = await Promise.all([
+  const [{ data: profile }, entitlement, { data: isModerator }, admin] = await Promise.all([
     supabase.from("profiles").select("ui_lang, marketing_opt_in, age_confirmed_at").eq("id", auth.user.id).single(),
     getEntitlement(),
     supabase.rpc("is_moderator"),
+    getAdmin(),
   ]);
 
   if (!profile?.age_confirmed_at) return <ConsentForm lang={lang} t={t.consent} />;
@@ -55,7 +57,8 @@ async function Account({ lang, t }: { lang: Locale; t: Messages }) {
       email={auth.user.email ?? ""}
       marketing={profile.marketing_opt_in}
       activeUntil={activeUntil}
-      moderationLink={isModerator ? { href: `/${lang}/app/moderation`, label: t.moderation.open, hint: t.moderation.openHint } : null}
+      moderationLink={isModerator && !admin ? { href: `/${lang}/app/moderation`, label: t.moderation.open, hint: t.moderation.openHint } : null}
+      adminLink={admin ? { href: "/admin", label: t.account.adminOpen, hint: t.account.adminOpenHint } : null}
     />
   );
 }

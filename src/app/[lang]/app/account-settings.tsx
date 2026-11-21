@@ -20,6 +20,7 @@ export function AccountSettings({
   marketing,
   activeUntil,
   moderationLink,
+  adminLink,
 }: {
   lang: Locale;
   t: T;
@@ -28,6 +29,8 @@ export function AccountSettings({
   activeUntil: string | null;
   /** Shown to moderators and admins only (role checked on the server). */
   moderationLink: { href: string; label: string; hint: string } | null;
+  /** Shown to admins only (ADMIN_EMAILS, checked on the server). A plain <a>: /admin has its own root layout. */
+  adminLink?: { href: string; label: string; hint: string } | null;
 }) {
   const [toast, setToast] = useState("");
   const [marketingOn, setMarketingOn] = useState(marketing);
@@ -113,6 +116,22 @@ export function AccountSettings({
           />
         </label>
       </Group>
+
+      {adminLink && (
+        <Group>
+          <a
+            href={adminLink.href}
+            className="flex min-h-14 items-center gap-3 px-4 py-3 transition-colors duration-150 active:bg-surface-2"
+          >
+            <ShieldCheck aria-hidden="true" className="h-5 w-5 shrink-0 text-accent-text" />
+            <span className="flex-1">
+              <span className="block text-[17px]">{adminLink.label}</span>
+              <span className="block text-[13px] text-muted">{adminLink.hint}</span>
+            </span>
+            <ChevronRight aria-hidden="true" className="h-4 w-4 text-muted/60" />
+          </a>
+        </Group>
+      )}
 
       {moderationLink && (
         <Group>
