@@ -21,9 +21,11 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Messages }) {
           </Suspense>
         </nav>
         <div className="ml-auto flex items-center gap-1">
-          {/* Static link; the proxy sends signed-out visitors to the login page. */}
+          {/* Static link; the proxy sends signed-out visitors to the login page. No prefetch: the
+              answer depends on the session, and a prefetched "go to login" must not outlive a sign-in. */}
           <Link
             href={`/${lang}/app`}
+            prefetch={false}
             aria-label={t.nav.account}
             className="pressable flex h-11 w-11 items-center justify-center rounded-full text-muted hover:text-foreground"
           >
