@@ -1,4 +1,5 @@
-import { slang, type SlangEntry } from "@/content/slang";
+import type { SlangEntry } from "@/lib/content/model";
+import { getDictionaryEntries } from "@/lib/content/queries";
 import { normalizeForSearch } from "./text";
 
 /** Lower-case, accent-folded, punctuation turned into single spaces. */
@@ -19,7 +20,7 @@ const forms = (values: (string | undefined)[], minLength: number) =>
  * The headword and Kosovan forms always trigger; plain standard words only when they are
  * idioms of 5+ characters ("kolay gelsin"), so everyday words like "ne" or "si" don't.
  */
-const index = slang.map((entry) => ({
+const buildIndex = (slang: SlangEntry[]) => slang.map((entry) => ({
   entry,
   forms: [
     ...new Set([
@@ -30,9 +31,9 @@ const index = slang.map((entry) => ({
 }));
 
 /** Glossary entries whose words appear in the text (whole words, accent-insensitive). Max 12. */
-export function findGlossaryMatches(text: string): SlangEntry[] {
+export async function findGlossaryMatches(text: string): Promise<SlangEntry[]> {
   const haystack = ` ${toWords(text)} `;
-  return index
+  return buildIndex(await getDictionaryEntries())
     .filter(({ forms }) => forms.some((form) => haystack.includes(` ${form} `)))
     .map(({ entry }) => entry)
     .slice(0, 12);

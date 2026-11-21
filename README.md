@@ -53,13 +53,14 @@ Migrations live in `supabase/migrations/`, the seed in `supabase/seed.sql`, RLS 
 
 ```bash
 supabase start            # local stack in Docker (ports 54421–54429, see supabase/config.toml)
-npm run db:seed:generate  # rebuild seed.sql from src/content/quick-talk.ts
+npm run db:seed:generate  # rebuild seed.sql (plans only) from src/lib/plans.ts
 npm run db:reset          # re-apply all migrations + seed locally
+npm run db:import         # copy the starter content (src/content) into the database (needed after a reset)
 npm run db:test           # pgTAP: RLS and privilege tests
 supabase stop
 ```
 
-Pushing to the hosted project (when you're ready): `supabase link --project-ref <ref>` then `supabase db push`. Run the seed once in the SQL editor, or `psql "$DB_URL" -f supabase/seed.sql`.
+Pushing to the hosted project (when you're ready): `supabase link --project-ref <ref>` then `supabase db push`. Run the seed (plans) once in the SQL editor, or `psql "$DB_URL" -f supabase/seed.sql`, then open **Admin → Import starter content** once.
 
 ## Login (Supabase Auth)
 
@@ -141,7 +142,7 @@ Hosted setup when you go live (Supabase dashboard):
 - Content: `src/content/slang.ts` (56 entries in 3 kinds: Kosovan words, Turkish loanwords used in Kosovo,
   Turkish slang → Kosovan). Every entry lists its sources (`src/content/sources.ts`) and has `verified: false`
   until a native Prishtina speaker checks it; the pages say so. Albania/Tirana-only slang (e.g. "lali") is excluded on purpose.
-- The same entries feed the translation glossary and the DB seed (`npm run db:seed:generate`, then `npm run db:reset`).
+- The same entries feed the translation glossary. Since the admin dashboard, the database is the source of truth: edit words in **Admin → Dictionary** (src/content/slang.ts is only the starter import).
 - To mark a word as checked: set `verified: true` on it (the page then shows "checked by a native speaker").
 
 ## Text translation
@@ -200,6 +201,30 @@ Hosting is Vercel. (Turnstile, the bot check, is a Cloudflare widget, not Cloudf
 4. Push migrations and seed to the hosted DB (see Database), and paste the email template (see Login).
 5. Preview deployments are automatically `noindex` (robots.txt disallows everything outside production).
 
+## Admin dashboard (`/admin`)
+
+- **Access**: `ADMIN_EMAILS` (server-only env var, comma separated). Sign in on the site with one of those emails (confirmed), then open `/admin`.
+  Everyone else gets a 404; signed-out visitors go to the login page. Every admin page and server action checks it again
+  (`src/lib/admin/auth.ts`), and every change is written to `audit_log` (Admin → Activity log). On Vercel, set `ADMIN_EMAILS` and redeploy.
+- **Content lives in the database now.** Quick Talk (categories, phrases, fill-in options, reply buttons, audio paths), the dictionary
+  (+ sources) and lessons (tracks, units free/Premium, lessons, words) are read from Supabase through cached functions
+  (`src/lib/content/queries.ts`, `"use cache"` + `cacheTag("content")`). Pages stay prerendered; every admin save calls
+  `updateTag("content")`, so the site shows the change on the next request. If the database is empty or unreachable the
+  bundled starter content (`src/content/*.ts`) is shown, cached for a few minutes only.
+- **Starter content**: `src/content/*.ts` is only the first import (Admin → Import starter content, or `npm run db:import`).
+  It adds what's missing and fills empty fields, never overwrites admin edits. Don't edit those files to change the live site.
+- **UI text** (Admin → UI text): every string from `messages/tr.json` / `sq.json` can be overridden per language (e.g. `nav.quickTalk`
+  = "Bisedë e shpejtë"). Overrides live in `ui_texts` and are laid over the JSON in `getDictionary` (cache tag `ui-text`).
+  Placeholders like `{n}` must stay; "Reset to default" removes the override. The JSON files stay the defaults (and the 404 page).
+- **Fixed translations** (Admin → Fixed translations): exact texts with your own translation. The Translate action checks them
+  before the cache and the AI (`find_fixed_translation`: case, accents, spacing and final punctuation are ignored).
+  Approving a "Wrong translation?" report can save one in the same step.
+- Also: **Reports** (approve/reject corrections), **Users & Premium** (search by email, give Premium for a period or N days,
+  end it; uses `activate_subscription`), **Overview** (users, Premium, translations and AI spend today), **Activity log**.
+- Database: `supabase/migrations/20261122120000_admin_cms.sql` (columns, `lesson_items`, `content_sources`, `fixed_translations`,
+  `ui_texts`, service-role-only helpers). Tests: `supabase/tests/database/admin_cms.test.sql`.
+- Ids that must never change once used: phrase ids (favourites), lesson slugs and word ids (learning progress).
+
 ## Before launch
 
-Every Albanian phrase in `src/content/quick-talk.ts` must be checked by native Prishtina speakers, and the legal pages by a lawyer. The emails on the contact/privacy pages are placeholders.
+Every Albanian phrase (Admin → Quick Talk) must be checked by native Prishtina speakers, and the legal pages by a lawyer. The emails on the contact/privacy pages are placeholders.

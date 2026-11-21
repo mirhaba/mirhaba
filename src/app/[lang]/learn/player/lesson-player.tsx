@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Check, Flame, RotateCcw, X } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
-import { itemById, type Item } from "@/content/lessons";
+import type { Item } from "@/lib/content/model";
 import { buildLesson, buildReview, checkOrder, checkTyped, retryOf, seedFrom, type Exercise } from "@/lib/learn/engine";
 import { finishSession, recordAnswer, syncWithAccount, weakItemIds, type Streak } from "@/lib/learn/progress";
 import { fill } from "@/lib/format";
@@ -15,8 +15,6 @@ import { Choose, LearnCard, Match, Order, PromptAlbanian, TypeAnswer } from "./e
 
 type T = Messages["learn"];
 type Feedback = { correct: boolean; expected: string; accents?: boolean };
-
-const allItems = Object.values(itemById);
 
 /**
  * One lesson (or a review round): exercises in order, wrong answers asked again once at
@@ -28,6 +26,7 @@ export function LessonPlayer({
   mode,
   lessonSlug,
   items,
+  allItems,
   nextLessonSlug,
 }: {
   lang: Locale;
@@ -35,6 +34,8 @@ export function LessonPlayer({
   mode: "lesson" | "review";
   lessonSlug?: string;
   items?: Item[];
+  /** Items the learner may see: wrong answer options come from here, review looks words up here. */
+  allItems: Item[];
   nextLessonSlug?: string;
 }) {
   const [attempt, setAttempt] = useState(0);
@@ -42,8 +43,9 @@ export function LessonPlayer({
 
   useEffect(() => {
     if (mode !== "review") return;
-    weakItemIds().then((ids) => setReviewItems(ids.map((id) => itemById[id]).filter(Boolean)));
-  }, [mode]);
+    const byId = new Map(allItems.map((item) => [item.id, item]));
+    weakItemIds().then((ids) => setReviewItems(ids.map((id) => byId.get(id)).filter((item): item is Item => !!item)));
+  }, [mode, allItems]);
 
   if (!reviewItems) return <PlayerSkeleton label={t.loading} />;
   if (mode === "review" && reviewItems.length === 0) {
@@ -66,6 +68,7 @@ export function LessonPlayer({
       mode={mode}
       slug={lessonSlug ?? "review"}
       items={reviewItems}
+      allItems={allItems}
       seed={seedFrom(`${lessonSlug ?? "review"}:${attempt}`)}
       nextLessonSlug={nextLessonSlug}
       onRestart={() => setAttempt((a) => a + 1)}
@@ -79,6 +82,7 @@ function Session({
   mode,
   slug,
   items,
+  allItems,
   seed,
   nextLessonSlug,
   onRestart,
@@ -88,6 +92,7 @@ function Session({
   mode: "lesson" | "review";
   slug: string;
   items: Item[];
+  allItems: Item[];
   seed: number;
   nextLessonSlug?: string;
   onRestart: () => void;
@@ -95,7 +100,7 @@ function Session({
   const p = t.player;
   const initial = useMemo(
     () => (mode === "lesson" ? buildLesson(items, seed, allItems) : buildReview(items, seed, allItems)),
-    [mode, items, seed],
+    [mode, items, seed, allItems],
   );
   const graded = initial.filter((e) => e.kind !== "learn").length;
   // Identifies this run, so a retry of a missed word in the same run doesn't clear it from review.

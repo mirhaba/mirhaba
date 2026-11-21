@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Volume2 } from "lucide-react";
 import type { Messages } from "@/i18n/dictionaries";
-import type { Item } from "@/content/lessons";
+import type { Item } from "@/lib/content/model";
 import { albanianReading } from "@/lib/text";
 import { canSpeakAlbanian, speakAlbanian } from "@/components/quick-talk/speak";
 

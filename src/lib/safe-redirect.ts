@@ -13,6 +13,7 @@ export function safeNextPath(next: string | null | undefined, lang: Locale = def
 
 /** Replace the locale segment of an internal path. */
 export function withLocale(path: string, lang: Locale): string {
+  if (/^\/admin(\/|\?|$)/.test(path)) return path; // the admin dashboard has no locale
   const rest = path.replace(/^\/(tr|sq)(?=\/|$)/, "");
   return `/${lang}${rest}`;
 }

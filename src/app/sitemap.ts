@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { slang } from "@/content/slang";
+import { getDictionaryEntries } from "@/lib/content/queries";
 import { dictionaryPath, legalPages, siteUrl } from "@/lib/site";
 
 type Entry = MetadataRoute.Sitemap[number];
@@ -14,7 +14,8 @@ function pair(tr: string, sq: string, extra: Partial<Entry>): MetadataRoute.Site
 }
 
 // Public, indexable pages only (no /app, /login, /offline).
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const slang = await getDictionaryEntries();
   return [
     ...pair("/tr", "/sq", { changeFrequency: "weekly", priority: 1 }),
     ...pair("/tr/about", "/sq/about", { changeFrequency: "monthly", priority: 0.9 }),

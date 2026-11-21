@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { Check, ChevronRight, Flame, Lock, Map, MessageCircle, Plane, RotateCcw, type LucideIcon } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
-import { tracks, type Track } from "@/content/lessons";
+import type { Track } from "@/lib/content/model";
 import { fill } from "@/lib/format";
 import { usePremium } from "@/lib/billing/use-premium";
 import { getLessonProgress, getStreak, syncWithAccount, weakItemIds, type Streak } from "@/lib/learn/progress";
@@ -16,7 +16,7 @@ const TRACK_ICONS: Record<Track["icon"], LucideIcon> = { plane: Plane, map: Map,
 
 type State = { progress: Record<string, LessonProgressRow>; streak: Streak; weak: number } | null;
 
-export function LearnHome({ lang, t }: { lang: Locale; t: T }) {
+export function LearnHome({ lang, t, tracks }: { lang: Locale; t: T; tracks: Track[] }) {
   const [state, setState] = useState<State>(null); // null = still reading the device
   const premium = usePremium() === true; // UI only: the lesson page checks access on the server
 

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ChevronRight, Search, SearchX, Star, X } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
-import { categories, phraseById, fillSlot, type Phrase } from "@/content/quick-talk";
+import { fillSlot, indexPhrases, type Phrase, type QuickTalkContent } from "@/lib/content/model";
 import { listFavorites, toggleFavorite } from "@/lib/offline-db";
 import { normalizeForSearch } from "@/lib/text";
 import { CategoryIcon } from "@/components/icons";
@@ -30,17 +30,33 @@ function syncWhenIdle(onChanged: () => void, delayMs = 0) {
   setTimeout(idle, delayMs);
 }
 
-const searchIndex = categories.flatMap((c) =>
-  c.phrases.map((p) => ({
-    phrase: p,
-    haystack: normalizeForSearch(
-      `${p.tr} ${p.sq} ${(p.slot ?? []).map((o) => `${o.tr} ${o.sq}`).join(" ")} ${c.name.tr} ${c.name.sq}`,
-    ),
-  })),
-);
-
-export function QuickTalk({ lang, t, closeLabel }: { lang: Locale; t: T; closeLabel: string }) {
-  const [categorySlug, setCategorySlug] = useState(categories[0].slug);
+export function QuickTalk({
+  lang,
+  t,
+  closeLabel,
+  content,
+}: {
+  lang: Locale;
+  t: T;
+  closeLabel: string;
+  /** Categories, phrases and reply buttons from the database (cached; edited in the admin). */
+  content: QuickTalkContent;
+}) {
+  const { categories, replies } = content;
+  const phraseById = useMemo(() => indexPhrases(categories), [categories]);
+  const searchIndex = useMemo(
+    () =>
+      categories.flatMap((c) =>
+        c.phrases.map((p) => ({
+          phrase: p,
+          haystack: normalizeForSearch(
+            `${p.tr} ${p.sq} ${(p.slot ?? []).map((o) => `${o.tr} ${o.sq}`).join(" ")} ${c.name.tr} ${c.name.sq}`,
+          ),
+        })),
+      ),
+    [categories],
+  );
+  const [categorySlug, setCategorySlug] = useState(categories[0]?.slug ?? "");
   const [query, setQuery] = useState("");
   const [favorites, setFavorites] = useState<string[] | null>(null); // null = still loading
   const [open, setOpen] = useState<Phrase | null>(null);
@@ -75,11 +91,11 @@ export function QuickTalk({ lang, t, closeLabel }: { lang: Locale; t: T; closeLa
     [t.favoritesFull, t.saveError, refreshFavorites],
   );
 
-  const category = categories.find((c) => c.slug === categorySlug) ?? categories[0];
+  const category = categories.find((c) => c.slug === categorySlug) ?? categories[0] ?? { slug: "", name: { tr: "", sq: "" }, icon: "", basic: false, phrases: [] };
   const q = normalizeForSearch(query);
   const results = useMemo(
     () => (q ? searchIndex.filter((e) => e.haystack.includes(q)).map((e) => e.phrase) : null),
-    [q],
+    [q, searchIndex],
   );
   const favoritePhrases = (favorites ?? []).map((id) => phraseById[id]?.phrase).filter(Boolean) as Phrase[];
 
@@ -221,7 +237,7 @@ export function QuickTalk({ lang, t, closeLabel }: { lang: Locale; t: T; closeLa
 
       <Toast message={toast} onDone={() => setToast("")} />
 
-      {open && <PhraseSheet phrase={open} lang={lang} t={t} closeLabel={closeLabel} onClose={() => setOpen(null)} />}
+      {open && <PhraseSheet phrase={open} replies={replies} lang={lang} t={t} closeLabel={closeLabel} onClose={() => setOpen(null)} />}
     </div>
   );
 }

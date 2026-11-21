@@ -1,7 +1,7 @@
 // Builds a short lesson (4–5 minutes) from a lesson's items, and checks answers.
 // Deterministic for a given seed, so server and client render the same first exercise.
 
-import type { Item } from "@/content/lessons";
+import type { Item } from "@/lib/content/model";
 import { normalizeForSearch } from "@/lib/text";
 
 export type Exercise =

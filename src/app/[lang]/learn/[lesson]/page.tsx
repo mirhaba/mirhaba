@@ -5,18 +5,24 @@ import { Suspense } from "react";
 import { Crown } from "lucide-react";
 import { hasLocale, type Locale } from "@/i18n/config";
 import { getDictionary, type Messages } from "@/i18n/dictionaries";
-import { lessonBySlug, lessonList, type LessonRef } from "@/content/lessons";
+import { indexLessons, type Item, type LessonRef } from "@/lib/content/model";
+import { getTracks } from "@/lib/content/queries";
 import { getEntitlement } from "@/lib/billing/entitlement";
 import { StateView } from "@/components/state-view";
 import { LessonPlayer } from "../player/lesson-player";
 
-export function generateStaticParams() {
-  return lessonList.map(({ lesson }) => ({ lesson: lesson.slug }));
+export async function generateStaticParams() {
+  return indexLessons(await getTracks()).lessonList.map(({ lesson }) => ({ lesson: lesson.slug }));
+}
+
+/** Lessons from the database, with lookups. */
+async function lessons() {
+  return indexLessons(await getTracks());
 }
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/learn/[lesson]">): Promise<Metadata> {
   const { lang, lesson } = await params;
-  const ref = lessonBySlug[lesson];
+  const ref = (await lessons()).lessonBySlug[lesson];
   if (!hasLocale(lang) || !ref) return {};
   const t = (await getDictionary(lang)).learn;
   // Interactive lesson screens are not search landing pages; /learn is.
@@ -37,22 +43,27 @@ export default function LessonPage({ params }: PageProps<"/[lang]/learn/[lesson]
 
 async function Lesson({ params }: { params: PageProps<"/[lang]/learn/[lesson]">["params"] }) {
   const { lang, lesson } = await params;
+  const { lessonList, lessonBySlug } = await lessons();
   const ref = lessonBySlug[lesson];
   if (!hasLocale(lang) || !ref) notFound();
   const t = await getDictionary(lang);
+  const next = lessonList[ref.index + 1]?.lesson.slug;
+  // Wrong-answer options: words from free units plus this lesson (Premium words never reach free lessons).
+  const allItems = [...new Map(lessonList.filter((r) => r.unit.isFree || r === ref).flatMap((r) => r.lesson.items).map((i) => [i.id, i])).values()];
 
-  if (ref.unit.isFree) return <Player lang={lang} t={t.learn} lessonRef={ref} />;
+  if (ref.unit.isFree) return <Player lang={lang} t={t.learn} lessonRef={ref} allItems={allItems} next={next} />;
   // Premium lessons check the account on every request; only this part waits.
   return (
     <Suspense fallback={<LessonSkeleton />}>
-      <PremiumLesson lang={lang} t={t} lessonRef={ref} />
+      <PremiumLesson lang={lang} t={t} lessonRef={ref} allItems={allItems} next={next} />
     </Suspense>
   );
 }
 
-function Player({ lang, t, lessonRef }: { lang: Locale; t: Messages["learn"]; lessonRef: LessonRef }) {
-  // The next lesson in order. If it's Premium and the learner isn't, that page explains how to unlock it.
-  const next = lessonList[lessonRef.index + 1];
+type PlayerProps = { lang: Locale; lessonRef: LessonRef; allItems: Item[]; next?: string };
+
+// `next`: the following lesson. If it's Premium and the learner isn't, that page explains how to unlock it.
+function Player({ lang, t, lessonRef, allItems, next }: PlayerProps & { t: Messages["learn"] }) {
   return (
     <LessonPlayer
       lang={lang}
@@ -60,14 +71,16 @@ function Player({ lang, t, lessonRef }: { lang: Locale; t: Messages["learn"]; le
       mode="lesson"
       lessonSlug={lessonRef.lesson.slug}
       items={lessonRef.lesson.items}
-      nextLessonSlug={next?.lesson.slug}
+      allItems={allItems}
+      nextLessonSlug={next}
     />
   );
 }
 
-async function PremiumLesson({ lang, t, lessonRef }: { lang: Locale; t: Messages; lessonRef: LessonRef }) {
+async function PremiumLesson({ t, ...props }: PlayerProps & { t: Messages }) {
+  const { lang, lessonRef } = props;
   const { signedIn, premium } = await getEntitlement();
-  if (premium) return <Player lang={lang} t={t.learn} lessonRef={lessonRef} />;
+  if (premium) return <Player {...props} t={t.learn} />;
 
   const back = `/${lang}/learn/${lessonRef.lesson.slug}`;
   return (

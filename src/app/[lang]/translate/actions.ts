@@ -74,7 +74,17 @@ export async function translateText(raw: z.input<typeof inputSchema>): Promise<T
   const remaining = paid ? null : (left as number);
   const refund = () => admin.rpc("refund_text_translation", { uid: userId });
 
-  // 3) Cache: same text, same direction/style/reader language → same answer, no AI call.
+  // 3) Fixed translation from the admin dashboard: exact text (case/accents/spacing ignored) → their answer.
+  const { data: fixed } = await admin.rpc("find_fixed_translation", { p_direction: direction, p_variant: variant, p_text: text });
+  const fixedRow = (fixed as { translation: string; notes: { term: string; meaning_tr?: string; meaning_sq?: string }[] }[] | null)?.[0];
+  if (fixedRow) {
+    const notes = fixedRow.notes
+      .map((n) => ({ term: n.term, meaning: (lang === "sq" ? n.meaning_sq : n.meaning_tr) ?? "" }))
+      .filter((n) => n.term && n.meaning);
+    return { ok: true, translation: fixedRow.translation, notes, remaining };
+  }
+
+  // 4) Cache: same text, same direction/style/reader language → same answer, no AI call.
   //    Only a hash of the input is stored, never the input itself.
   const hash = createHash("sha256").update([PROMPT_VERSION, direction, variant, lang, text].join("|")).digest("hex");
   const { data: cached } = await admin.from("translation_cache").select("output, hits").eq("hash", hash).maybeSingle();
@@ -88,16 +98,16 @@ export async function translateText(raw: z.input<typeof inputSchema>): Promise<T
     }
   }
 
-  // 4) Global spending cap: an attack (or a bug) can never produce a huge bill.
+  // 5) Global spending cap: an attack (or a bug) can never produce a huge bill.
   const { data: budgetOk } = await admin.rpc("ai_budget_available", { cap_eur: DAILY_CAP_EUR });
   if (!budgetOk) {
     await refund();
     return { ok: false, error: "busy", remaining };
   }
 
-  // 5) Translate by meaning, with the slang glossary for any slang in the text.
+  // 6) Translate by meaning, with the slang glossary for any slang in the text.
   try {
-    const result = await translateWithAi({ text, direction, variant, uiLang: lang, glossary: findGlossaryMatches(text) });
+    const result = await translateWithAi({ text, direction, variant, uiLang: lang, glossary: await findGlossaryMatches(text) });
 
     await Promise.all([
       admin.rpc("record_ai_spend", {

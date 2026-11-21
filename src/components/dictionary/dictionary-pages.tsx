@@ -7,8 +7,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, BadgeCheck, CircleAlert, ExternalLink } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import { getDictionary, type Messages } from "@/i18n/dictionaries";
-import { slang, slangBySlug, type SlangEntry } from "@/content/slang";
-import { sources } from "@/content/sources";
+import { getDictionaryEntries, getSources } from "@/lib/content/queries";
+import type { SlangEntry } from "@/lib/content/model";
 import { dictionaryPath, siteUrl } from "@/lib/site";
 import { DictionaryList } from "./dictionary-list";
 
@@ -59,7 +59,7 @@ export async function DictionaryIndexPage({ lang }: { lang: Locale }) {
         <p className="mt-1 text-[15px] text-muted">{t.subtitle}</p>
       </div>
       <UnverifiedNote text={t.unverifiedBanner} />
-      <DictionaryList lang={lang} t={t} entries={slang} />
+      <DictionaryList lang={lang} t={t} entries={await getDictionaryEntries()} />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={jsonLd({
@@ -78,7 +78,7 @@ export async function DictionaryIndexPage({ lang }: { lang: Locale }) {
 // ---------------------------------------------------------------- Word page
 
 export async function wordMetadata(lang: Locale, slug: string): Promise<Metadata> {
-  const entry = slangBySlug[slug];
+  const entry = (await getDictionaryEntries()).find((e) => e.slug === slug);
   if (!entry) return {};
   const t = (await getDictionary(lang)).dictionary;
   return {
@@ -89,9 +89,9 @@ export async function wordMetadata(lang: Locale, slug: string): Promise<Metadata
 }
 
 export async function WordPage({ lang, slug }: { lang: Locale; slug: string }) {
-  const entry = slangBySlug[slug];
+  const [slang, sources, messages] = await Promise.all([getDictionaryEntries(), getSources(), getDictionary(lang)]);
+  const entry = slang.find((e) => e.slug === slug);
   if (!entry) notFound();
-  const messages = await getDictionary(lang);
   const t = messages.dictionary;
 
   const related = slang.filter((s) => s.kind === entry.kind && s.slug !== entry.slug);
@@ -174,7 +174,7 @@ export async function WordPage({ lang, slug }: { lang: Locale; slug: string }) {
         <h2 className="mt-2 text-[13px] font-medium text-muted">{t.sources}</h2>
         <ul className="space-y-1 text-[13px] text-muted">
           {entry.sources.map((id) => {
-            const source = sources[id];
+            const source = sources[id] ?? { label: id };
             const label = id === "team" ? t.sourceTeam : source.label;
             return (
               <li key={id}>
@@ -271,7 +271,7 @@ function UnverifiedNote({ text }: { text: string }) {
   );
 }
 
-export const allSlugs = () => slang.map((s) => ({ slug: s.slug }));
+export const allSlugs = async () => (await getDictionaryEntries()).map((s) => ({ slug: s.slug }));
 
 /** Placeholder shaped like a word page, shown while the route reads its params. */
 export function WordPageSkeleton() {

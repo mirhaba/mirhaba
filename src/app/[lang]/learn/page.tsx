@@ -4,6 +4,7 @@ import { CircleAlert } from "lucide-react";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { LearnHome } from "./learn-home";
+import { getTracks } from "@/lib/content/queries";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/learn">): Promise<Metadata> {
   const { lang } = await params;
@@ -27,7 +28,12 @@ export default async function LearnPage({ params }: PageProps<"/[lang]/learn">) 
         <h1 className="text-[34px] leading-tight font-bold">{t.title}</h1>
         <p className="mt-1 text-[15px] text-muted">{t.subtitle}</p>
       </div>
-      <LearnHome lang={lang} t={t} />
+      {/* The list needs titles only; lesson words stay on the lesson pages. */}
+      <LearnHome
+        lang={lang}
+        t={t}
+        tracks={(await getTracks()).map((tr) => ({ ...tr, units: tr.units.map((u) => ({ ...u, lessons: u.lessons.map((l) => ({ ...l, items: [] })) })) }))}
+      />
       <div className="space-y-2 text-[13px] text-muted">
         <p className="flex items-start gap-2">
           <CircleAlert aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" />

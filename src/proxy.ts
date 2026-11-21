@@ -21,14 +21,17 @@ export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const segment = pathname.split("/")[1];
 
+  // The admin dashboard lives outside the locales (/admin) and always needs a fresh session.
+  const isAdmin = segment === "admin";
+
   // 1) Locale prefix: "/" → "/tr", "/foo" → "/tr/foo".
-  if (!hasLocale(segment)) {
+  if (!hasLocale(segment) && !isAdmin) {
     const url = request.nextUrl.clone();
     url.pathname = `/${pickLocale(request)}${pathname === "/" ? "" : pathname}`;
     return NextResponse.redirect(url);
   }
 
-  if (!AUTH_ROUTE.test(pathname)) return NextResponse.next();
+  if (!AUTH_ROUTE.test(pathname) && !isAdmin) return NextResponse.next();
 
   // 2) Refresh the Supabase session (rotates tokens into httpOnly cookies) and guard routes.
   let response = NextResponse.next({ request });
@@ -57,6 +60,11 @@ export async function proxy(request: NextRequest) {
     for (const cookie of response.cookies.getAll()) redirect.cookies.set(cookie);
     return redirect;
   };
+
+  if (isAdmin && !user) {
+    // Whether this account is an admin (ADMIN_EMAILS) is checked by the admin layout and every action.
+    return redirectKeepingCookies(`/${pickLocale(request)}/login?next=${encodeURIComponent(pathname + search)}`);
+  }
 
   const isApp = /^\/(tr|sq)\/app(\/|$)/.test(pathname);
   if (isApp && !user) {

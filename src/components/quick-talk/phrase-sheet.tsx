@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Square, Volume2, VolumeX } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
-import { replies, fillSlot, type Phrase, type Reply } from "@/content/quick-talk";
+import { fillSlot, type Phrase, type QuickTalkContent, type Reply } from "@/lib/content/model";
 import { albanianReading } from "@/lib/text";
 import { canSpeakAlbanian, speakAlbanian, speakTurkish, stopSpeaking } from "./speak";
 
@@ -16,12 +16,15 @@ type T = Messages["quickTalk"];
  */
 export function PhraseSheet({
   phrase,
+  replies,
   lang,
   t,
   closeLabel,
   onClose,
 }: {
   phrase: Phrase;
+  /** All reply buttons by id (from the database). */
+  replies: QuickTalkContent["replies"];
   lang: Locale;
   t: T;
   closeLabel: string;

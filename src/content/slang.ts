@@ -13,7 +13,6 @@
 // (src/lib/glossary.ts) and the database seed (scripts/generate-seed.ts).
 
 import type { Bilingual } from "./quick-talk";
-import type { SourceId } from "./sources";
 
 export type Register = "neutral" | "casual" | "vulgar";
 export type Origin = "albanian" | "turkish" | "serbian" | "german" | "english" | "latin";
@@ -36,7 +35,8 @@ export type SlangEntry = {
   /** One line: what it means / how it's used. */
   meaning: Bilingual;
   example?: { sq: string; tr: string };
-  sources: SourceId[];
+  /** Ids from `content_sources` (starter list: src/content/sources.ts). */
+  sources: string[];
   /** Checked by a native Prishtina speaker. */
   verified: boolean;
 };
