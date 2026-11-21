@@ -132,6 +132,8 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
             {pending ? t.verifying : t.verify}
           </Button>
         </form>
+        {/* A fresh bot-check token for "Resend" (the one from the email step was used up). */}
+        <Turnstile ref={turnstile} lang={lang} onToken={setCaptchaToken} />
         <div className="flex flex-col items-center gap-1">
           {cooldown > 0 ? (
             <p className="flex h-11 items-center text-[15px] text-muted" aria-live="polite">
