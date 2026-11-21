@@ -1,5 +1,6 @@
 import "server-only";
 import { cookies } from "next/headers";
+import { connection } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { sessionCookieWrites } from "./cookies";
 import { assertSupabaseEnv, supabasePublishableKey, supabaseUrl } from "./env";
@@ -11,6 +12,9 @@ import { assertSupabaseEnv, supabasePublishableKey, supabaseUrl } from "./env";
  */
 export async function createClient() {
   assertSupabaseEnv();
+  // Request time only: supabase-js compares token expiry with Date.now(), which Next.js
+  // refuses during prerendering. Every caller is per-request anyway.
+  await connection();
   const cookieStore = await cookies();
 
   return createServerClient(supabaseUrl, supabasePublishableKey, {

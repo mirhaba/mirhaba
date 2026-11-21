@@ -370,6 +370,10 @@
         "body": "qysh, çka, kerr… fjalët që përdoren vërtet në Kosovë dhe ato që vijnë nga turqishtja."
       },
       {
+        "title": "Mëso shqip",
+        "body": "Mësime 5-minutëshe për situata të vërteta, të shpjeguara në turqisht. Punon edhe pa internet."
+      },
+      {
         "title": "Privatësia",
         "body": "Ajo që shkruan nuk ruhet. Për Bisedën e shpejtë nuk të duhet as llogari."
       }
@@ -391,8 +395,7 @@
     "honesty": "Përkthimet janë ndihmë dhe jo gjithmonë të përsosura. Fjalitë dhe fjalët po kontrollohen nga folës vendas të Prishtinës. Për gjëra të rëndësishme si shëndeti dhe ligji, pyet një përkthyes.",
     "comingTitle": "Së shpejti",
     "coming": [
-      "Bisedë e drejtpërdrejtë: përkthim me zë, në të dy drejtimet",
-      "Mësime shqipe: 5 minuta në ditë"
+      "Bisedë e drejtpërdrejtë: përkthim me zë, në të dy drejtimet"
     ]
   },
   "pricing": {
@@ -435,7 +438,7 @@
       },
       {
         "label": "Mësime shqipe",
-        "free": "Njësitë e para (së shpejti)",
+        "free": "Njësitë e para",
         "premium": "Të gjitha kurset (së shpejti)"
       },
       {
@@ -454,7 +457,8 @@
     ],
     "refundLink": "Lexo politikën e rimbursimit",
     "youArePremium": "Premium yt është aktiv",
-    "seeAccount": "Shih në llogari"
+    "seeAccount": "Shih në llogari",
+    "yes": "Po"
   },
   "faq": {
     "title": "Pyetje të shpeshta",

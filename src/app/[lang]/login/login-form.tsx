@@ -33,6 +33,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
   const [googlePending, setGooglePending] = useState(false);
   const turnstile = useRef<TurnstileHandle>(null);
   const codeInput = useRef<HTMLInputElement>(null);
+  const emailInput = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -51,6 +52,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
       turnstile.current?.reset(); // tokens are single-use
       if (!result.ok) {
         setError(result.error);
+        if (!isResend) emailInput.current?.focus(); // back to the field so the fix is one tap away
         return;
       }
       setCooldown(RESEND_SECONDS);
@@ -63,7 +65,10 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
     setError(null);
     startTransition(async () => {
       const result = await verifyCode({ lang, email, code: value, next });
-      if (result && !result.ok) setError(result.error); // on success the server redirects
+      if (result && !result.ok) {
+        setError(result.error); // on success the server redirects
+        codeInput.current?.select(); // retyping replaces the wrong code
+      }
     });
   };
 
@@ -175,6 +180,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
         className="flex flex-col gap-4"
       >
         <Field
+          ref={emailInput}
           id="email"
           type="email"
           label={t.emailLabel}

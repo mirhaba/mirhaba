@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound, redirect } from "next/navigation";
-import { connection } from "next/server";
 import { Suspense } from "react";
 import { hasLocale, intlLocale, type Locale } from "@/i18n/config";
 import { getDictionary, type Messages } from "@/i18n/dictionaries";
@@ -33,7 +32,6 @@ export default async function AccountPage({ params }: PageProps<"/[lang]/app">) 
 }
 
 async function Account({ lang, t }: { lang: Locale; t: Messages }) {
-  await connection(); // the session check compares token expiry with the current time
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) redirect(`/${lang}/login?next=/${lang}/app`); // the proxy already guards; this is defence in depth

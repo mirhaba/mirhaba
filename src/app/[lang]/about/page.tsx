@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BookOpen, Check, Hourglass, Languages, MessageCircle, ShieldCheck, type LucideIcon } from "lucide-react";
+import { BookOpen, Check, GraduationCap, Hourglass, Languages, MessageCircle, ShieldCheck, type LucideIcon } from "lucide-react";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { LogoMark } from "@/components/brand/Logo";
@@ -10,7 +10,7 @@ import { jsonLd } from "@/lib/format";
 import { PLANS } from "@/lib/plans";
 import { siteUrl } from "@/lib/site";
 
-const FEATURE_ICONS: LucideIcon[] = [MessageCircle, Languages, BookOpen, ShieldCheck];
+const FEATURE_ICONS: LucideIcon[] = [MessageCircle, Languages, BookOpen, GraduationCap, ShieldCheck];
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/about">): Promise<Metadata> {
   const { lang } = await params;

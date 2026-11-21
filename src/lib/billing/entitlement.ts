@@ -1,6 +1,5 @@
 import "server-only";
 import { cache } from "react";
-import { connection } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 export type Entitlement = {
@@ -20,8 +19,6 @@ const NONE: Entitlement = { signedIn: false, premium: false, activeUntil: null }
  * everything that unlocks Premium reads it through here.
  */
 export const getEntitlement = cache(async (): Promise<Entitlement> => {
-  // Request time only: the session check and "is the period over?" both compare against now.
-  await connection();
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return NONE;

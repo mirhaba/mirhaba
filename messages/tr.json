@@ -370,6 +370,10 @@
         "body": "qysh, çka, kerr… Kosova'da gerçekten kullanılan kelimeler ve Türkçeden geçenler."
       },
       {
+        "title": "Arnavutça öğren",
+        "body": "Gerçek durumlar için 5 dakikalık dersler, Türkçe anlatımla. İnternetsiz de çalışır."
+      },
+      {
         "title": "Gizlilik",
         "body": "Yazdıkların saklanmaz. Hızlı Konuş için hesap bile gerekmez."
       }
@@ -391,8 +395,7 @@
     "honesty": "Çeviriler yardım amaçlıdır ve her zaman kusursuz değildir. Cümleler ve kelimeler anadili Priştine Arnavutçası olan kişilerce kontrol ediliyor. Sağlık ve hukuk gibi önemli konularda bir tercümana danış.",
     "comingTitle": "Yakında",
     "coming": [
-      "Canlı konuşma: sesli, iki yönlü çeviri",
-      "Arnavutça dersleri: günde 5 dakika"
+      "Canlı konuşma: sesli, iki yönlü çeviri"
     ]
   },
   "pricing": {
@@ -435,7 +438,7 @@
       },
       {
         "label": "Arnavutça dersleri",
-        "free": "İlk üniteler (yakında)",
+        "free": "İlk üniteler",
         "premium": "Tüm parkurlar (yakında)"
       },
       {
@@ -454,7 +457,8 @@
     ],
     "refundLink": "İade politikasını oku",
     "youArePremium": "Premium'un aktif",
-    "seeAccount": "Hesabında gör"
+    "seeAccount": "Hesabında gör",
+    "yes": "Var"
   },
   "faq": {
     "title": "Sık sorulan sorular",

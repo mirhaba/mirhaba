@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LOCALE_COOKIE, type Locale } from "@/i18n/config";
+import { DICTIONARY_SEGMENT } from "@/lib/site";
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
@@ -10,7 +11,11 @@ const ONE_YEAR = 60 * 60 * 24 * 365;
 export function LanguageSwitcher({ lang, label, switchLabel }: { lang: Locale; label: string; switchLabel: string }) {
   const pathname = usePathname() ?? `/${lang}`;
   const other: Locale = lang === "tr" ? "sq" : "tr";
-  const href = `/${other}${pathname.replace(/^\/(tr|sq)(?=\/|$)/, "")}`;
+  // The dictionary has a localized path (/tr/argo ↔ /sq/zhargon): link there directly instead of via a redirect.
+  const rest = pathname
+    .replace(/^\/(tr|sq)(?=\/|$)/, "")
+    .replace(new RegExp(`^/${DICTIONARY_SEGMENT[lang]}(?=/|$)`), `/${DICTIONARY_SEGMENT[other]}`);
+  const href = `/${other}${rest}`;
 
   return (
     <div role="group" aria-label={label} className="flex rounded-full bg-surface-2 p-0.5 text-[13px] font-semibold">

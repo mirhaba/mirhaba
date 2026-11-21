@@ -36,6 +36,7 @@ export function Translator({
   const [online, setOnline] = useState(true);
   const [pending, startTransition] = useTransition();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const update = () => setOnline(navigator.onLine);
@@ -48,6 +49,20 @@ export function Translator({
       window.removeEventListener("offline", update);
     };
   }, []);
+
+  // On a phone the answer lands below the fold: bring it into view so it doesn't look like nothing happened.
+  useEffect(() => {
+    if (!result) return;
+    // Wait a frame so the card has its full height, then scroll only if part of it is hidden
+    // (the bottom tab bar covers the last ~80px on phones).
+    const frame = requestAnimationFrame(() => {
+      const el = resultRef.current;
+      if (!el || el.getBoundingClientRect().bottom <= window.innerHeight - 80) return;
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [result]);
 
   const submit = () => {
     if (pending || !signedIn) return;
@@ -95,11 +110,12 @@ export function Translator({
             role="radio"
             aria-checked={direction === d}
             onClick={() => direction !== d && swap()}
-            className={`pressable flex h-10 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg px-2 text-[15px] font-semibold ${
+            className={`pressable flex h-10 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg px-2 text-[14px] font-semibold sm:text-[15px] ${
               direction === d ? "bg-surface text-foreground shadow-card" : "text-muted"
             }`}
           >
-            {direction === d && <ArrowLeftRight aria-hidden="true" className="h-4 w-4 shrink-0 text-accent-text" />}
+            {/* The label already says the direction; on phones the icon would push it into "Arnav…". */}
+            {direction === d && <ArrowLeftRight aria-hidden="true" className="hidden h-4 w-4 shrink-0 text-accent-text sm:block" />}
             <span className="truncate">{d === "tr-sq" ? t.trToSq : t.sqToTr}</span>
           </button>
         ))}
@@ -222,7 +238,7 @@ export function Translator({
         )}
       </form>
 
-      <div aria-live="polite">
+      <div ref={resultRef} aria-live="polite" className="scroll-mt-20">
         {pending ? <ResultSkeleton /> : result && <ResultCard key={result.translation} result={result} t={t} />}
       </div>
     </div>

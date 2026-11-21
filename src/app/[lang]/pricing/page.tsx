@@ -9,7 +9,7 @@ import { FREE_TEXT_TRANSLATIONS_PER_DAY, PLANS, YEARLY_SAVING_PERCENT } from "@/
 import { PremiumCard } from "./premium-card";
 
 /** Indexes into `pricing.rows` of features that already exist (others are marked "coming soon"). */
-const AVAILABLE_NOW = [0, 1, 2, 5];
+const AVAILABLE_NOW = [0, 1, 2, 4, 5];
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/pricing">): Promise<Metadata> {
   const { lang } = await params;
@@ -48,9 +48,8 @@ export default async function PricingPage({ params }: PageProps<"/[lang]/pricing
               .map((r) => (
                 <li key={r.label} className="flex gap-2 text-[15px]">
                   <Check aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-accent-text" />
-                  <span>
-                    {r.label}: {fill(r.free, values)}
-                  </span>
+                  {/* "Dictionary: Yes" reads oddly next to a check mark: just the feature then. */}
+                  <span>{r.free === t.yes ? r.label : `${r.label}: ${fill(r.free, values)}`}</span>
                 </li>
               ))}
           </ul>

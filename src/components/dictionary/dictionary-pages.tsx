@@ -272,3 +272,15 @@ function UnverifiedNote({ text }: { text: string }) {
 }
 
 export const allSlugs = () => slang.map((s) => ({ slug: s.slug }));
+
+/** Placeholder shaped like a word page, shown while the route reads its params. */
+export function WordPageSkeleton() {
+  return (
+    <div aria-hidden="true" className="space-y-4 py-2">
+      <div className="skeleton h-4 w-28 rounded" />
+      <div className="skeleton h-12 w-1/2 rounded-lg" />
+      <div className="skeleton h-5 w-3/4 rounded" />
+      <div className="skeleton h-40 rounded-2xl" />
+    </div>
+  );
+}

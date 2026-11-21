@@ -234,7 +234,9 @@ function Session({
     (exercise.kind === "order" && chosenTiles.length > 0);
 
   return (
-    <div className="flex flex-col gap-6">
+    // At least one screen tall (minus header, tab bar and padding), so the action button sits at the
+    // bottom like a native app and the site footer stays below the fold during a lesson.
+    <div className="flex min-h-[calc(100svh-11rem)] flex-col gap-6">
       {/* Top: exit + progress */}
       <div className="flex items-center gap-3">
         <Link
@@ -257,7 +259,7 @@ function Session({
       </div>
 
       {/* Exercise */}
-      <div key={index} className="fade-in flex min-h-[340px] flex-col gap-5">
+      <div key={index} className="fade-in flex min-h-[340px] flex-1 flex-col gap-5">
         {exercise.kind === "learn" && <LearnCard item={exercise.item} lang={lang} t={p} />}
 
         {exercise.kind === "choose" && (
