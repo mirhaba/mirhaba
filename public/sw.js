@@ -2,13 +2,18 @@
  * Hand-written on purpose (small, no build-tool coupling). Bump VERSION to drop old caches.
  *
  * - Pages: network first (3 s timeout), then cache, then the offline page.
+ * - Private pages (account, login, translate, admin): network only, never cached, so a
+ *   signed-out copy is never shown to a signed-in user (or the reverse) and no personal
+ *   data stays on the device. Offline they get the offline page.
  * - /_next/static (hashed, immutable): cache first.
  * - Other same-origin GETs (icons, fonts, audio): stale-while-revalidate.
  * - /api and cross-origin requests are never cached.
  */
-const VERSION = "v5";
+const VERSION = "v6"; // v6: stop caching private pages (drops any cached by v5)
 const PAGES = `mirhaba-pages-${VERSION}`;
 const ASSETS = `mirhaba-assets-${VERSION}`;
+// Pages with personal or session-dependent content: never cached.
+const PRIVATE = /^\/((tr|sq)\/(app|login|translate)|admin)(\/|$)/;
 const PRECACHE = ["/tr", "/sq", "/tr/offline", "/sq/offline", "/manifest.webmanifest", "/icons/icon-192.png", "/icons/icon-512.png", "/icon.svg"];
 
 self.addEventListener("install", (event) => {
@@ -35,7 +40,7 @@ self.addEventListener("message", (event) => {
   const urls = event.data.urls.filter((u) => {
     try {
       const url = new URL(u);
-      return url.origin === self.location.origin && !url.pathname.startsWith("/api");
+      return url.origin === self.location.origin && !url.pathname.startsWith("/api") && !PRIVATE.test(url.pathname);
     } catch {
       return false;
     }
@@ -47,17 +52,34 @@ function timeout(ms) {
   return new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), ms));
 }
 
+/** Only plain public pages go in the cache: not redirects, not anything the server marked private. */
+function cacheable(response) {
+  if (!response.ok || response.redirected) return false;
+  const cacheControl = response.headers.get("Cache-Control") || "";
+  return !/no-store|private/i.test(cacheControl);
+}
+
+async function offlinePage(request) {
+  const lang = new URL(request.url).pathname.startsWith("/sq") ? "sq" : "tr";
+  return (await caches.match(`/${lang}/offline`)) ?? Response.error();
+}
+
 async function handleNavigation(request) {
+  if (PRIVATE.test(new URL(request.url).pathname)) {
+    try {
+      return await fetch(request);
+    } catch {
+      return offlinePage(request);
+    }
+  }
   const cache = await caches.open(PAGES);
   try {
     const response = await Promise.race([fetch(request), timeout(3000)]);
-    if (response.ok) cache.put(request, response.clone());
+    if (cacheable(response)) cache.put(request, response.clone());
     return response;
   } catch {
     const cached = await cache.match(request, { ignoreSearch: true });
-    if (cached) return cached;
-    const lang = new URL(request.url).pathname.startsWith("/sq") ? "sq" : "tr";
-    return (await cache.match(`/${lang}/offline`)) ?? Response.error();
+    return cached ?? offlinePage(request);
   }
 }
 
