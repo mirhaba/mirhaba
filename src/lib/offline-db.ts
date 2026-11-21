@@ -82,12 +82,19 @@ export async function listFavorites(): Promise<string[]> {
   }
 }
 
-/** Pin or unpin. Returns the new list, or null when the list is already full. */
-export async function toggleFavorite(phraseId: string): Promise<string[] | null> {
+/**
+ * Pin or unpin. Returns the new list, or null when the list is already full.
+ * `exists` tells which phrases are still on the site: pins of phrases deleted in the admin are
+ * invisible, so they don't count towards the limit.
+ */
+export async function toggleFavorite(phraseId: string, exists: (id: string) => boolean = () => true): Promise<string[] | null> {
   const db = getDB();
   const full = await db.transaction("rw", db.favorites, async () => {
     const rows = await db.favorites.toArray();
     const pinned = rows.filter((r) => !r.deleted);
+    const visible = pinned.filter((r) => exists(r.phraseId));
+    // Pins of phrases this page doesn't show (deleted in the admin, or newer than this cached page).
+    const stale = pinned.filter((r) => !exists(r.phraseId) && r.phraseId !== phraseId).sort((a, b) => a.updatedAt - b.updatedAt);
     const existing = rows.find((r) => r.phraseId === phraseId);
     // Never earlier than this phrase's last change or the newest pin, so the order and the
     // sync stay right even if the phone's clock jumps back.
@@ -96,7 +103,11 @@ export async function toggleFavorite(phraseId: string): Promise<string[] | null>
       await db.favorites.put({ phraseId, updatedAt: now, deleted: true });
       return false;
     }
-    if (pinned.length >= MAX_FAVORITES) return true;
+    if (visible.length >= MAX_FAVORITES) return true;
+    // Only when a slot is needed: free it from the oldest invisible pins (the merge keeps at most
+    // 6 pins, visible or not, so otherwise a visible pin could be dropped instead).
+    const over = pinned.length + 1 - MAX_FAVORITES;
+    if (over > 0) await db.favorites.bulkPut(stale.slice(0, over).map((r) => ({ phraseId: r.phraseId, updatedAt: now, deleted: true })));
     await db.favorites.put({ phraseId, updatedAt: now, deleted: false });
     return false;
   });

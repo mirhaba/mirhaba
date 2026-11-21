@@ -78,7 +78,7 @@ export function QuickTalk({
   const onToggleFavorite = useCallback(
     async (id: string) => {
       try {
-        const next = await toggleFavorite(id);
+        const next = await toggleFavorite(id, (phraseId) => phraseId in phraseById);
         if (next === null) setToast(t.favoritesFull);
         else {
           setFavorites(next);
@@ -88,7 +88,7 @@ export function QuickTalk({
         setToast(t.saveError);
       }
     },
-    [t.favoritesFull, t.saveError, refreshFavorites],
+    [t.favoritesFull, t.saveError, refreshFavorites, phraseById],
   );
 
   const category = categories.find((c) => c.slug === categorySlug) ?? categories[0] ?? { slug: "", name: { tr: "", sq: "" }, icon: "", basic: false, phrases: [] };
