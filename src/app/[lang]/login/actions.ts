@@ -1,12 +1,15 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
+import { createClient as createPlainClient } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { hasLocale, LOCALE_COOKIE, type Locale } from "@/i18n/config";
 import { createClient } from "@/lib/supabase/server";
 import { afterLoginPath, safeNextPath } from "@/lib/safe-redirect";
 import { checkLimits, clientIp } from "@/lib/rate-limit";
+import { supabasePublishableKey, supabaseUrl } from "@/lib/supabase/env";
+import { siteUrl } from "@/lib/site";
 
 export type AuthError = "invalidEmail" | "invalidCode" | "wrongCode" | "tooMany" | "captcha" | "generic";
 export type AuthResult = { ok: true } | { ok: false; error: AuthError };
@@ -24,8 +27,24 @@ function mapError(error: { status?: number; code?: string } | null): AuthError {
   return "generic";
 }
 
-/** Step 1: email a 6-digit code. Creates the account on first use (profile trigger stores ui_lang). */
-export async function sendCode(input: { lang: string; email: string; captchaToken?: string }): Promise<AuthResult> {
+/** The origin the visitor is on (so preview deployments get links back to themselves). */
+async function requestOrigin(): Promise<string> {
+  const h = await headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host");
+  if (!host) return siteUrl;
+  const proto = h.get("x-forwarded-proto") ?? (host.startsWith("localhost") || host.startsWith("127.") ? "http" : "https");
+  return `${proto}://${host}`;
+}
+
+/**
+ * Step 1: email a sign-in code and link. Creates the account on first use (profile trigger stores ui_lang).
+ *
+ * The email may contain a 6-digit code ({{ .Token }}), a link ({{ .ConfirmationURL }}) or both,
+ * depending on the template set in the Supabase dashboard. We send with the implicit flow so the
+ * link works even when it opens in a different browser than the one that asked for it (e.g. the
+ * Gmail in-app browser): the session arrives in the URL fragment and AuthLinkHandler stores it.
+ */
+export async function sendCode(input: { lang: string; email: string; captchaToken?: string; next?: string }): Promise<AuthResult> {
   const email = emailSchema.safeParse(input.email);
   const lang = langSchema.safeParse(input.lang);
   if (!email.success || !lang.success) return { ok: false, error: "invalidEmail" };
@@ -34,10 +53,14 @@ export async function sendCode(input: { lang: string; email: string; captchaToke
   const ip = await clientIp();
   if (!(await checkLimits([["sendCodeIp", ip], ["sendCodeEmail", email.data]]))) return { ok: false, error: "tooMany" };
 
-  const supabase = await createClient();
+  const next = safeNextPath(input.next, lang.data);
+  const supabase = createPlainClient(supabaseUrl, supabasePublishableKey, {
+    auth: { flowType: "implicit", persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  });
   const { error } = await supabase.auth.signInWithOtp({
     email: email.data,
     options: {
+      emailRedirectTo: `${await requestOrigin()}/${lang.data}/login?next=${encodeURIComponent(next)}`,
       shouldCreateUser: true,
       data: { ui_lang: lang.data },
       captchaToken: input.captchaToken || undefined,

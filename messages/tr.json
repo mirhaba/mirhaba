@@ -146,16 +146,16 @@
     "or": "veya",
     "emailLabel": "E-posta",
     "emailPlaceholder": "ornek@gmail.com",
-    "sendCode": "Kod gönder",
+    "sendCode": "Giriş bağlantısı gönder",
     "sending": "Gönderiliyor…",
-    "codeTitle": "Kodu gir",
-    "codeSentTo": "{email} adresine 6 haneli bir kod gönderdik.",
+    "codeTitle": "E-postanı kontrol et",
+    "codeSentTo": "{email} adresine bir giriş bağlantısı gönderdik. Bağlantıya dokun ya da e-postada 6 haneli kod varsa buraya yaz.",
     "codeLabel": "Doğrulama kodu",
     "verify": "Doğrula",
     "verifying": "Doğrulanıyor…",
-    "resend": "Kodu tekrar gönder",
+    "resend": "Tekrar gönder",
     "resendIn": "{s} sn sonra tekrar gönderebilirsin",
-    "codeResent": "Yeni kod gönderildi.",
+    "codeResent": "Yeni e-posta gönderildi.",
     "changeEmail": "E-postayı değiştir",
     "errors": {
       "invalidEmail": "Geçerli bir e-posta adresi gir.",
@@ -164,7 +164,8 @@
       "tooMany": "Çok fazla deneme. Biraz bekleyip tekrar dene.",
       "captcha": "Güvenlik kontrolü tamamlanamadı. Tekrar dene.",
       "oauth": "Google ile giriş yapılamadı. E-posta koduyla dene.",
-      "generic": "Bir şeyler ters gitti. Tekrar dene."
+      "generic": "Bir şeyler ters gitti. Tekrar dene.",
+      "link": "Bağlantı geçersiz ya da süresi dolmuş. Yeni bir tane iste."
     }
   },
   "consent": {

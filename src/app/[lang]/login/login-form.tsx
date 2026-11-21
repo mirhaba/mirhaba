@@ -25,7 +25,10 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
   const [step, setStep] = useState<"email" | "code">("email");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
-  const [error, setError] = useState<AuthError | "oauth" | null>(params.get("error") === "oauth" ? "oauth" : null);
+  const initialError = params.get("error");
+  const [error, setError] = useState<AuthError | "oauth" | "link" | null>(
+    initialError === "oauth" || initialError === "link" ? initialError : null,
+  );
   const [captchaToken, setCaptchaToken] = useState("");
   const [cooldown, setCooldown] = useState(0);
   const [toast, setToast] = useState("");
@@ -48,7 +51,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
   const requestCode = (isResend: boolean) => {
     setError(null);
     startTransition(async () => {
-      const result = await sendCode({ lang, email, captchaToken });
+      const result = await sendCode({ lang, email, captchaToken, next });
       turnstile.current?.reset(); // tokens are single-use
       if (!result.ok) {
         setError(result.error);
@@ -86,7 +89,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
     }
   };
 
-  const message = (e: AuthError | "oauth" | null) => (e ? t.errors[e] : undefined);
+  const message = (e: AuthError | "oauth" | "link" | null) => (e ? t.errors[e] : undefined);
   const emailError = step === "email" && (error === "invalidEmail" ? message(error) : undefined);
   const codeError = step === "code" && (error === "invalidCode" || error === "wrongCode") ? message(error) : undefined;
   const formError = error && !emailError && !codeError ? message(error) : undefined;

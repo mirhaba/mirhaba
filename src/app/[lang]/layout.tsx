@@ -13,6 +13,7 @@ import { InstallPrompt } from "@/components/install-prompt";
 import { CookieConsent } from "@/components/cookie-consent";
 import { Analytics } from "@/components/analytics";
 import { siteUrl } from "@/lib/site";
+import { AuthLinkHandler } from "@/components/auth-link-handler";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -71,6 +72,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         >
           {t.common.skipToContent}
         </a>
+        <AuthLinkHandler lang={lang} />
         <SiteHeader lang={lang} t={t} />
         <main id="main" className="mx-auto w-full max-w-3xl flex-1 px-4 pt-5 pb-10">
           {children}

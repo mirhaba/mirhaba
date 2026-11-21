@@ -146,16 +146,16 @@
     "or": "ose",
     "emailLabel": "Email",
     "emailPlaceholder": "shembull@gmail.com",
-    "sendCode": "Dërgo kodin",
+    "sendCode": "Dërgo lidhjen e hyrjes",
     "sending": "Duke dërguar…",
-    "codeTitle": "Shkruaj kodin",
-    "codeSentTo": "Të dërguam një kod 6-shifror në {email}.",
+    "codeTitle": "Kontrollo emailin",
+    "codeSentTo": "Të dërguam një lidhje hyrjeje në {email}. Prek lidhjen, ose shkruaj këtu kodin 6-shifror nëse emaili ka një të tillë.",
     "codeLabel": "Kodi i verifikimit",
     "verify": "Verifiko",
     "verifying": "Duke verifikuar…",
-    "resend": "Dërgo kodin përsëri",
+    "resend": "Dërgo përsëri",
     "resendIn": "Mund ta dërgosh përsëri pas {s} s",
-    "codeResent": "Kodi i ri u dërgua.",
+    "codeResent": "Emaili i ri u dërgua.",
     "changeEmail": "Ndrysho emailin",
     "errors": {
       "invalidEmail": "Shkruaj një adresë emaili të vlefshme.",
@@ -164,7 +164,8 @@
       "tooMany": "Shumë përpjekje. Prit pak dhe provo përsëri.",
       "captcha": "Kontrolli i sigurisë nuk u krye. Provo përsëri.",
       "oauth": "Hyrja me Google nuk u krye. Provo me kod në email.",
-      "generic": "Diçka shkoi keq. Provo përsëri."
+      "generic": "Diçka shkoi keq. Provo përsëri.",
+      "link": "Lidhja është e pavlefshme ose ka skaduar. Kërko një të re."
     }
   },
   "consent": {
