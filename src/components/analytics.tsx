@@ -9,6 +9,21 @@ const HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST ?? "https://eu.i.posthog.com";
 
 let instance: PostHog | null = null;
 
+/** Sign-in links carry tokens and codes in the URL: never send those to analytics. */
+const SECRET_PARAMS = ["code", "token", "token_hash", "access_token", "refresh_token", "error_description"];
+export function scrubUrl(value: unknown): unknown {
+  if (typeof value !== "string" || !value) return value;
+  try {
+    const url = new URL(value);
+    if (!url.origin.startsWith(location.origin) && url.pathname.includes("/auth/")) return url.origin; // e.g. Supabase /auth/v1/verify
+    url.hash = "";
+    for (const key of SECRET_PARAMS) url.searchParams.delete(key);
+    return url.toString();
+  } catch {
+    return value;
+  }
+}
+
 /** Loads PostHog (EU) only after the visitor accepted analytics. The library isn't even downloaded before. */
 async function start() {
   if (!KEY) return;
@@ -28,6 +43,14 @@ async function start() {
     mask_all_text: true, // never send phrase text or typed content
     mask_all_element_attributes: true,
     respect_dnt: true,
+    before_send: (event) => {
+      if (event?.properties) {
+        for (const key of ["$current_url", "$referrer", "$initial_referrer"]) {
+          if (key in event.properties) event.properties[key] = scrubUrl(event.properties[key]);
+        }
+      }
+      return event;
+    },
   });
   instance = posthog;
 }
