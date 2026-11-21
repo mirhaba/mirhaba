@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { Crown } from "lucide-react";
+import { Crown, Hourglass } from "lucide-react";
 import { hasLocale, type Locale } from "@/i18n/config";
 import { getDictionary, type Messages } from "@/i18n/dictionaries";
 import { indexLessons, type Item, type LessonRef } from "@/lib/content/model";
@@ -50,13 +50,42 @@ async function Lesson({ params }: { params: PageProps<"/[lang]/learn/[lesson]">[
   const next = lessonList[ref.index + 1]?.lesson.slug;
   // Wrong-answer options: words from free units plus this lesson (Premium words never reach free lessons).
   const allItems = [...new Map(lessonList.filter((r) => r.unit.isFree || r === ref).flatMap((r) => r.lesson.items).map((i) => [i.id, i])).values()];
+  const heading = <h1 className="sr-only">{ref.lesson.title[lang]}</h1>; // the player itself has no page title
 
-  if (ref.unit.isFree) return <Player lang={lang} t={t.learn} lessonRef={ref} allItems={allItems} next={next} />;
+  // A lesson saved in the admin without words yet: say so instead of starting an empty player.
+  if (ref.lesson.items.length === 0) {
+    return (
+      <>
+        <StateView
+          Icon={Hourglass}
+          title={t.common.comingSoon}
+          body={t.common.comingSoonBody}
+          action={
+            <Link href={`/${lang}/learn`} className="inline-flex h-11 items-center justify-center text-[15px] font-medium text-accent-text">
+              {t.learn.player.backToLessons}
+            </Link>
+          }
+        />
+      </>
+    );
+  }
+
+  if (ref.unit.isFree) {
+    return (
+      <>
+        {heading}
+        <Player lang={lang} t={t.learn} lessonRef={ref} allItems={allItems} next={next} />
+      </>
+    );
+  }
   // Premium lessons check the account on every request; only this part waits.
   return (
-    <Suspense fallback={<LessonSkeleton />}>
-      <PremiumLesson lang={lang} t={t} lessonRef={ref} allItems={allItems} next={next} />
-    </Suspense>
+    <>
+      {heading}
+      <Suspense fallback={<LessonSkeleton />}>
+        <PremiumLesson lang={lang} t={t} lessonRef={ref} allItems={allItems} next={next} />
+      </Suspense>
+    </>
   );
 }
 
