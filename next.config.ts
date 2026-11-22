@@ -15,7 +15,8 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob:",
   "font-src 'self'",
-  "media-src 'self' blob:",
+  // https: so the native-speaker audio links an admin may enter for Quick Talk phrases can play.
+  "media-src 'self' blob: https:",
   `connect-src 'self' ${supabaseOrigin} ${posthog}${isDev ? " ws:" : ""}`,
   `frame-src ${turnstile}`,
   "worker-src 'self'",

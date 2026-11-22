@@ -13,7 +13,7 @@ const bodySchema = z.object({ access_token: z.string().min(20).max(8192), refres
 export async function POST(request: NextRequest) {
   // Same-origin only: stops another site from signing a visitor into someone else's account.
   const origin = request.headers.get("origin");
-  if (!origin || new URL(origin).host !== request.nextUrl.host) {
+  if (!origin || hostOf(origin) !== request.nextUrl.host) {
     return NextResponse.json({ ok: false }, { status: 403 });
   }
 
@@ -27,4 +27,13 @@ export async function POST(request: NextRequest) {
   const response = NextResponse.json({ ok: true });
   response.headers.set("Cache-Control", "private, no-store");
   return response;
+}
+
+/** "null" (sandboxed iframes, file://) or garbage is not a valid origin: answer 403, never crash with 500. */
+function hostOf(origin: string): string | null {
+  try {
+    return new URL(origin).host;
+  } catch {
+    return null;
+  }
 }

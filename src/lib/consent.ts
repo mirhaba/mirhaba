@@ -20,7 +20,13 @@ export function serializeConsent(choice: ConsentChoice): string {
 /** Returns null when there is no valid choice for the current policy version (→ show the banner). */
 export function parseConsent(raw: string | undefined | null): ConsentChoice | null {
   if (!raw) return null;
-  const match = /^v:([\w-]+)\|a:([01])$/.exec(decodeURIComponent(raw));
+  let value: string;
+  try {
+    value = decodeURIComponent(raw);
+  } catch {
+    return null; // a malformed cookie (e.g. "%E0") must not crash the page: ask again instead
+  }
+  const match = /^v:([\w-]+)\|a:([01])$/.exec(value);
   if (!match || match[1] !== COOKIE_POLICY_VERSION) return null;
   return { analytics: match[2] === "1" };
 }

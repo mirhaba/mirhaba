@@ -31,7 +31,8 @@ export type TranslateResult =
 
 const inputSchema = z.object({
   lang: z.custom<Locale>((v) => typeof v === "string" && hasLocale(v)),
-  text: z.string(),
+  // Generous upper bound before whitespace is collapsed; the real limit is checked below.
+  text: z.string().max(MAX_TRANSLATION_CHARS * 4),
   direction: z.enum(["tr-sq", "sq-tr"]),
   variant: z.enum(["standard", "kosovan"]),
 });
