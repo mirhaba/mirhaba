@@ -6,7 +6,9 @@ import { Suspense } from "react";
 import "../globals.css";
 import { getAdmin } from "@/lib/admin/auth";
 import { getUser } from "@/lib/supabase/server";
+import { serverEnv } from "@/lib/server-env";
 import { AdminNav } from "./_ui/nav";
+import SystemCheck from "./system/page";
 
 const dmSans = DM_Sans({ variable: "--font-dm-sans", subsets: ["latin", "latin-ext"], weight: ["400", "700"], display: "swap" });
 
@@ -55,10 +57,19 @@ async function AdminGate({ children }: { children: React.ReactNode }) {
     if (!(await getUser())) redirect(`/tr/login?next=${encodeURIComponent("/admin")}`);
     notFound();
   }
+  // Every other admin page needs the service-role key. Without it, explain what to fix instead of
+  // crashing with "This page couldn't load".
+  const missingKey = !serverEnv("SUPABASE_SECRET_KEY");
   return (
     <>
       <p className="mb-4 text-right text-[12px] text-muted">Signed in as {admin.email}</p>
-      {children}
+      {missingKey && (
+        <p role="alert" className="mb-4 rounded-xl bg-accent-soft px-4 py-3 text-[15px] font-medium text-accent-text">
+          SUPABASE_SECRET_KEY is missing on Vercel, so the admin cannot read or save anything yet. Add it in Vercel → Settings →
+          Environment Variables, then redeploy.
+        </p>
+      )}
+      {missingKey ? <SystemCheck /> : children}
     </>
   );
 }
