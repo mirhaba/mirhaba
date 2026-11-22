@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { serverEnv } from "@/lib/server-env";
 import { Card, PageHeader } from "./_ui/ui";
 
 export const metadata = { title: "Overview" };
@@ -16,7 +17,7 @@ export default async function AdminHome() {
   await requireAdmin();
   const { data, error } = await createAdminClient().rpc("admin_overview");
   const o = (data ?? {}) as Partial<Overview>;
-  const cap = Number(process.env.AI_DAILY_SPEND_CAP_EUR ?? 5) || 5;
+  const cap = Number(serverEnv("AI_DAILY_SPEND_CAP_EUR") ?? 5) || 5;
 
   const stats: { label: string; value: string; href?: string; hint?: string }[] = [
     { label: "Users", value: String(o.users ?? 0), hint: `${o.users_7d ?? 0} new in 7 days`, href: "/admin/users" },

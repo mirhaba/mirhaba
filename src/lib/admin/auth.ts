@@ -1,6 +1,7 @@
 import "server-only";
 import { cache } from "react";
 import { getUser } from "@/lib/supabase/server";
+import { serverEnv } from "@/lib/server-env";
 
 /**
  * Admin access = signed in with a confirmed email that is listed in ADMIN_EMAILS
@@ -10,9 +11,9 @@ import { getUser } from "@/lib/supabase/server";
  */
 export function adminEmails(): Set<string> {
   return new Set(
-    (process.env.ADMIN_EMAILS ?? "")
+    (serverEnv("ADMIN_EMAILS") ?? "")
       .split(/[\s,;]+/)
-      .map((e) => e.trim().toLowerCase())
+      .map((e) => e.trim().replace(/^["']|["']$/g, "").toLowerCase())
       .filter(Boolean),
   );
 }

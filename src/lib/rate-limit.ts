@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { headers } from "next/headers";
 import { Ratelimit, type Duration } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { serverEnv } from "@/lib/server-env";
 
 /**
  * Rate limits for sensitive endpoints (sliding window, per user and/or per IP).
@@ -37,7 +38,12 @@ export const RULES = {
 
 export type RuleName = keyof typeof RULES;
 
-const hasUpstash = !!process.env.UPSTASH_REDIS_REST_URL && !!process.env.UPSTASH_REDIS_REST_TOKEN;
+const hasUpstash = !!serverEnv("UPSTASH_REDIS_REST_URL") && !!serverEnv("UPSTASH_REDIS_REST_TOKEN");
+
+/** Upstash client from the (cleaned) env vars. Also used by Admin → System check. */
+export function upstashRedis(): Redis {
+  return new Redis({ url: serverEnv("UPSTASH_REDIS_REST_URL") ?? "", token: serverEnv("UPSTASH_REDIS_REST_TOKEN") ?? "" });
+}
 const isProduction = process.env.NODE_ENV === "production" && !!process.env.VERCEL_ENV;
 
 const limiters = new Map<RuleName, Ratelimit>();
@@ -46,7 +52,7 @@ function upstash(name: RuleName): Ratelimit {
   if (!limiter) {
     const rule = RULES[name];
     limiter = new Ratelimit({
-      redis: Redis.fromEnv(),
+      redis: upstashRedis(),
       limiter: Ratelimit.slidingWindow(rule.limit, rule.window),
       prefix: `mirhaba:rl:${name}`,
       ephemeralCache: new Map(), // answers repeated blocks from memory, saving Redis calls

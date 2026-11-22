@@ -6,6 +6,7 @@ import { hasLocale, type Locale } from "@/i18n/config";
 import { findGlossaryMatches } from "@/lib/glossary";
 import { FREE_TEXT_TRANSLATIONS_PER_DAY, MAX_TRANSLATION_CHARS, PAID_TEXT_TRANSLATIONS_PER_DAY } from "@/lib/plans";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { serverEnv } from "@/lib/server-env";
 import { getEntitlement } from "@/lib/billing/entitlement";
 import { createClient } from "@/lib/supabase/server";
 import { checkLimit, checkLimits, clientIp } from "@/lib/rate-limit";
@@ -35,7 +36,7 @@ const inputSchema = z.object({
   variant: z.enum(["standard", "kosovan"]),
 });
 
-const DAILY_CAP_EUR = Number(process.env.AI_DAILY_SPEND_CAP_EUR ?? 5) || 5;
+const DAILY_CAP_EUR = Number(serverEnv("AI_DAILY_SPEND_CAP_EUR") ?? 5) || 5;
 
 export async function translateText(raw: z.input<typeof inputSchema>): Promise<TranslateResult> {
   const parsed = inputSchema.safeParse(raw);

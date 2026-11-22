@@ -1,7 +1,8 @@
 import { connection } from "next/server";
-import { Redis } from "@upstash/redis";
 import { adminEmails, requireAdmin } from "@/lib/admin/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { upstashRedis } from "@/lib/rate-limit";
+import { envNeedsCleanup, serverEnv } from "@/lib/server-env";
 import { siteUrl } from "@/lib/site";
 import { Badge, Card, PageHeader } from "../_ui/ui";
 
@@ -12,7 +13,7 @@ export const instant = false;
 type Status = "ok" | "fail" | "missing" | "off";
 type Row = { name: string; what: string; status: Status; detail?: string };
 
-const set = (name: string) => !!process.env[name]?.trim();
+const set = (name: string) => !!serverEnv(name);
 const TIMEOUT = 5000;
 
 /** Each live check: never shows a value, never costs money. */
@@ -27,7 +28,7 @@ async function checkSupabaseSecret(): Promise<[Status, string]> {
 }
 
 async function checkGroq(): Promise<[Status, string]> {
-  const key = process.env.GROQ_API_KEY?.trim();
+  const key = serverEnv("GROQ_API_KEY");
   if (!key) return ["missing", "Translation will fail with a generic error."];
   try {
     // Listing models is free; it only proves the key is accepted.
@@ -36,7 +37,7 @@ async function checkGroq(): Promise<[Status, string]> {
       signal: AbortSignal.timeout(TIMEOUT),
       cache: "no-store",
     });
-    if (res.ok) return ["ok", `Key accepted. Model: ${process.env.TRANSLATION_MODEL || "openai/gpt-oss-120b"}`];
+    if (res.ok) return ["ok", `Key accepted. Model: ${serverEnv("TRANSLATION_MODEL") || "openai/gpt-oss-120b"}`];
     return ["fail", res.status === 401 ? "Groq rejected the key (401). Check for typos or a revoked key." : `Groq answered ${res.status}.`];
   } catch {
     return ["fail", "Could not reach Groq (timeout or network)."];
@@ -48,7 +49,7 @@ async function checkUpstash(): Promise<[Status, string]> {
     return ["missing", "Rate limits (login emails, translation bursts, exports) are OFF in production."];
   }
   try {
-    const pong = await Promise.race([Redis.fromEnv().ping(), new Promise<never>((_, r) => setTimeout(() => r(new Error("timeout")), TIMEOUT))]);
+    const pong = await Promise.race([upstashRedis().ping(), new Promise<never>((_, r) => setTimeout(() => r(new Error("timeout")), TIMEOUT))]);
     return pong === "PONG" ? ["ok", "Redis answered."] : ["fail", `Unexpected answer: ${String(pong)}`];
   } catch (error) {
     return ["fail", error instanceof Error ? error.message : "Could not reach Upstash."];
@@ -57,7 +58,7 @@ async function checkUpstash(): Promise<[Status, string]> {
 
 async function checkTurnstile(): Promise<[Status, string]> {
   const site = set("NEXT_PUBLIC_TURNSTILE_SITE_KEY");
-  const secret = process.env.TURNSTILE_SECRET_KEY?.trim();
+  const secret = serverEnv("TURNSTILE_SECRET_KEY");
   if (!site && !secret) return ["off", "Optional. No bot check on the login form."];
   if (!site) return ["missing", "TURNSTILE_SECRET_KEY is set but NEXT_PUBLIC_TURNSTILE_SITE_KEY is not: the widget won't show."];
   if (!secret) {
@@ -86,6 +87,8 @@ export default async function SystemCheck() {
 
   const [supabase, groq, upstash, turnstile] = await Promise.all([checkSupabaseSecret(), checkGroq(), checkUpstash(), checkTurnstile()]);
   const admins = adminEmails().size;
+  const CHECKED = ["SUPABASE_SECRET_KEY", "GROQ_API_KEY", "ADMIN_EMAILS", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "TURNSTILE_SECRET_KEY", "AI_DAILY_SPEND_CAP_EUR", "TRANSLATION_MODEL"];
+  const quoted = CHECKED.filter(envNeedsCleanup);
 
   const groups: { title: string; description: string; rows: Row[] }[] = [
     {
@@ -123,7 +126,7 @@ export default async function SystemCheck() {
           name: "AI_DAILY_SPEND_CAP_EUR",
           what: "Daily AI spending cap",
           status: "ok",
-          detail: `€${Number(process.env.AI_DAILY_SPEND_CAP_EUR ?? 5) || 5} per day${set("AI_DAILY_SPEND_CAP_EUR") ? "" : " (default)"}.`,
+          detail: `€${Number(serverEnv("AI_DAILY_SPEND_CAP_EUR") ?? 5) || 5} per day${set("AI_DAILY_SPEND_CAP_EUR") ? "" : " (default)"}.`,
         },
       ],
     },
@@ -157,6 +160,12 @@ export default async function SystemCheck() {
         description="Which settings (Vercel environment variables) are set, with a live test where possible. Values are never shown. Changing a variable needs a redeploy on Vercel."
       />
       <div className="flex flex-col gap-4">
+        {quoted.length > 0 && (
+          <p className="rounded-xl bg-surface-2 px-4 py-3 text-[14px]">
+            These values were pasted with quotes or spaces around them: <span className="font-mono">{quoted.join(", ")}</span>. The site
+            ignores them, so nothing is broken, but you can remove them in Vercel to keep things tidy.
+          </p>
+        )}
         {groups.map((g) => (
           <Card key={g.title} title={g.title} description={g.description}>
             <ul className="divide-y divide-hairline">

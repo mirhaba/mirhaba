@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { Locale } from "@/i18n/config";
 import type { SlangEntry } from "@/content/slang";
 import { glossaryForPrompt, glossaryNote } from "@/lib/glossary";
+import { serverEnv } from "@/lib/server-env";
 
 export type Direction = "tr-sq" | "sq-tr";
 /** Albanian output style for tr→sq. Ignored for sq→tr (always natural Turkish). */
@@ -22,7 +23,7 @@ export const PROMPT_VERSION = "v2-groq";
 
 // Groq's OpenAI-compatible API, serving OpenAI's open-weight gpt-oss-120b.
 const ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = process.env.TRANSLATION_MODEL || "openai/gpt-oss-120b";
+const MODEL = serverEnv("TRANSLATION_MODEL") || "openai/gpt-oss-120b";
 // Per-million-token prices for the default model on Groq (USD; used as EUR, which slightly over-counts: the safe side).
 const PRICE_IN = 0.15;
 const PRICE_OUT = 0.6;
@@ -91,7 +92,7 @@ type ChatCompletion = {
 };
 
 async function callGroq(body: unknown): Promise<ChatCompletion> {
-  const apiKey = process.env.GROQ_API_KEY;
+  const apiKey = serverEnv("GROQ_API_KEY");
   if (!apiKey) throw new Error("GROQ_API_KEY is not set");
 
   let lastError = "";

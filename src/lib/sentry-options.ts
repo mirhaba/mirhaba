@@ -6,7 +6,8 @@ import type { Breadcrumb, ErrorEvent } from "@sentry/nextjs";
 /** Path only: query strings and fragments can hold emails, codes or sign-in tokens. */
 const pathOnly = (url: unknown) => (typeof url === "string" ? url.split(/[?#]/)[0] : url);
 
-export const sentryDsn = process.env.NEXT_PUBLIC_SENTRY_DSN;
+// Tolerates a value pasted with quotes or spaces around it (Vercel stores exactly what was pasted).
+export const sentryDsn = process.env.NEXT_PUBLIC_SENTRY_DSN?.trim().replace(/^(["'])([\s\S]*)\1$/, "$2").trim() || undefined;
 
 export const sentryBaseOptions = {
   dsn: sentryDsn,
