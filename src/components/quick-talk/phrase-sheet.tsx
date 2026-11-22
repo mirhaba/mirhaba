@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import { fillSlot, type Phrase, type QuickTalkContent, type Reply } from "@/lib/content/model";
 import { albanianReading } from "@/lib/text";
+import { usePreferences } from "@/lib/preferences";
 import { canSpeakAlbanian, speakAlbanian, speakTurkish, stopSpeaking } from "./speak";
 
 type T = Messages["quickTalk"];
@@ -31,6 +32,7 @@ export function PhraseSheet({
   onClose: () => void;
 }) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const prefs = usePreferences();
   const [slotIndex, setSlotIndex] = useState(0);
   const [answer, setAnswer] = useState<Reply | null>(null);
   const [speaking, setSpeaking] = useState(false);
@@ -88,7 +90,7 @@ export function PhraseSheet({
           <p id="phrase-sq" lang="sq" className="text-[clamp(1.75rem,10vw,2.5rem)] leading-[1.1] font-bold break-words">
             {sq}
           </p>
-          {lang === "tr" && (
+          {lang === "tr" && prefs.showReading && (
             <p className="mt-2 text-[17px] text-muted">
               <span className="sr-only">{t.reading}: </span>
               {albanianReading(sq)}

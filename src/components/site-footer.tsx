@@ -5,6 +5,7 @@ import { legalPages } from "@/lib/site";
 import { CookieSettingsLink } from "./cookie-consent";
 import { Logo } from "./brand/Logo";
 import { BusinessDetails } from "./business-details";
+import { OpenGuideButton } from "./first-run-guide";
 
 export function SiteFooter({ lang, t }: { lang: Locale; t: Messages }) {
   return (
@@ -21,6 +22,12 @@ export function SiteFooter({ lang, t }: { lang: Locale; t: Messages }) {
               </Link>
             </li>
           ))}
+          <li>
+            <OpenGuideButton
+              label={t.guide.howTo}
+              className="inline-flex min-h-11 items-center px-2 font-medium text-foreground hover:text-accent-text"
+            />
+          </li>
         </ul>
         <ul className="-mx-2 flex flex-wrap">
           {legalPages.map((page) => (

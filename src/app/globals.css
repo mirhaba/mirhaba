@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* `dark:` utilities follow the same rule as the tokens: OS setting, overridden by Preferences. */
+@custom-variant dark {
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme="light"]) *) {
+      @slot;
+    }
+  }
+  &:where([data-theme="dark"] *) {
+    @slot;
+  }
+}
+
 /*
  * Brand palette (Mirhaba brand sheet). Use the semantic tokens below in components;
  * the brand-* tokens are exposed too (bg-brand-red, text-brand-ink, …) for brand artwork.
@@ -46,8 +58,9 @@
   color-scheme: light;
 }
 
+/* Dark: follows the OS unless the person picked a theme in Preferences (data-theme on <html>). */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --background: var(--brand-ink);
     --surface: #29242e;
     --surface-2: #352f3b;
@@ -71,6 +84,30 @@
     --logo-text: var(--brand-paper);
     color-scheme: dark;
   }
+}
+:root[data-theme="dark"] {
+  --background: var(--brand-ink);
+  --surface: #29242e;
+  --surface-2: #352f3b;
+  --glass: rgb(30 26 34 / 0.72);
+  --glass-strong: rgb(41 36 46 / 0.94);
+  --foreground: var(--brand-paper);
+  --body: #d9d3dc;
+  --muted: #b5aebb;
+  --hairline: rgb(251 249 248 / 0.1);
+  --accent: var(--brand-red);
+  --accent-pressed: #a11f25;
+  --on-accent: #ffffff;
+  --accent-text: #ff6b6f;
+  --accent-soft: rgb(255 107 111 / 0.14);
+  --shadow: none;
+  --shadow-lg: 0 10px 40px rgb(0 0 0 / 0.5);
+  /* Logo colours (dark): gold arc, red Turkish bubble, paper Albanian bubble */
+  --logo-arc: var(--brand-gold);
+  --logo-left: var(--brand-red);
+  --logo-right: var(--brand-paper);
+  --logo-text: var(--brand-paper);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -208,4 +245,160 @@ body {
 }
 .no-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+/* ---------- Preferences (set on <html> before first paint) ---------- */
+
+/* Larger text: every size in the app is in px, so scale the whole page. */
+html[data-text="large"] body {
+  zoom: 1.12;
+}
+
+/* "Reduce motion" chosen in the app, even if the OS doesn't ask for it. */
+html[data-motion="reduce"] *,
+html[data-motion="reduce"] *::before,
+html[data-motion="reduce"] *::after,
+html[data-motion="reduce"] ::backdrop {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* ---------- Guide, welcome and dashboard ---------- */
+
+@keyframes float-y {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.float {
+  animation: float-y 3.2s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * -0.8s);
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    transform: none;
+  }
+}
+.pop-in {
+  animation: pop-in 420ms var(--ease-out-soft) both;
+  animation-delay: calc(min(var(--i, 0), 8) * 60ms);
+}
+
+@keyframes slide-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes slide-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.slide-next {
+  animation: slide-from-right 300ms var(--ease-out-soft) both;
+}
+.slide-prev {
+  animation: slide-from-left 300ms var(--ease-out-soft) both;
+}
+
+/* Confetti: pieces are positioned by inline custom properties. */
+@keyframes confetti-fall {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx, 0px), var(--dy, 260px), 0) rotate(var(--rot, 540deg));
+  }
+}
+.confetti-piece {
+  position: absolute;
+  top: var(--y, 30%);
+  left: var(--x, 50%);
+  width: 8px;
+  height: 12px;
+  border-radius: 2px;
+  animation: confetti-fall var(--t, 1.4s) cubic-bezier(0.2, 0.6, 0.4, 1) forwards;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Card flip (phrase of the day). */
+.flip {
+  perspective: 1000px;
+}
+.flip-inner {
+  display: grid;
+  transition: transform 500ms var(--ease-out-soft);
+  transform-style: preserve-3d;
+}
+.flip-inner > * {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-inner > .flip-back {
+  transform: rotateY(180deg);
+}
+.flip[data-flipped="true"] .flip-inner {
+  transform: rotateY(180deg);
+}
+
+/* Progress ring stroke animates to its value. */
+.ring-progress {
+  transition: stroke-dashoffset 900ms var(--ease-out-soft);
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(-8deg);
+  }
+  75% {
+    transform: rotate(8deg);
+  }
+}
+.wiggle:hover,
+.wiggle:focus-visible {
+  animation: wiggle 400ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .float,
+  .pop-in,
+  .slide-next,
+  .slide-prev,
+  .confetti-piece,
+  .wiggle:hover {
+    animation: none;
+  }
+  .confetti-piece {
+    display: none;
+  }
+  .flip-inner,
+  .ring-progress {
+    transition: none;
+  }
 }

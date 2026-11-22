@@ -655,5 +655,231 @@
     "toAccount": "Shko te llogaria",
     "startUsing": "Fillo përkthimin",
     "testMode": "Modaliteti test: nuk tërhiqen para të vërteta. Përdor kartelën test të RaiAccept: 4999 9999 9999 0011, një datë skadimi në të ardhmen dhe çfarëdo CVV."
+  },
+  "guide": {
+    "dialogLabel": "Mirë se erdhe në Mirhaba",
+    "switchLang": "Ndërroni gjuhën",
+    "skip": "Kapërce",
+    "next": "Para",
+    "back": "Prapa",
+    "step": "Hapi {n} / {total}",
+    "hello": "Mirë se erdhe! 👋",
+    "askTitle": "Të njihemi",
+    "askBody": "Cilën gjuhë e flet dhe cilën dëshiron të mësosh?",
+    "trLearnerTitle": "Flas turqisht",
+    "trLearnerBody": "Dua të mësoj shqip dhe të flas lirshëm në Kosovë.",
+    "sqLearnerTitle": "Flas shqip",
+    "sqLearnerBody": "Dua të mësoj turqisht dhe të flas me turqit.",
+    "chooseHint": "Zgjedhjen mund ta ndryshosh më vonë te Llogaria → Preferencat.",
+    "slides": [
+      {
+        "title": "Bisedë e shpejtë",
+        "body": "Zgjidh një fjali nga kategoria, tregoja ekranin tjetrit ose lëre ta lexojë me zë. Punon edhe pa internet.",
+        "tip": "Prek yllin: fjalitë që përdor shpesh qëndrojnë lart."
+      },
+      {
+        "title": "Le të përgjigjet tjetri",
+        "body": "Personi tjetër prek butonat e përgjigjes poshtë fjalisë, dhe ti e sheh përgjigjen në gjuhën tënde.",
+        "tip": "Po, jo, prit… përgjigje të gatshme."
+      },
+      {
+        "title": "Përkthim i zgjuar",
+        "body": "Shkruaj ose ngjit tekstin. Zhargoni dhe e folmja e Kosovës përkthehen sipas kuptimit; ti zgjedh mes kosovarishtes dhe standardit.",
+        "tip": "Me llogari falas ke përkthime çdo ditë."
+      },
+      {
+        "title": "Mësime 5-minutëshe",
+        "body": "Karta fjalësh, çiftëzime dhe ndërtim fjalish. Përfundo një mësim në ditë dhe rrite serinë.",
+        "tip": "Fjalët e dobëta të dalin vetë për përsëritje."
+      },
+      {
+        "title": "Fjalori i zhargonit",
+        "body": "qysh, çka, kerr… kuptimi i vërtetë i fjalëve që dëgjon në rrugë dhe fjalët që vijnë nga turqishtja.",
+        "tip": "Kërkimi i kupton edhe gabimet e shkronjave."
+      },
+      {
+        "title": "Në xhep, pa internet",
+        "body": "Shtoje Mirhaba-n në ekranin kryesor dhe hape si aplikacion. Nëse hyn në llogari, të preferuarat dhe progresi të ndjekin në çdo pajisje.",
+        "tip": "Shpërndaj → “Shto në ekranin kryesor”."
+      }
+    ],
+    "demoTry": "Provo!",
+    "demoFront": "İyi günler",
+    "demoBack": "Mirëdita",
+    "demoTap": "Prek kartën",
+    "demoReplies": [
+      "Evet",
+      "Hayır",
+      "Biraz bekle"
+    ],
+    "demoRepliesTr": [
+      "Po",
+      "Jo",
+      "Prit pak"
+    ],
+    "demoTranslateIn": "Naber kanka?",
+    "demoTranslateOut": "Qysh je, lali?",
+    "quizQuestion": "Çfarë do të thotë “Teşekkürler”?",
+    "quizRight": "Faleminderit",
+    "quizWrong": "Mirëmëngjes",
+    "quizCorrect": "Bravo, saktë! 🎉",
+    "quizTryAgain": "Jo tamam, provo përsëri.",
+    "demoSlang": [
+      {
+        "w": "qysh",
+        "m": "si"
+      },
+      {
+        "w": "çka",
+        "m": "çfarë"
+      },
+      {
+        "w": "kerr",
+        "m": "makinë"
+      }
+    ],
+    "doneTitle": "Je gati!",
+    "doneBody": "Këtë tur mund ta hapësh sërish kurdo nga lidhja “Si përdoret?” në fund të faqes.",
+    "start": "Hap Bisedën e shpejtë",
+    "signUp": "Krijo llogari falas",
+    "signUpHint": "Për përkthim, progres të sinkronizuar dhe distinktivë.",
+    "howTo": "Si përdoret?"
+  },
+  "welcome": {
+    "dialogLabel": "Llogaria jote është gati",
+    "title": "Mirë se erdhe mes nesh! 🎉",
+    "body": "Llogaria jote është gati. Le ta përshtatim Mirhaba-n për ty në pak sekonda.",
+    "nameLabel": "Si të të thërrasim?",
+    "namePlaceholder": "Emri yt (opsional)",
+    "goalLabel": "Qëllimi yt ditor",
+    "perksTitle": "Çfarë hapet me llogarinë",
+    "perks": [
+      "Përkthime falas çdo ditë",
+      "Të preferuarat dhe progresi në çdo pajisje",
+      "Seri ditore, qëllime dhe distinktivë"
+    ],
+    "continue": "Vazhdo",
+    "stepsTitle": "Hapat e parë",
+    "stepsBody": "Me cilin dëshiron të fillosh?",
+    "steps": {
+      "learn": {
+        "title": "Përfundo mësimin e parë",
+        "body": "5 minuta, distinktivi i parë të pret."
+      },
+      "pin": {
+        "title": "Fiksoje një fjali",
+        "body": "Prek yllin te Biseda e shpejtë."
+      },
+      "translate": {
+        "title": "Provo përkthimin",
+        "body": "Përkthe zhargonin kosovar sipas kuptimit."
+      }
+    },
+    "toDashboard": "Shko te paneli im"
+  },
+  "dashboard": {
+    "tabsLabel": "Seksionet e llogarisë",
+    "tabOverview": "Përmbledhje",
+    "tabPreferences": "Preferencat",
+    "tabAccount": "Llogaria",
+    "greetMorning": "Mirëmëngjes",
+    "greetDay": "Mirëdita",
+    "greetEvening": "Mirëmbrëma",
+    "greetNight": "Natën e mirë",
+    "greetSub": "Çfarë do të mësojmë sot?",
+    "statStreak": "Seria ditore",
+    "statLessons": "Mësime të kryera",
+    "statWords": "Fjalë të mësuara",
+    "statFavorites": "Fjali të preferuara",
+    "goalTitle": "Qëllimi ditor",
+    "goalProgress": "{done} / {goal} mësime",
+    "goalDone": "E arrite qëllimin e sotëm! 🔥",
+    "goalTodo": "Edhe {n} mësime deri te qëllimi.",
+    "goalCta": "Fillo mësimin",
+    "goalReview": "Përsërit",
+    "goalEdit": "Ndrysho qëllimin",
+    "phraseTitle": "Fjalia e ditës",
+    "phraseTap": "Prek për ta kthyer",
+    "listen": "Dëgjo",
+    "quickTitle": "Qasje e shpejtë",
+    "badgesTitle": "Distinktivët",
+    "badgesCount": "{n} / {total} të hapur",
+    "badgeLocked": "I mbyllur",
+    "badges": {
+      "firstLesson": {
+        "title": "Hapi i parë",
+        "body": "Përfundo mësimin e parë."
+      },
+      "streak3": {
+        "title": "Po ngrohesh",
+        "body": "Bëj një seri 3-ditore."
+      },
+      "streak7": {
+        "title": "Flakë",
+        "body": "Bëj një seri 7-ditore."
+      },
+      "words25": {
+        "title": "Gjahtar fjalësh",
+        "body": "Mëso 25 fjalë."
+      },
+      "favorites3": {
+        "title": "Koleksionist",
+        "body": "Fikso 3 fjali."
+      },
+      "lessons10": {
+        "title": "I palodhur",
+        "body": "Përfundo 10 mësime."
+      }
+    },
+    "tour": "Shiko turin e aplikacionit",
+    "tourHint": "Veçoritë kryesore për 1 minutë.",
+    "deviceNote": "Statistikat llogariten nga progresi në këtë pajisje dhe sinkronizohen me llogarinë."
+  },
+  "prefs": {
+    "savedHere": "Preferencat ruhen në këtë pajisje dhe zbatohen menjëherë.",
+    "saved": "U ruajt",
+    "profileTitle": "Profili",
+    "nicknameLabel": "Nofka",
+    "nicknameHint": "Përdoret në përshëndetje; mbetet vetëm në këtë pajisje.",
+    "nicknamePlaceholder": "p.sh. Arta",
+    "learningTitle": "Të mësuarit",
+    "directionLabel": "Çfarë po mëson?",
+    "directionTrSq": "Po mësoj shqip",
+    "directionTrSqHint": "Turqisht → shqip",
+    "directionSqTr": "Po mësoj turqisht",
+    "directionSqTrHint": "Shqip → turqisht",
+    "directionUi": "Kalo edhe ndërfaqen në {language}",
+    "goalLabel": "Qëllimi ditor",
+    "goalHint": "Sa mësime dëshiron të përfundosh në ditë?",
+    "goalNames": {
+      "1": "Qetë",
+      "2": "Rregullisht",
+      "3": "Seriozisht",
+      "5": "Pa ndalur"
+    },
+    "lessonsN": "{n} mësime",
+    "soundTitle": "Zëri dhe shqiptimi",
+    "speechLabel": "Shpejtësia e zërit",
+    "speechSlow": "Ngadalë",
+    "speechNormal": "Normal",
+    "speechFast": "Shpejt",
+    "speechTest": "Dëgjo",
+    "speechNoVoice": "Kjo pajisje nuk ka zë shqip. Zërat e regjistruar luhen gjithsesi me shpejtësinë e zgjedhur.",
+    "readingLabel": "Shfaq shqiptimin",
+    "readingHint": "Shfaq leximin në stilin turk poshtë fjalëve shqip.",
+    "appearanceTitle": "Pamja",
+    "themeLabel": "Tema",
+    "themeSystem": "Sistemi",
+    "themeLight": "E çelët",
+    "themeDark": "E errët",
+    "largeTextLabel": "Shkronja të mëdha",
+    "largeTextHint": "I zmadhon pak të gjitha tekstet.",
+    "motionLabel": "Më pak animacione",
+    "motionHint": "Fik efektet e kalimit dhe lëvizjes.",
+    "helpTitle": "Ndihmë",
+    "faq": "Pyetjet e shpeshta",
+    "faqHint": "Përgjigje të shkurtra",
+    "reset": "Rivendos preferencat",
+    "resetDone": "Preferencat u rivendosën"
   }
 }

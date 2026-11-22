@@ -10,7 +10,7 @@ import { PasswordField } from "@/components/ui/password-field";
 import { passwordProblem } from "@/lib/password";
 import { Switch } from "@/components/ui/switch";
 import { Toast } from "@/components/toast";
-import { deleteAccount, setLanguage, setMarketing, setPassword, signOut, type PasswordResult } from "./actions";
+import { deleteAccount, setMarketing, setPassword, signOut, type PasswordResult } from "./actions";
 
 type T = Messages["account"];
 
@@ -44,8 +44,8 @@ export function AccountSettings({
 }) {
   const [toast, setToast] = useState("");
   const [marketingOn, setMarketingOn] = useState(marketing);
-  const [pending, startTransition] = useTransition();
-  const [busy, setBusy] = useState<"lang" | "signOut" | "signOutAll" | null>(null);
+  const [, startTransition] = useTransition();
+  const [busy, setBusy] = useState<"signOut" | "signOutAll" | null>(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
   const run = (key: typeof busy, action: () => Promise<unknown>) => {
@@ -89,28 +89,6 @@ export function AccountSettings({
         labels={passwordLabels}
         onSaved={() => setToast(t.passwordSaved)}
       />
-
-      <Group title={t.language}>
-        <div className="p-2">
-          <div role="radiogroup" aria-label={t.language} className="flex rounded-xl bg-surface-2 p-1">
-            {(["tr", "sq"] as const).map((code) => (
-              <button
-                key={code}
-                type="button"
-                role="radio"
-                aria-checked={code === lang}
-                disabled={pending}
-                onClick={() => code !== lang && run("lang", () => setLanguage(code))}
-                className={`pressable h-10 flex-1 rounded-lg text-[15px] font-semibold ${
-                  code === lang ? "bg-surface text-foreground shadow-card" : "text-muted"
-                }`}
-              >
-                {code === "tr" ? "Türkçe" : "Shqip"}
-              </button>
-            ))}
-          </div>
-        </div>
-      </Group>
 
       <Group>
         <label className="flex min-h-14 cursor-pointer items-center justify-between gap-4 px-4 py-3">

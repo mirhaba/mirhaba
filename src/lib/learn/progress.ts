@@ -37,6 +37,24 @@ export async function getStreak(): Promise<Streak> {
   }
 }
 
+export type Today = { day: string; sessions: number };
+
+/** Lessons and reviews finished today on this device (for the daily goal on the dashboard). */
+export async function getToday(): Promise<Today> {
+  const day = localDay();
+  try {
+    const row = (await getDB().meta.get("today"))?.value as Today | undefined;
+    return row?.day === day ? row : { day, sessions: 0 };
+  } catch {
+    return { day, sessions: 0 };
+  }
+}
+
+async function bumpToday(): Promise<void> {
+  const today = await getToday();
+  await getDB().meta.put({ key: "today", value: { day: today.day, sessions: today.sessions + 1 } satisfies Today });
+}
+
 /** Called when a lesson or review is finished. Counts each day once. */
 async function bumpStreak(): Promise<Streak> {
   const db = getDB();
@@ -100,6 +118,7 @@ export async function finishSession(lessonSlug: string, score: number): Promise<
         completedAt: Date.now(),
       });
     }
+    await bumpToday().catch(() => {});
     return await bumpStreak();
   } catch {
     return EMPTY_STREAK;

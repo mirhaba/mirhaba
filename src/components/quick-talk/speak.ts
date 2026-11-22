@@ -3,7 +3,12 @@
 // Plays a phrase. Recorded native audio wins; device text-to-speech is the fallback.
 // Most phones have no Albanian TTS voice, so callers must handle `false` (show the text instead).
 
+import { readPreferences, SPEECH_RATE } from "@/lib/preferences";
+
 let current: HTMLAudioElement | null = null;
+
+/** Voice speed chosen in Preferences (slow / normal / fast). */
+const rate = () => SPEECH_RATE[readPreferences().speechSpeed];
 
 function albanianVoice(): SpeechSynthesisVoice | undefined {
   if (typeof speechSynthesis === "undefined") return undefined;
@@ -28,6 +33,7 @@ export function speakTurkish(text: string) {
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = voice?.lang ?? "tr-TR";
   if (voice) utterance.voice = voice;
+  utterance.rate = rate() + 0.1;
   speechSynthesis.speak(utterance);
 }
 
@@ -37,6 +43,7 @@ export function speakAlbanian(text: string, audioSrc?: string, onEnd?: () => voi
 
   if (audioSrc) {
     const audio = new Audio(audioSrc);
+    audio.playbackRate = Math.max(0.75, Math.min(1.15, rate() / 0.9));
     current = audio;
     audio.onended = () => onEnd?.();
     audio.play().catch(() => onEnd?.());
@@ -48,7 +55,7 @@ export function speakAlbanian(text: string, audioSrc?: string, onEnd?: () => voi
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.voice = voice;
   utterance.lang = voice.lang;
-  utterance.rate = 0.9;
+  utterance.rate = rate();
   utterance.onend = () => onEnd?.();
   speechSynthesis.speak(utterance);
   return true;

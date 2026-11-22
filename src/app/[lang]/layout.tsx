@@ -14,6 +14,9 @@ import { CookieConsent } from "@/components/cookie-consent";
 import { Analytics } from "@/components/analytics";
 import { siteUrl } from "@/lib/site";
 import { AuthLinkHandler } from "@/components/auth-link-handler";
+import { FirstRunGuide } from "@/components/first-run-guide";
+import { SignupWelcome } from "@/components/signup-welcome";
+import { PREFERENCES_BOOT_SCRIPT } from "@/lib/preferences-boot";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -61,10 +64,17 @@ export const viewport: Viewport = {
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const t = await getDictionary(lang);
+  // The first-run guide has its own TR/SQ toggle, so it needs its texts in both languages.
+  const [t, other] = await Promise.all([getDictionary(lang), getDictionary(lang === "tr" ? "sq" : "tr")]);
+  const guideTexts = lang === "tr" ? { tr: t.guide, sq: other.guide } : { tr: other.guide, sq: t.guide };
 
   return (
-    <html lang={lang} className={`${dmSans.variable} h-full antialiased`}>
+    // suppressHydrationWarning: the boot script sets data-theme / data-text / data-motion before React hydrates.
+    <html lang={lang} className={`${dmSans.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        {/* Applies saved preferences (dark theme, larger text, less motion) before the first paint. */}
+        <script dangerouslySetInnerHTML={{ __html: PREFERENCES_BOOT_SCRIPT }} />
+      </head>
       <body className="flex min-h-full flex-col font-sans">
         <a
           href="#main"
@@ -83,6 +93,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           <InstallPrompt t={t.install} />
         </Suspense>
         <CookieConsent lang={lang} t={t.cookies} />
+        <FirstRunGuide lang={lang} texts={guideTexts} />
+        <SignupWelcome lang={lang} t={t.welcome} prefs={{ goalNames: t.prefs.goalNames, lessonsN: t.prefs.lessonsN }} />
         <Analytics />
         <ServiceWorker />
       </body>

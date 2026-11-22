@@ -5,6 +5,7 @@ import { Volume2 } from "lucide-react";
 import type { Messages } from "@/i18n/dictionaries";
 import type { Item } from "@/lib/content/model";
 import { albanianReading } from "@/lib/text";
+import { usePreferences } from "@/lib/preferences";
 import { canSpeakAlbanian, speakAlbanian } from "@/components/quick-talk/speak";
 
 type T = Messages["learn"]["player"];
@@ -48,16 +49,19 @@ export function PromptAlbanian({ text, t }: { text: string; t: T }) {
 // ---------------------------------------------------------------- Learn card
 
 export function LearnCard({ item, lang, t }: { item: Item; lang: "tr" | "sq"; t: T }) {
+  const { showReading } = usePreferences();
   return (
     <div className="rounded-3xl bg-surface p-6 shadow-card ring-1 ring-hairline">
       <span className="rounded-full bg-accent-soft px-2.5 py-1 text-[12px] font-semibold text-accent-text">{t.newWord}</span>
       <div className="mt-4">
         <PromptAlbanian text={item.sq} t={t} />
       </div>
-      <p className="mt-1 text-[17px] text-muted">
-        <span className="sr-only">{t.reading}: </span>
-        {albanianReading(item.sq)}
-      </p>
+      {showReading && (
+        <p className="mt-1 text-[17px] text-muted">
+          <span className="sr-only">{t.reading}: </span>
+          {albanianReading(item.sq)}
+        </p>
+      )}
       <p lang="tr" className="mt-4 border-t border-hairline pt-4 text-[22px] font-semibold">
         {item.tr}
       </p>

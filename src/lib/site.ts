@@ -57,3 +57,12 @@ export function sectionHref(key: keyof typeof sections, lang: "tr" | "sq"): stri
 
 export const legalPages = ["privacy", "terms", "refunds", "cookies", "contact"] as const;
 export type LegalPage = (typeof legalPages)[number];
+
+/** The same page in the other language ("/tr/argo/x" → "/sq/zhargon/x"), keeping the rest of the path. */
+export function localizedPath(pathname: string, to: "tr" | "sq"): string {
+  const from = pathname.split("/")[1] === "sq" ? "sq" : "tr";
+  const rest = pathname
+    .replace(/^\/(tr|sq)(?=\/|$)/, "")
+    .replace(new RegExp(`^/${DICTIONARY_SEGMENT[from]}(?=/|$)`), `/${DICTIONARY_SEGMENT[to]}`);
+  return `/${to}${rest}`;
+}

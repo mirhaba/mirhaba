@@ -8,7 +8,10 @@ import { getEntitlement } from "@/lib/billing/entitlement";
 import { getAdmin } from "@/lib/admin/auth";
 import { syncRecentPendingPayments } from "@/lib/payments/service";
 import { checkLimit } from "@/lib/rate-limit";
+import { getQuickTalk } from "@/lib/content/queries";
 import { AccountSettings } from "./account-settings";
+import { Dashboard, type Tab } from "./dashboard";
+import { PreferencesPanel } from "./preferences-panel";
 import { ConsentForm } from "./consent-form";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/app">): Promise<Metadata> {
@@ -25,7 +28,7 @@ export default async function AccountPage({ params, searchParams }: PageProps<"/
 
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-6">
-      <h1 className="text-[34px] leading-tight font-bold">{t.account.title}</h1>
+      <h1 className="sr-only">{t.account.title}</h1>
       {/* Reading the session happens per request, so only this part waits. */}
       <Suspense fallback={<AccountSkeleton />}>
         <Account lang={lang} t={t} searchParams={searchParams} />
@@ -43,12 +46,13 @@ async function Account({ lang, t, searchParams }: { lang: Locale; t: Messages; s
   // Premium status below is current. No request is made when there is nothing pending.
   if (await checkLimit("paymentCheckUser", auth.user.id)) await syncRecentPendingPayments(auth.user.id).catch(() => {});
 
-  const [{ data: profile }, entitlement, { data: isModerator }, admin, query] = await Promise.all([
+  const [{ data: profile }, entitlement, { data: isModerator }, admin, query, quickTalk] = await Promise.all([
     supabase.from("profiles").select("ui_lang, marketing_opt_in, age_confirmed_at").eq("id", auth.user.id).single(),
     getEntitlement(),
     supabase.rpc("is_moderator"),
     getAdmin(),
     searchParams,
+    getQuickTalk().catch(() => null),
   ]);
 
   if (!profile?.age_confirmed_at) return <ConsentForm lang={lang} t={t.consent} />;
@@ -57,21 +61,58 @@ async function Account({ lang, t, searchParams }: { lang: Locale; t: Messages; s
     ? new Intl.DateTimeFormat(intlLocale[lang], { dateStyle: "long" }).format(new Date(entitlement.activeUntil))
     : null;
 
+  const tab: Tab = query.password === "1" ? "account" : query.tab === "preferences" || query.tab === "account" ? query.tab : "overview";
+
   return (
-    <AccountSettings
+    <Dashboard
       lang={lang}
-      t={t.account}
+      t={t.dashboard}
+      nav={t.nav}
+      initialTab={tab}
       email={auth.user.email ?? ""}
-      marketing={profile.marketing_opt_in}
-      activeUntil={activeUntil}
-      moderationLink={isModerator && !admin ? { href: `/${lang}/app/moderation`, label: t.moderation.open, hint: t.moderation.openHint } : null}
-      adminLink={admin ? { href: "/admin", label: t.account.adminOpen, hint: t.account.adminOpenHint } : null}
-      // Set when a password is chosen at sign-up or on this page (Supabase doesn't say whether one exists).
-      hasPassword={auth.user.user_metadata?.password_set === true}
-      openPassword={query.password === "1"}
-      passwordLabels={{ show: t.auth.showPassword, hide: t.auth.hidePassword }}
+      premium={!!activeUntil}
+      phrase={phraseOfTheDay(quickTalk)}
+      preferences={
+        <PreferencesPanel
+          lang={lang}
+          t={t.prefs}
+          languageLabel={t.account.language}
+          tourLabel={t.dashboard.tour}
+          tourHint={t.dashboard.tourHint}
+          saveError={t.account.saveError}
+        />
+      }
+      account={
+        <AccountSettings
+          lang={lang}
+          t={t.account}
+          email={auth.user.email ?? ""}
+          marketing={profile.marketing_opt_in}
+          activeUntil={activeUntil}
+          moderationLink={isModerator && !admin ? { href: `/${lang}/app/moderation`, label: t.moderation.open, hint: t.moderation.openHint } : null}
+          adminLink={admin ? { href: "/admin", label: t.account.adminOpen, hint: t.account.adminOpenHint } : null}
+          // Set when a password is chosen at sign-up or on this page (Supabase doesn't say whether one exists).
+          hasPassword={auth.user.user_metadata?.password_set === true}
+          openPassword={query.password === "1"}
+          passwordLabels={{ show: t.auth.showPassword, hide: t.auth.hidePassword }}
+        />
+      }
     />
   );
+}
+
+/** One Quick Talk phrase per calendar day (UTC), the same for everyone. Fill-in phrases use their first option. */
+function phraseOfTheDay(content: Awaited<ReturnType<typeof getQuickTalk>> | null): { tr: string; sq: string; audio?: string } | null {
+  const phrases = content?.categories.flatMap((c) => c.phrases) ?? [];
+  if (!phrases.length) return null;
+  const day = Math.floor(Date.now() / 86_400_000);
+  const p = phrases[(day * 7919) % phrases.length];
+  const option = p.slot?.[0];
+  return {
+    tr: p.tr.replace("{slot}", option?.tr ?? "…"),
+    sq: p.sq.replace("{slot}", option?.sq ?? "…"),
+    audio: option ? undefined : p.audio,
+  };
 }
 
 function AccountSkeleton() {

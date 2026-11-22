@@ -9,6 +9,8 @@ import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import { Button } from "@/components/ui/button";
 import { acceptConsent } from "./actions";
+import { storageSet, WELCOME_PENDING_KEY } from "@/lib/preferences";
+import { WELCOME_EVENT } from "@/components/signup-welcome";
 
 /** One-time consent after first sign-in. Both boxes start unticked; only the first is required. */
 export function ConsentForm({ lang, t }: { lang: Locale; t: Messages["consent"] }) {
@@ -34,8 +36,14 @@ export function ConsentForm({ lang, t }: { lang: Locale; t: Messages["consent"] 
         startTransition(async () => {
           const result = await acceptConsent({ accepted, marketing });
           // Continue where the person was going (e.g. the translate page), else show the account.
-          if (!result.ok) setFailed(true);
-          else if (next) router.replace(safeNextPath(next, lang));
+          if (!result.ok) {
+            setFailed(true);
+            return;
+          }
+          // First time in: the welcome screen (mounted in the layout) opens wherever they land.
+          storageSet(WELCOME_PENDING_KEY, "1");
+          window.dispatchEvent(new Event(WELCOME_EVENT));
+          if (next) router.replace(safeNextPath(next, lang));
           else router.refresh();
         });
       }}

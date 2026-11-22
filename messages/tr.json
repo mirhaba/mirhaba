@@ -655,5 +655,231 @@
     "toAccount": "Hesabıma git",
     "startUsing": "Çeviriye başla",
     "testMode": "Test modu: gerçek para çekilmez. RaiAccept test kartını kullan: 4999 9999 9999 0011, ileri bir son kullanma tarihi ve herhangi bir CVV."
+  },
+  "guide": {
+    "dialogLabel": "Mirhaba'ya hoş geldin",
+    "switchLang": "Dili değiştirin",
+    "skip": "Geç",
+    "next": "İleri",
+    "back": "Geri",
+    "step": "Adım {n} / {total}",
+    "hello": "Merhaba! 👋",
+    "askTitle": "Seni tanıyalım",
+    "askBody": "Hangi dili konuşuyorsun, hangisini öğrenmek istiyorsun?",
+    "trLearnerTitle": "Türkçe konuşuyorum",
+    "trLearnerBody": "Arnavutça öğrenmek ve Kosova'da rahatça konuşmak istiyorum.",
+    "sqLearnerTitle": "Arnavutça konuşuyorum",
+    "sqLearnerBody": "Türkçe öğrenmek ve Türklerle konuşmak istiyorum.",
+    "chooseHint": "Seçimini daha sonra Hesap → Tercihler'den değiştirebilirsin.",
+    "slides": [
+      {
+        "title": "Hızlı Konuş",
+        "body": "Kategoriden bir cümle seç, ekranı karşındakine göster ya da sesli okut. İnternet olmadan da çalışır.",
+        "tip": "Yıldıza dokun: sık kullandığın cümleler en üstte dursun."
+      },
+      {
+        "title": "Karşındaki cevaplasın",
+        "body": "Cümlenin altındaki cevap düğmelerine karşındaki kişi dokunur, sen cevabın Türkçesini görürsün.",
+        "tip": "Evet, hayır, bekle… hazır cevaplar."
+      },
+      {
+        "title": "Akıllı çeviri",
+        "body": "Yaz ya da yapıştır. Argo ve Kosova ağzı anlamına göre çevrilir; Kosova ağzı mı standart mı, sen seçersin.",
+        "tip": "Ücretsiz hesapla her gün çeviri hakkın olur."
+      },
+      {
+        "title": "5 dakikalık dersler",
+        "body": "Kelime kartları, eşleştirme ve cümle kurma. Her gün bir ders bitir, serini büyüt.",
+        "tip": "Zayıf kelimeler otomatik olarak tekrar karşına çıkar."
+      },
+      {
+        "title": "Argo Sözlük",
+        "body": "qysh, çka, kerr… Sokakta duyduğun kelimelerin gerçek anlamı ve Türkçeden geçen kelimeler.",
+        "tip": "Arama, harf hatalarını da anlar."
+      },
+      {
+        "title": "Cebinde, internetsiz",
+        "body": "Mirhaba'yı ana ekrana ekle, uygulama gibi aç. Giriş yaparsan favorilerin ve ilerlemen tüm cihazlarına taşınır.",
+        "tip": "Paylaş → “Ana Ekrana Ekle”."
+      }
+    ],
+    "demoTry": "Dene!",
+    "demoFront": "Mirëdita",
+    "demoBack": "İyi günler",
+    "demoTap": "Karta dokun",
+    "demoReplies": [
+      "Po",
+      "Jo",
+      "Prit pak"
+    ],
+    "demoRepliesTr": [
+      "Evet",
+      "Hayır",
+      "Biraz bekle"
+    ],
+    "demoTranslateIn": "Qysh je, lali?",
+    "demoTranslateOut": "Naber kanka?",
+    "quizQuestion": "“Faleminderit” ne demek?",
+    "quizRight": "Teşekkürler",
+    "quizWrong": "Günaydın",
+    "quizCorrect": "Harika, doğru! 🎉",
+    "quizTryAgain": "Olmadı, bir daha dene.",
+    "demoSlang": [
+      {
+        "w": "qysh",
+        "m": "nasıl"
+      },
+      {
+        "w": "çka",
+        "m": "ne"
+      },
+      {
+        "w": "kerr",
+        "m": "araba"
+      }
+    ],
+    "doneTitle": "Hazırsın!",
+    "doneBody": "Bu turu istediğin zaman sayfanın altındaki “Nasıl kullanılır?” bağlantısından yeniden açabilirsin.",
+    "start": "Hızlı Konuş'u aç",
+    "signUp": "Ücretsiz hesap oluştur",
+    "signUpHint": "Çeviri, senkronize ilerleme ve rozetler için.",
+    "howTo": "Nasıl kullanılır?"
+  },
+  "welcome": {
+    "dialogLabel": "Hesabın hazır",
+    "title": "Aramıza hoş geldin! 🎉",
+    "body": "Hesabın hazır. Mirhaba'yı birkaç saniyede sana göre ayarlayalım.",
+    "nameLabel": "Sana nasıl hitap edelim?",
+    "namePlaceholder": "Adın (isteğe bağlı)",
+    "goalLabel": "Günlük hedefin",
+    "perksTitle": "Hesabınla açılanlar",
+    "perks": [
+      "Her gün ücretsiz çeviri",
+      "Favoriler ve ilerleme tüm cihazlarında",
+      "Günlük seri, hedef ve rozetler"
+    ],
+    "continue": "Devam",
+    "stepsTitle": "İlk adımların",
+    "stepsBody": "Hangisinden başlamak istersin?",
+    "steps": {
+      "learn": {
+        "title": "İlk dersini bitir",
+        "body": "5 dakika, ilk rozetin seni bekliyor."
+      },
+      "pin": {
+        "title": "Bir cümleyi sabitle",
+        "body": "Hızlı Konuş'ta yıldıza dokun."
+      },
+      "translate": {
+        "title": "Çeviriyi dene",
+        "body": "Kosova argosunu anlamına göre çevir."
+      }
+    },
+    "toDashboard": "Panelime git"
+  },
+  "dashboard": {
+    "tabsLabel": "Hesap bölümleri",
+    "tabOverview": "Genel bakış",
+    "tabPreferences": "Tercihler",
+    "tabAccount": "Hesap",
+    "greetMorning": "Günaydın",
+    "greetDay": "İyi günler",
+    "greetEvening": "İyi akşamlar",
+    "greetNight": "İyi geceler",
+    "greetSub": "Bugün ne öğrenelim?",
+    "statStreak": "Günlük seri",
+    "statLessons": "Biten ders",
+    "statWords": "Öğrenilen kelime",
+    "statFavorites": "Favori cümle",
+    "goalTitle": "Günlük hedef",
+    "goalProgress": "{done} / {goal} ders",
+    "goalDone": "Bugünkü hedefini tamamladın! 🔥",
+    "goalTodo": "Hedefe {n} ders kaldı.",
+    "goalCta": "Derse başla",
+    "goalReview": "Tekrar yap",
+    "goalEdit": "Hedefi değiştir",
+    "phraseTitle": "Günün cümlesi",
+    "phraseTap": "Çevirmek için dokun",
+    "listen": "Dinle",
+    "quickTitle": "Hızlı erişim",
+    "badgesTitle": "Rozetler",
+    "badgesCount": "{n} / {total} açıldı",
+    "badgeLocked": "Kilitli",
+    "badges": {
+      "firstLesson": {
+        "title": "İlk adım",
+        "body": "İlk dersini bitir."
+      },
+      "streak3": {
+        "title": "Isınıyor",
+        "body": "3 günlük seri yap."
+      },
+      "streak7": {
+        "title": "Ateş topu",
+        "body": "7 günlük seri yap."
+      },
+      "words25": {
+        "title": "Kelime avcısı",
+        "body": "25 kelime öğren."
+      },
+      "favorites3": {
+        "title": "Koleksiyoncu",
+        "body": "3 cümle sabitle."
+      },
+      "lessons10": {
+        "title": "Azimli",
+        "body": "10 ders bitir."
+      }
+    },
+    "tour": "Uygulama turunu izle",
+    "tourHint": "Ana özellikleri 1 dakikada gör.",
+    "deviceNote": "İstatistikler bu cihazdaki ilerlemenden hesaplanır ve hesabınla eşitlenir."
+  },
+  "prefs": {
+    "savedHere": "Tercihler bu cihazda saklanır ve anında uygulanır.",
+    "saved": "Kaydedildi",
+    "profileTitle": "Profil",
+    "nicknameLabel": "Takma ad",
+    "nicknameHint": "Selamlamada kullanılır; yalnızca bu cihazda kalır.",
+    "nicknamePlaceholder": "örn. Ayşe",
+    "learningTitle": "Öğrenme",
+    "directionLabel": "Ne öğreniyorsun?",
+    "directionTrSq": "Arnavutça öğreniyorum",
+    "directionTrSqHint": "Türkçe → Arnavutça",
+    "directionSqTr": "Türkçe öğreniyorum",
+    "directionSqTrHint": "Arnavutça → Türkçe",
+    "directionUi": "Arayüzü de {language} yap",
+    "goalLabel": "Günlük hedef",
+    "goalHint": "Günde kaç ders bitirmek istiyorsun?",
+    "goalNames": {
+      "1": "Rahat",
+      "2": "Düzenli",
+      "3": "Ciddi",
+      "5": "Çılgın"
+    },
+    "lessonsN": "{n} ders",
+    "soundTitle": "Ses ve okunuş",
+    "speechLabel": "Konuşma hızı",
+    "speechSlow": "Yavaş",
+    "speechNormal": "Normal",
+    "speechFast": "Hızlı",
+    "speechTest": "Dinle",
+    "speechNoVoice": "Bu cihazda Arnavutça ses yok. Kayıtlı sesler yine de seçtiğin hızda çalar.",
+    "readingLabel": "Okunuşu göster",
+    "readingHint": "Arnavutça kelimelerin altında Türkçe okunuşu gösterir.",
+    "appearanceTitle": "Görünüm",
+    "themeLabel": "Tema",
+    "themeSystem": "Sistem",
+    "themeLight": "Açık",
+    "themeDark": "Koyu",
+    "largeTextLabel": "Büyük yazı",
+    "largeTextHint": "Tüm metinleri biraz büyütür.",
+    "motionLabel": "Animasyonları azalt",
+    "motionHint": "Geçiş ve hareket efektlerini kapatır.",
+    "helpTitle": "Yardım",
+    "faq": "Sık sorulan sorular",
+    "faqHint": "Kısa cevaplar",
+    "reset": "Tercihleri sıfırla",
+    "resetDone": "Tercihler sıfırlandı"
   }
 }
