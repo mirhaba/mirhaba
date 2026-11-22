@@ -1,0 +1,31 @@
+# Sends due daily reminders (web push). Runs every 15 minutes on the default branch.
+# Needs two repository secrets (Settings → Secrets and variables → Actions):
+#   SITE_URL     e.g. https://mirhaba.app
+#   CRON_SECRET  the same value as CRON_SECRET in the Vercel environment
+# Until both are set, every run ends quietly without doing anything.
+name: Daily reminders
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Send due reminders
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$SITE_URL" ] || [ -z "$CRON_SECRET" ]; then
+            echo "SITE_URL or CRON_SECRET not set; skipping."
+            exit 0
+          fi
+          curl --fail-with-body --silent --show-error --max-time 120 \
+            -X POST -H "Authorization: Bearer $CRON_SECRET" \
+            "${SITE_URL%/}/api/cron/reminders"

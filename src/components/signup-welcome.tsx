@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Link from "next/link";
-import { ArrowRight, Check, GraduationCap, Languages, LayoutDashboard, Star } from "lucide-react";
+import { ArrowRight, Check, Gift, GraduationCap, Languages, LayoutDashboard, Star } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import { sectionHref } from "@/lib/site";
@@ -33,10 +33,15 @@ type Props = {
  */
 export function SignupWelcome(props: Props) {
   const [open, setOpen] = useState(false);
+  const [invited, setInvited] = useState(false);
 
   useEffect(() => {
     const check = () => {
-      if (storageGet(WELCOME_PENDING_KEY) === "1") setOpen(true);
+      const pending = storageGet(WELCOME_PENDING_KEY);
+      if (pending === "1" || pending === "invited") {
+        setInvited(pending === "invited");
+        setOpen(true);
+      }
     };
     const timer = setTimeout(check, 300);
     window.addEventListener(WELCOME_EVENT, check);
@@ -50,6 +55,7 @@ export function SignupWelcome(props: Props) {
   return (
     <WelcomeDialog
       {...props}
+      invited={invited}
       onClose={() => {
         storageSet(WELCOME_PENDING_KEY, null);
         storageSet(GUIDE_SEEN_KEY, "1"); // they're in; the first-visit tour shouldn't pop up later
@@ -59,7 +65,7 @@ export function SignupWelcome(props: Props) {
   );
 }
 
-function WelcomeDialog({ lang, t, prefs, onClose }: Props & { onClose: () => void }) {
+function WelcomeDialog({ lang, t, prefs, invited, onClose }: Props & { invited: boolean; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   const [step, setStep] = useState<1 | 2>(1);
   const [name, setName] = useState(() => readPreferences().nickname);
@@ -109,6 +115,12 @@ function WelcomeDialog({ lang, t, prefs, onClose }: Props & { onClose: () => voi
             </button>
             <h2 className="mt-4 text-center text-[28px] leading-tight font-bold">{t.title}</h2>
             <p className="mt-1 text-center text-[15px] text-muted">{t.body}</p>
+            {invited && (
+              <p className="pop-in mt-4 flex items-center gap-2.5 rounded-2xl bg-brand-gold/20 px-4 py-3 text-[15px] font-semibold">
+                <Gift aria-hidden="true" className="h-5 w-5 shrink-0 text-brand-gold" />
+                {t.invitedGift}
+              </p>
+            )}
 
             <label htmlFor="welcome-name" className="mt-6 text-[13px] font-medium text-muted">
               {t.nameLabel}

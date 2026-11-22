@@ -19,6 +19,7 @@ import { canSpeakAlbanian, speakAlbanian } from "@/components/quick-talk/speak";
 import { Switch } from "@/components/ui/switch";
 import { Toast } from "@/components/toast";
 import { setLanguage } from "./actions";
+import { ReminderSettings } from "./reminder-settings";
 
 type T = Messages["prefs"];
 
@@ -181,6 +182,11 @@ export function PreferencesPanel({
             })}
           </div>
         </div>
+      </Group>
+
+      {/* Daily reminder (web push) */}
+      <Group title={t.remindersTitle} i={2}>
+        <ReminderSettings t={t} onMessage={setToast} />
       </Group>
 
       {/* Sound */}

@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { checkLimit } from "@/lib/rate-limit";
 import { mergeSnapshots, snapshotSchema, type ItemSnap, type LessonSnap, type Snapshot } from "./merge";
+import { progressSlug, splitProgressSlug, type Course } from "./course";
 
 export type SyncResult = { signedIn: false } | { signedIn: true; ok: true; snapshot: Snapshot } | { signedIn: true; ok: false };
 
@@ -26,7 +27,7 @@ export async function syncLearning(raw: unknown): Promise<SyncResult> {
 
   // ---------- Read the account's copy ----------
   const [progress, items, learning] = await Promise.all([
-    supabase.from("user_progress").select("score, attempts, completed_at, lessons(slug)"),
+    supabase.from("user_progress").select("course, score, attempts, completed_at, lessons(slug)"),
     supabase.from("user_item_stats").select("item_id, correct, wrong, interval_days, due_at, last_seen, wrong_session"),
     supabase.from("user_learning").select("streak_current, streak_longest, streak_last_day").maybeSingle(),
   ]);
@@ -36,7 +37,7 @@ export async function syncLearning(raw: unknown): Promise<SyncResult> {
     lessons: progress.data.flatMap((row): LessonSnap[] => {
       const lesson = Array.isArray(row.lessons) ? row.lessons[0] : row.lessons;
       return lesson?.slug
-        ? [{ slug: lesson.slug, bestScore: row.score, attempts: row.attempts, completedAt: ms(row.completed_at) }]
+        ? [{ slug: progressSlug(lesson.slug, row.course === "tr" ? "tr" : "sq"), bestScore: row.score, attempts: row.attempts, completedAt: ms(row.completed_at) }]
         : [];
     }),
     items: items.data.map(
@@ -73,15 +74,17 @@ export async function syncLearning(raw: unknown): Promise<SyncResult> {
       .select("id, slug")
       .in(
         "slug",
-        changedLessons.map((l) => l.slug),
+        [...new Set(changedLessons.map((l) => splitProgressSlug(l.slug).slug))],
       );
     if (error) return { signedIn: true, ok: false };
     const idBySlug = new Map(ids.map((r) => [r.slug, r.id]));
     const rows = changedLessons
+      .map((l) => ({ ...l, ...splitProgressSlug(l.slug) }) as LessonSnap & { course: Course })
       .filter((l) => idBySlug.has(l.slug)) // lessons unknown to the database stay on the phone only
       .map((l) => ({
         user_id: userId,
         lesson_id: idBySlug.get(l.slug)!,
+        course: l.course,
         score: l.bestScore,
         attempts: l.attempts,
         completed_at: l.completedAt ? iso(l.completedAt) : null,

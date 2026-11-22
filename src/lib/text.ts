@@ -48,3 +48,27 @@ export function albanianReading(text: string): string {
     .replace(/(?<=\p{L}{2})ë(?=[\s.,!?;:…]|$)/gu, "") // word-final ë is usually silent ("derë" → "der")
     .replace(READING_PATTERN, (m) => READING[m] ?? m);
 }
+
+// Turkish letter → closest Albanian spelling, for Albanian speakers learning Turkish.
+// ğ lengthens the vowel before it and is not pronounced; ö has no Albanian letter and stays.
+const TR_READING: Record<string, string> = {
+  c: "xh",
+  ç: "ç",
+  ş: "sh",
+  ğ: "",
+  ı: "ë",
+  j: "zh",
+  y: "j",
+  ü: "y",
+  â: "a",
+  î: "i",
+  û: "u",
+};
+
+/**
+ * A rough Albanian-alphabet reading of Turkish text (the mirror of albanianReading).
+ * e.g. "Teşekkürler" → "teshekkyrler", "Günaydın" → "gynajdën".
+ */
+export function turkishReading(text: string): string {
+  return text.toLocaleLowerCase("tr-TR").replace(/[cçşğıjyüâîû]/g, (m) => TR_READING[m] ?? m);
+}

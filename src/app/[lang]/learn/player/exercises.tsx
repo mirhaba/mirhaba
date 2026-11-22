@@ -4,29 +4,33 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Volume2 } from "lucide-react";
 import type { Messages } from "@/i18n/dictionaries";
 import type { Item } from "@/lib/content/model";
-import { albanianReading } from "@/lib/text";
+import { albanianReading, turkishReading } from "@/lib/text";
 import { usePreferences } from "@/lib/preferences";
-import { canSpeakAlbanian, speakAlbanian } from "@/components/quick-talk/speak";
+import { EXTRA_LETTERS, type Course } from "@/lib/learn/course";
+import { canSpeakAlbanian, canSpeakTurkish, speakAlbanian, speakTurkish } from "@/components/quick-talk/speak";
 
 type T = Messages["learn"]["player"];
 
-/** Play button, shown only when the device has an Albanian voice (recorded audio comes later). */
-function Listen({ text, label }: { text: string; label: string }) {
+/** The language the learner speaks, for `lang` attributes. */
+export const nativeOf = (course: Course): Course => (course === "sq" ? "tr" : "sq");
+
+/** Play button, shown only when the device has a voice for the language being learned. */
+function Listen({ text, label, course }: { text: string; label: string; course: Course }) {
   const [available, setAvailable] = useState(false);
   useEffect(() => {
-    const check = () => setAvailable(canSpeakAlbanian());
+    const check = () => setAvailable(course === "sq" ? canSpeakAlbanian() : canSpeakTurkish());
     const timer = setTimeout(check, 0);
     window.speechSynthesis?.addEventListener?.("voiceschanged", check);
     return () => {
       clearTimeout(timer);
       window.speechSynthesis?.removeEventListener?.("voiceschanged", check);
     };
-  }, []);
+  }, [course]);
   if (!available) return null;
   return (
     <button
       type="button"
-      onClick={() => speakAlbanian(text)}
+      onClick={() => (course === "sq" ? speakAlbanian(text) : speakTurkish(text))}
       aria-label={label}
       className="pressable flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent-soft text-accent-text"
     >
@@ -35,34 +39,35 @@ function Listen({ text, label }: { text: string; label: string }) {
   );
 }
 
-export function PromptAlbanian({ text, t }: { text: string; t: T }) {
+/** A prompt in the language being learned (Albanian, or Turkish in the Turkish course), with a play button. */
+export function PromptTarget({ text, t, course }: { text: string; t: T; course: Course }) {
   return (
     <div className="flex items-center gap-3">
-      <p lang="sq" className="text-[28px] leading-tight font-bold break-words">
+      <p lang={course} className="text-[28px] leading-tight font-bold break-words">
         {text}
       </p>
-      <Listen text={text} label={t.listen} />
+      <Listen text={text} label={t.listen} course={course} />
     </div>
   );
 }
 
 // ---------------------------------------------------------------- Learn card
 
-export function LearnCard({ item, lang, t }: { item: Item; lang: "tr" | "sq"; t: T }) {
+export function LearnCard({ item, lang, t, course }: { item: Item; lang: "tr" | "sq"; t: T; course: Course }) {
   const { showReading } = usePreferences();
   return (
     <div className="rounded-3xl bg-surface p-6 shadow-card ring-1 ring-hairline">
       <span className="rounded-full bg-accent-soft px-2.5 py-1 text-[12px] font-semibold text-accent-text">{t.newWord}</span>
       <div className="mt-4">
-        <PromptAlbanian text={item.sq} t={t} />
+        <PromptTarget text={item.sq} t={t} course={course} />
       </div>
       {showReading && (
         <p className="mt-1 text-[17px] text-muted">
           <span className="sr-only">{t.reading}: </span>
-          {albanianReading(item.sq)}
+          {course === "sq" ? albanianReading(item.sq) : turkishReading(item.sq)}
         </p>
       )}
-      <p lang="tr" className="mt-4 border-t border-hairline pt-4 text-[22px] font-semibold">
+      <p lang={nativeOf(course)} className="mt-4 border-t border-hairline pt-4 text-[22px] font-semibold">
         {item.tr}
       </p>
       {item.note && <p className="mt-2 text-[15px] text-muted">{item.note[lang]}</p>}
@@ -124,7 +129,7 @@ export function Choose({
 
 // ---------------------------------------------------------------- Match pairs
 
-export function Match({ items, t, onDone }: { items: Item[]; t: T; onDone: (wrongIds: string[]) => void }) {
+export function Match({ items, t, course, onDone }: { items: Item[]; t: T; course: Course; onDone: (wrongIds: string[]) => void }) {
   // Right column in a different, stable order (rotation keeps server and client identical).
   const right = useMemo(() => [...items.slice(1), items[0]], [items]);
   const [picked, setPicked] = useState<string | null>(null);
@@ -166,7 +171,7 @@ export function Match({ items, t, onDone }: { items: Item[]; t: T; onDone: (wron
             <button
               key={item.id}
               type="button"
-              lang="sq"
+              lang={course}
               disabled={matched.includes(item.id)}
               aria-pressed={picked === item.id}
               onClick={() => setPicked(item.id)}
@@ -181,7 +186,7 @@ export function Match({ items, t, onDone }: { items: Item[]; t: T; onDone: (wron
             <button
               key={item.id}
               type="button"
-              lang="tr"
+              lang={nativeOf(course)}
               disabled={matched.includes(item.id) || !picked}
               onClick={() => tapRight(item.id)}
               className={tile(false, matched.includes(item.id), miss === item.id)}
@@ -203,6 +208,7 @@ export function Order({
   onChange,
   locked,
   t,
+  course,
 }: {
   tiles: string[];
   /** Indexes into `tiles`, in the order picked. */
@@ -210,6 +216,7 @@ export function Order({
   onChange: (next: number[]) => void;
   locked: boolean;
   t: T;
+  course: Course;
 }) {
   return (
     <div>
@@ -223,7 +230,7 @@ export function Order({
           <button
             key={`${tileIndex}-${pos}`}
             type="button"
-            lang="sq"
+            lang={course}
             disabled={locked}
             onClick={() => onChange(chosen.filter((_, i) => i !== pos))}
             className="fade-in pressable h-11 rounded-xl bg-surface px-3 text-[17px] font-medium shadow-card ring-1 ring-hairline"
@@ -242,7 +249,7 @@ export function Order({
             <button
               key={i}
               type="button"
-              lang="sq"
+              lang={course}
               disabled={locked}
               onClick={() => onChange([...chosen, i])}
               className="pressable h-11 rounded-xl bg-surface px-3 text-[17px] font-medium shadow-card ring-1 ring-hairline hover:bg-surface-2"
@@ -264,12 +271,14 @@ export function TypeAnswer({
   onSubmit,
   locked,
   t,
+  course,
 }: {
   value: string;
   onChange: (v: string) => void;
   onSubmit: () => void;
   locked: boolean;
   t: T;
+  course: Course;
 }) {
   const input = useRef<HTMLInputElement>(null);
 
@@ -277,7 +286,7 @@ export function TypeAnswer({
     if (!locked) input.current?.focus();
   }, [locked]);
 
-  // Turkish keyboards have no ë; ç exists but we add both for convenience.
+  // Letters the other language's keyboard may lack (ë on Turkish keyboards; ğ, ı, ş… on Albanian ones).
   const insert = (c: string) => {
     const el = input.current;
     if (!el) return onChange(value + c);
@@ -298,7 +307,7 @@ export function TypeAnswer({
       <input
         ref={input}
         id="type-answer"
-        lang="sq"
+        lang={course}
         value={value}
         disabled={locked}
         onChange={(e) => onChange(e.target.value)}
@@ -312,8 +321,8 @@ export function TypeAnswer({
         enterKeyHint="done"
         className="h-14 w-full rounded-2xl bg-surface px-4 text-[20px] shadow-card ring-1 ring-hairline outline-none focus:ring-2 focus:ring-accent-text/40 disabled:opacity-70"
       />
-      <div className="mt-2 flex gap-2">
-        {["ë", "ç"].map((c) => (
+      <div className="mt-2 flex flex-wrap gap-2">
+        {EXTRA_LETTERS[course].map((c) => (
           <button
             key={c}
             type="button"

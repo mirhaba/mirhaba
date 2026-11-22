@@ -48,7 +48,38 @@
     "noResultsTitle": "Sonuç bulunamadı",
     "clearSearch": "Aramayı temizle",
     "saveError": "Kaydedilemedi. Tekrar dene.",
-    "searchLabel": "Cümle ara"
+    "searchLabel": "Cümle ara",
+    "myPhrases": "Kendi cümlelerim",
+    "myPhrasesEmptyTitle": "Kendi cümleni ekle",
+    "myPhrasesEmpty": "Sık söylediğin cümleleri kaydet: adresin, “Paketi kapının önüne bırakın”…",
+    "addPhrase": "Cümle ekle",
+    "editPhrase": "Cümleyi düzenle",
+    "newPhrase": "Yeni cümle",
+    "fieldTr": "Türkçe",
+    "fieldSq": "Arnavutça",
+    "fieldTrPlaceholder": "örn. Paketi kapının önüne bırakın",
+    "fieldSqPlaceholder": "p.sh. Lëreni pakon para derës",
+    "translateFill": "Otomatik çevir",
+    "translateHint": "Bir dili yaz, diğerini otomatik çevirelim.",
+    "translateNeedsSignIn": "Otomatik çeviri için giriş yap. Çeviriyi kendin de yazabilirsin.",
+    "translateLimit": "Bugünkü çeviri hakkın bitti. Çeviriyi kendin yazabilirsin.",
+    "translateFailed": "Çevrilemedi. Tekrar dene ya da kendin yaz.",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "cancel": "Vazgeç",
+    "phraseSaved": "Cümle kaydedildi",
+    "phraseDeleted": "Cümle silindi",
+    "phrasesFull": "En fazla 50 cümle ekleyebilirsin. Önce birini sil.",
+    "needBoth": "İki dili de doldur ya da Otomatik çevir'e dokun.",
+    "ownBadge": "Senin",
+    "edit": "Düzenle",
+    "voiceSearch": "Sesle ara",
+    "listening": "Dinliyorum… konuş",
+    "voiceError": "Anlayamadım. Tekrar dene ya da yaz.",
+    "voiceDenied": "Mikrofon izni verilmedi.",
+    "fullScreen": "Tam ekran",
+    "fullScreenHint": "Kapatmak için ekrana dokun",
+    "rotateHint": "Daha büyük yazı için telefonu yan çevir"
   },
   "offline": {
     "title": "İnternet yok",
@@ -100,6 +131,10 @@
         "Çeviri sonuçları, aynı metin tekrar çevrildiğinde hızlı olsun diye 30 gün önbellekte tutulur. Yazdığın metnin kendisi saklanmaz (yalnızca geri çevrilemeyen bir özeti), kimin çevirdiği de kaydedilmez. Çeviri için metin Groq üzerinde çalışan OpenAI gpt-oss yapay zekâsına gönderilir.",
         "Hataları düzeltebilmek için uygulama çöktüğünde teknik hata kaydı Sentry'ye (AB sunucuları) gönderilir. Bu kayıtlar IP adresi, çerez, e-posta veya yazdığın metni içermez.",
         "Kartla ödemeler, Raiffeisen Bank'ın ödeme sistemi RaiAccept üzerinden yapılır; kart bilgilerin bize hiç ulaşmaz. Ödeme için RaiAccept'e e-posta adresini, IP adresini ve hesap kimliğini (kartını bir sonraki ödeme için kaydetmek istersen) göndeririz. Biz yalnızca tutarı, planı, tarihi ve ödeme sonucunu saklarız; vergi yasasının gerektirdiği süre boyunca.",
+        "Kendi eklediğin Hızlı Konuş cümleleri cihazında saklanır; giriş yaptıysan diğer cihazlarında da görünmeleri için hesabınla eşitlenir. Hesap tercihlerin (tema, günlük hedef, takma ad gibi) de hesabınla eşitlenir.",
+        "Sesle arama, tarayıcının kendi konuşma tanıma özelliğini kullanır. Bazı tarayıcılar (örneğin Chrome) sesini tanıma için kendi sunucularına gönderir; Mirhaba sesini almaz ve saklamaz. Sesle arama yalnızca mikrofon düğmesine dokunduğunda çalışır.",
+        "Günlük hatırlatıcıyı açarsan, bildirim gönderebilmek için tarayıcının bildirim adresini, seçtiğin saati ve saat dilimini saklarız. Hatırlatıcıyı kapattığında bu kayıt silinir.",
+        "Davet bağlantısıyla gelen hesaplar için kimin kimi davet ettiğini saklarız (Premium hediyesi için). Davet edenin e-postası davet edilene, davet edilenin e-postası davet edene gösterilmez.",
         "Hesap, ödeme ve analiz özellikleri eklendiğinde bu sayfa; toplanan verileri, amaçlarını, saklama sürelerini, üçüncü tarafları ve haklarını ayrıntılı olarak listeleyecek.",
         "Gizlilik soruların için: privacy@mirhaba.app"
       ]
@@ -130,6 +165,7 @@
         "MIRHABA_ANON: giriş yapmamış ziyaretçinin çerez tercihini kanıtlamak için rastgele bir kimlik. İzleme için kullanılmaz. Süre: 6 ay.",
         "sb-…-auth-token: giriş oturumu (yalnızca giriş yaptıysan). JavaScript tarafından okunamaz (httpOnly). Süre: oturum boyunca.",
         "MIRHABA_SIGNED_IN: yalnızca giriş yaptığını gösterir (değeri \"1\"), böylece uygulama sık kullanılanları ne zaman hesabınla eşitleyeceğini bilir. Kişisel veri içermez. Süre: çıkış yapana kadar.",
+        "MIRHABA_REF: davet bağlantısıyla geldiysen, kayıt olana kadar davet kodunu hatırlar (ikinize de Premium hediye için). JavaScript tarafından okunamaz. Süre: 30 gün ya da kayıt olana kadar.",
         "Analiz çerezleri (yalnızca \"Kabul et\" dersen):",
         "ph_…_posthog: PostHog (AB sunucuları) anonim kullanım istatistikleri. Ekran metinleri ve yazdıkların gönderilmez. Süre: 1 yıl.",
         "Cihazında ayrıca sık kullandığın cümleler ve ders ilerlemen (IndexedDB) ile ana ekrana ekleme ipucunun durumu (localStorage) saklanır. Giriş yaptıysan sık kullanılanlar ve ders ilerlemen hesabınla eşitlenir; giriş yapmadıysan cihazından hiç çıkmaz.",
@@ -196,7 +232,8 @@
     "verifyTitle": "E-postanı doğrula",
     "verifySentTo": "{email} adresine bir doğrulama bağlantısı gönderdik. Hesabını açmak için e-postadaki bağlantıya dokun.",
     "sendVerification": "Doğrulama bağlantısını tekrar gönder",
-    "spamHint": "E-posta birkaç dakika içinde gelmezse spam klasörüne bak."
+    "spamHint": "E-posta birkaç dakika içinde gelmezse spam klasörüne bak.",
+    "invitedBanner": "Bir arkadaşın seni davet etti! Kaydol, ikinize de 7 gün Premium hediye. 🎁"
   },
   "consent": {
     "title": "Başlamadan önce",
@@ -628,7 +665,21 @@
     "lockedBody": "Premium ile tüm parkurlardaki dersler açılır.",
     "lockedSignInHint": "Premium'un varsa giriş yap.",
     "seePremium": "Premium'u gör",
-    "signIn": "Giriş yap"
+    "signIn": "Giriş yap",
+    "turkishCourse": {
+      "title": "Türkçe öğren",
+      "subtitle": "Arnavutça konuşanlar için gerçek durumlara göre 5 dakikalık Türkçe dersler.",
+      "courseLabel": "Hangi dili öğreniyorsun?",
+      "courseSq": "Arnavutça",
+      "courseTr": "Türkçe",
+      "player": {
+        "chooseAlbanian": "Türkçesini seç",
+        "matchHint": "Önce bir Türkçe kelimeye, sonra Arnavutçasına dokun.",
+        "typeTitle": "Türkçe yaz",
+        "typeLabel": "Türkçe cevabın",
+        "reading": "Okunuşu"
+      }
+    }
   },
   "checkout": {
     "title": "Ödeme",
@@ -775,7 +826,8 @@
         "body": "Kosova argosunu anlamına göre çevir."
       }
     },
-    "toDashboard": "Panelime git"
+    "toDashboard": "Panelime git",
+    "invitedGift": "Davetle geldin: sana ve arkadaşına 7 gün Premium hediye! 🎁"
   },
   "dashboard": {
     "tabsLabel": "Hesap bölümleri",
@@ -833,14 +885,49 @@
     },
     "tour": "Uygulama turunu izle",
     "tourHint": "Ana özellikleri 1 dakikada gör.",
-    "deviceNote": "İstatistikler bu cihazdaki ilerlemenden hesaplanır ve hesabınla eşitlenir."
+    "deviceNote": "İstatistikler bu cihazdaki ilerlemenden hesaplanır ve hesabınla eşitlenir.",
+    "weekTitle": "Bu hafta",
+    "weekLessons": "ders",
+    "weekActiveDays": "aktif gün",
+    "weekWords": "kelime",
+    "weekBetter": "Geçen haftadan {n} ders fazla. Harika gidiyorsun! 🎉",
+    "weekSame": "Geçen haftayla aynı tempo. Devam!",
+    "weekLess": "Geçen hafta {n} ders daha fazlaydı. Bugün bir ders?",
+    "weekEmpty": "Bu hafta henüz ders yok. 5 dakikan var mı?",
+    "freezeTitle": "Seri koruması",
+    "freezeReady": "Hazır: bir gün kaçırırsan serin bozulmaz.",
+    "freezeUsed": "Bu hafta kullanıldı; birkaç gün içinde yeniden hazır olur.",
+    "freezeSaved": "Seri koruması dün serini kurtardı. Bugün bir ders bitir! 🧊",
+    "freezePremium": "Premium ile bir gün kaçırsan da serin bozulmaz.",
+    "freezeSeePremium": "Premium'u gör",
+    "share": "Paylaş",
+    "shareStreak": "Serini paylaş",
+    "shareBadge": "Rozeti paylaş",
+    "shareStreakText": "Mirhaba'da {n} günlük serim var! 🔥",
+    "shareBadgeText": "Mirhaba'da yeni bir rozet kazandım: {badge} 🏅",
+    "shareLearningSq": "Mirhaba ile Arnavutça öğreniyorum",
+    "shareLearningTr": "Mirhaba ile Türkçe öğreniyorum",
+    "shareStreakTitle": "{n} günlük seri!",
+    "shareNewBadge": "Yeni rozet",
+    "shareDownloaded": "Resim indirildi. Dilediğin yerde paylaşabilirsin.",
+    "shareFailed": "Paylaşılamadı. Tekrar dene.",
+    "inviteTitle": "Arkadaşını davet et",
+    "inviteBody": "Arkadaşın bağlantınla kaydolunca ikinize de 7 gün Premium hediye.",
+    "inviteCopy": "Kopyala",
+    "inviteCopied": "Bağlantı kopyalandı",
+    "inviteShare": "Davet et",
+    "inviteShareText": "Mirhaba ile Kosova'da Arnavutça konuşuyorum. Bu bağlantıyla kaydol, ikimize de 7 gün Premium hediye:",
+    "inviteCount": "{n} / {max} arkadaş katıldı",
+    "inviteMax": "Davet sınırına ulaştın. Teşekkürler! 💛",
+    "inviteLoading": "Davet bağlantın hazırlanıyor…",
+    "inviteError": "Bağlantı şu an alınamadı. Biraz sonra tekrar dene."
   },
   "prefs": {
-    "savedHere": "Tercihler bu cihazda saklanır ve anında uygulanır.",
+    "savedHere": "Tercihler anında uygulanır ve hesabınla tüm cihazlarına eşitlenir.",
     "saved": "Kaydedildi",
     "profileTitle": "Profil",
     "nicknameLabel": "Takma ad",
-    "nicknameHint": "Selamlamada kullanılır; yalnızca bu cihazda kalır.",
+    "nicknameHint": "Selamlamada kullanılır. Yalnızca sen görürsün.",
     "nicknamePlaceholder": "örn. Ayşe",
     "learningTitle": "Öğrenme",
     "directionLabel": "Ne öğreniyorsun?",
@@ -866,7 +953,7 @@
     "speechTest": "Dinle",
     "speechNoVoice": "Bu cihazda Arnavutça ses yok. Kayıtlı sesler yine de seçtiğin hızda çalar.",
     "readingLabel": "Okunuşu göster",
-    "readingHint": "Arnavutça kelimelerin altında Türkçe okunuşu gösterir.",
+    "readingHint": "Arnavutça ya da Türkçe kelimelerin altında okunuşunu gösterir.",
     "appearanceTitle": "Görünüm",
     "themeLabel": "Tema",
     "themeSystem": "Sistem",
@@ -880,6 +967,25 @@
     "faq": "Sık sorulan sorular",
     "faqHint": "Kısa cevaplar",
     "reset": "Tercihleri sıfırla",
-    "resetDone": "Tercihler sıfırlandı"
+    "resetDone": "Tercihler sıfırlandı",
+    "remindersTitle": "Hatırlatıcı",
+    "remindersLabel": "Günlük hatırlatıcı",
+    "remindersHint": "O gün ders yapmadıysan bu cihaza bildirim gönderelim.",
+    "remindersTime": "Saat",
+    "remindersTest": "Bu bildirimler böyle görünür.",
+    "remindersOn": "Hatırlatıcı açıldı",
+    "remindersOff": "Hatırlatıcı kapatıldı",
+    "remindersDenied": "Bildirim izni verilmedi. Tarayıcı ayarlarından Mirhaba'ya izin verebilirsin.",
+    "remindersUnsupported": "Bu tarayıcı bildirimleri desteklemiyor.",
+    "remindersIos": "iPhone'da bildirimler için önce Mirhaba'yı ana ekrana ekle (Paylaş → Ana Ekrana Ekle) ve oradan aç.",
+    "remindersNotConfigured": "Hatırlatıcılar henüz etkin değil.",
+    "remindersError": "Kaydedilemedi. Tekrar dene."
+  },
+  "reminders": {
+    "streakTitle": "🔥 {n} günlük serin bu gece bitiyor!",
+    "streakBody": "5 dakikalık bir ders serini kurtarır.",
+    "dailyTitleSq": "Bugünkü Arnavutça dersin hazır 🇦🇱",
+    "dailyTitleTr": "Bugünkü Türkçe dersin hazır 🇹🇷",
+    "dailyBody": "5 dakika yeter. Hedefine bir adım daha!"
   }
 }

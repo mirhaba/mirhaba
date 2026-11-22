@@ -28,6 +28,11 @@ export type ItemStatRow = {
   /** Session in which it was last answered wrong: a right answer in the same session doesn't clear it. */
   wrongSession?: string;
 };
+/**
+ * Quick Talk phrases the person wrote. `id` is a UUID made on the phone; `deleted` is a tombstone
+ * so a delete syncs to the account and other phones (src/lib/custom-phrases/merge.ts).
+ */
+export type CustomPhraseRow = { id: string; tr: string; sq: string; updatedAt: number; deleted: boolean };
 /** Small key/value settings, e.g. the learning streak. */
 export type MetaRow = { key: string; value: unknown };
 
@@ -36,6 +41,7 @@ class MirhabaDB extends Dexie {
   lessonProgress!: EntityTable<LessonProgressRow, "lessonSlug">;
   itemStats!: EntityTable<ItemStatRow, "itemId">;
   meta!: EntityTable<MetaRow, "key">;
+  customPhrases!: EntityTable<CustomPhraseRow, "id">;
 
   constructor() {
     super("mirhaba");
@@ -61,6 +67,8 @@ class MirhabaDB extends Dexie {
             delete row.position;
           });
       });
+    // v4: the person's own Quick Talk phrases.
+    this.version(4).stores({ customPhrases: "id, updatedAt" });
   }
 }
 

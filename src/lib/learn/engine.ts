@@ -126,7 +126,7 @@ export function retryOf(exercise: Exercise, lessonItems: Item[], extraPool: Item
 // ---------- Answer checking ----------
 
 const loose = (s: string) => normalizeForSearch(s.replace(/[.,!?;:…'’]/g, " "));
-const strict = (s: string) => s.replace(/[.,!?;:…]/g, "").replace(/\s+/g, " ").trim().toLocaleLowerCase("sq");
+const strict = (s: string, locale: string) => s.replace(/[.,!?;:…]/g, "").replace(/\s+/g, " ").trim().toLocaleLowerCase(locale);
 
 export type TypedResult = "exact" | "accents" | "wrong";
 
@@ -134,12 +134,12 @@ export type TypedResult = "exact" | "accents" | "wrong";
  * Typed answers: accents and punctuation don't make an answer wrong (people on Turkish
  * keyboards can't easily type ë), but we say when the spelling should have ë/ç.
  */
-export function checkTyped(input: string, expected: string): TypedResult {
-  if (strict(input) === strict(expected)) return "exact";
+export function checkTyped(input: string, expected: string, locale: "sq" | "tr" = "sq"): TypedResult {
+  if (strict(input, locale) === strict(expected, locale)) return "exact";
   if (loose(input) === loose(expected)) return "accents";
   return "wrong";
 }
 
-export function checkOrder(tiles: string[], expected: string): boolean {
-  return strict(tiles.join(" ")) === strict(expected);
+export function checkOrder(tiles: string[], expected: string, locale: "sq" | "tr" = "sq"): boolean {
+  return strict(tiles.join(" "), locale) === strict(expected, locale);
 }

@@ -16,6 +16,7 @@ import { siteUrl } from "@/lib/site";
 import { AuthLinkHandler } from "@/components/auth-link-handler";
 import { FirstRunGuide } from "@/components/first-run-guide";
 import { SignupWelcome } from "@/components/signup-welcome";
+import { PreferencesSync } from "@/components/preferences-sync";
 import { PREFERENCES_BOOT_SCRIPT } from "@/lib/preferences-boot";
 
 const dmSans = DM_Sans({
@@ -95,6 +96,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <CookieConsent lang={lang} t={t.cookies} />
         <FirstRunGuide lang={lang} texts={guideTexts} />
         <SignupWelcome lang={lang} t={t.welcome} prefs={{ goalNames: t.prefs.goalNames, lessonsN: t.prefs.lessonsN }} />
+        <PreferencesSync />
         <Analytics />
         <ServiceWorker />
       </body>

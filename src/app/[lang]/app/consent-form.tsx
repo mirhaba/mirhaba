@@ -41,7 +41,7 @@ export function ConsentForm({ lang, t }: { lang: Locale; t: Messages["consent"] 
             return;
           }
           // First time in: the welcome screen (mounted in the layout) opens wherever they land.
-          storageSet(WELCOME_PENDING_KEY, "1");
+          storageSet(WELCOME_PENDING_KEY, "invited" in result && result.invited ? "invited" : "1");
           window.dispatchEvent(new Event(WELCOME_EVENT));
           if (next) router.replace(safeNextPath(next, lang));
           else router.refresh();

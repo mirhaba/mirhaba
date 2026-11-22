@@ -19,6 +19,11 @@ export function canSpeakAlbanian(): boolean {
   return !!albanianVoice();
 }
 
+export function canSpeakTurkish(): boolean {
+  if (typeof speechSynthesis === "undefined") return false;
+  return speechSynthesis.getVoices().some((v) => v.lang.toLowerCase().startsWith("tr"));
+}
+
 export function stopSpeaking() {
   current?.pause();
   current = null;

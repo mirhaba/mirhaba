@@ -1,17 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { Check, Flame, RotateCcw, X } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import type { Item } from "@/lib/content/model";
 import { buildLesson, buildReview, checkOrder, checkTyped, retryOf, seedFrom, type Exercise } from "@/lib/learn/engine";
 import { finishSession, recordAnswer, syncWithAccount, weakItemIds, type Streak } from "@/lib/learn/progress";
+import { courseOf, itemFor, progressSlug, type Course } from "@/lib/learn/course";
+import { usePreferences } from "@/lib/preferences";
+import { usePremium } from "@/lib/billing/use-premium";
 import { fill } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import { StateView } from "@/components/state-view";
-import { Choose, LearnCard, Match, Order, PromptAlbanian, TypeAnswer } from "./exercises";
+import { Choose, LearnCard, Match, nativeOf, Order, PromptTarget, TypeAnswer } from "./exercises";
 
 type T = Messages["learn"];
 type Feedback = { correct: boolean; expected: string; accents?: boolean };
@@ -38,14 +41,61 @@ export function LessonPlayer({
   allItems: Item[];
   nextLessonSlug?: string;
 }) {
+  // The course (Albanian or Turkish) comes from the learner's preference, which only the browser
+  // knows: show the skeleton until hydrated, so the other course never flashes.
+  const hydrated = useSyncExternalStore(noopSubscribe, () => true, () => false);
+  const course = courseOf(usePreferences().direction);
+  return hydrated ? (
+    <CoursePlayer
+      key={course}
+      lang={lang}
+      t={t}
+      mode={mode}
+      lessonSlug={lessonSlug}
+      items={items}
+      allItems={allItems}
+      nextLessonSlug={nextLessonSlug}
+      course={course}
+    />
+  ) : (
+    <PlayerSkeleton label={t.loading} />
+  );
+}
+
+const noopSubscribe = () => () => {};
+
+function CoursePlayer({
+  lang,
+  t,
+  mode,
+  lessonSlug,
+  items: rawItems,
+  allItems: rawAllItems,
+  nextLessonSlug,
+  course,
+}: {
+  lang: Locale;
+  t: T;
+  mode: "lesson" | "review";
+  lessonSlug?: string;
+  items?: Item[];
+  allItems: Item[];
+  nextLessonSlug?: string;
+  course: Course;
+}) {
+  const items = useMemo(() => rawItems?.map((i) => itemFor(i, course)), [rawItems, course]);
+  const allItems = useMemo(() => rawAllItems.map((i) => itemFor(i, course)), [rawAllItems, course]);
+  // Words and labels of the Turkish course ("Choose the Turkish", "Write in Turkish"…).
+  const courseT = useMemo<T>(() => (course === "tr" ? { ...t, player: { ...t.player, ...t.turkishCourse.player } } : t), [t, course]);
+  const premium = usePremium() === true;
   const [attempt, setAttempt] = useState(0);
   const [reviewItems, setReviewItems] = useState<Item[] | null>(mode === "review" ? null : (items ?? []));
 
   useEffect(() => {
     if (mode !== "review") return;
     const byId = new Map(allItems.map((item) => [item.id, item]));
-    weakItemIds().then((ids) => setReviewItems(ids.map((id) => byId.get(id)).filter((item): item is Item => !!item)));
-  }, [mode, allItems]);
+    weakItemIds(8, course).then((ids) => setReviewItems(ids.map((id) => byId.get(id)).filter((item): item is Item => !!item)));
+  }, [mode, allItems, course]);
 
   if (!reviewItems) return <PlayerSkeleton label={t.loading} />;
   if (mode === "review" && reviewItems.length === 0) {
@@ -64,9 +114,11 @@ export function LessonPlayer({
     <Session
       key={attempt}
       lang={lang}
-      t={t}
+      t={courseT}
+      course={course}
+      premium={premium}
       mode={mode}
-      slug={lessonSlug ?? "review"}
+      slug={progressSlug(lessonSlug ?? "review", course)}
       items={reviewItems}
       allItems={allItems}
       seed={seedFrom(`${lessonSlug ?? "review"}:${attempt}`)}
@@ -79,6 +131,8 @@ export function LessonPlayer({
 function Session({
   lang,
   t,
+  course,
+  premium,
   mode,
   slug,
   items,
@@ -89,7 +143,10 @@ function Session({
 }: {
   lang: Locale;
   t: T;
+  course: Course;
+  premium: boolean;
   mode: "lesson" | "review";
+  /** Progress key: the lesson slug ("review" for reviews), with "tr:" in front in the Turkish course. */
   slug: string;
   items: Item[];
   allItems: Item[];
@@ -136,7 +193,7 @@ function Session({
       return;
     }
     const score = graded ? Math.round((firstTryCorrect / graded) * 100) : 100;
-    finishSession(slug, score).then((streak) => {
+    finishSession(slug, score, { premium }).then((streak) => {
       setResult({ score, streak });
       void syncWithAccount(); // save to the account in the background (no-op when signed out)
     });
@@ -164,11 +221,11 @@ function Session({
       grade(exercise.item, choice === expected, expected);
     } else if (exercise.kind === "type") {
       if (!typed.trim()) return;
-      const r = checkTyped(typed, exercise.item.sq);
+      const r = checkTyped(typed, exercise.item.sq, course);
       grade(exercise.item, r !== "wrong", exercise.item.sq, r === "accents");
     } else if (exercise.kind === "order") {
       if (!chosenTiles.length) return;
-      grade(exercise.item, checkOrder(chosenTiles.map((i) => exercise.tiles[i]), exercise.item.sq), exercise.item.sq);
+      grade(exercise.item, checkOrder(chosenTiles.map((i) => exercise.tiles[i]), exercise.item.sq, course), exercise.item.sq);
     }
   };
 
@@ -267,21 +324,21 @@ function Session({
       {/* No fixed min-height here: the parent's min-height already keeps the button at the bottom, and a
           floor of its own pushed the button behind the tab bar on short phones (320×568). */}
       <div key={index} className="fade-in flex flex-1 flex-col gap-5">
-        {exercise.kind === "learn" && <LearnCard item={exercise.item} lang={lang} t={p} />}
+        {exercise.kind === "learn" && <LearnCard item={exercise.item} lang={lang} t={p} course={course} />}
 
         {exercise.kind === "choose" && (
           <>
             <h2 className="text-[15px] font-medium text-muted">{exercise.direction === "sq-tr" ? p.chooseMeaning : p.chooseAlbanian}</h2>
             {exercise.direction === "sq-tr" ? (
-              <PromptAlbanian text={exercise.item.sq} t={p} />
+              <PromptTarget text={exercise.item.sq} t={p} course={course} />
             ) : (
-              <p lang="tr" className="text-[28px] leading-tight font-bold">
+              <p lang={nativeOf(course)} className="text-[28px] leading-tight font-bold">
                 {exercise.item.tr}
               </p>
             )}
             <Choose
               options={exercise.options}
-              optionLang={exercise.direction === "sq-tr" ? "tr" : "sq"}
+              optionLang={exercise.direction === "sq-tr" ? nativeOf(course) : course}
               value={choice}
               onChange={setChoice}
               locked={!!feedback}
@@ -294,27 +351,27 @@ function Session({
         {exercise.kind === "match" && (
           <>
             <h2 className="text-[22px] font-bold">{p.matchTitle}</h2>
-            <Match items={exercise.items} t={p} onDone={onMatchDone} />
+            <Match items={exercise.items} t={p} course={course} onDone={onMatchDone} />
           </>
         )}
 
         {exercise.kind === "order" && (
           <>
             <h2 className="text-[15px] font-medium text-muted">{p.orderTitle}</h2>
-            <p lang="tr" className="text-[24px] leading-tight font-bold">
+            <p lang={nativeOf(course)} className="text-[24px] leading-tight font-bold">
               {exercise.item.tr}
             </p>
-            <Order tiles={exercise.tiles} chosen={chosenTiles} onChange={setChosenTiles} locked={!!feedback} t={p} />
+            <Order tiles={exercise.tiles} chosen={chosenTiles} onChange={setChosenTiles} locked={!!feedback} t={p} course={course} />
           </>
         )}
 
         {exercise.kind === "type" && (
           <>
             <h2 className="text-[15px] font-medium text-muted">{p.typeTitle}</h2>
-            <p lang="tr" className="text-[28px] leading-tight font-bold">
+            <p lang={nativeOf(course)} className="text-[28px] leading-tight font-bold">
               {exercise.item.tr}
             </p>
-            <TypeAnswer value={typed} onChange={setTyped} onSubmit={check} locked={!!feedback} t={p} />
+            <TypeAnswer value={typed} onChange={setTyped} onSubmit={check} locked={!!feedback} t={p} course={course} />
           </>
         )}
       </div>
@@ -336,7 +393,7 @@ function Session({
               <p className="text-[17px] font-semibold">
                 {feedback.correct && !feedback.accents ? p.correct : feedback.correct ? p.accents : p.wrong}
                 {(!feedback.correct || feedback.accents) && feedback.expected && (
-                  <span lang="sq" className="ml-1 font-bold text-foreground">
+                  <span lang={course} className="ml-1 font-bold text-foreground">
                     {feedback.expected}
                   </span>
                 )}

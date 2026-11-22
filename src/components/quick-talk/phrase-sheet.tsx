@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Square, Volume2, VolumeX } from "lucide-react";
+import { Maximize2, Square, Volume2, VolumeX } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import { fillSlot, type Phrase, type QuickTalkContent, type Reply } from "@/lib/content/model";
-import { albanianReading } from "@/lib/text";
+import { albanianReading, turkishReading } from "@/lib/text";
 import { usePreferences } from "@/lib/preferences";
 import { canSpeakAlbanian, speakAlbanian, speakTurkish, stopSpeaking } from "./speak";
+import { ShowFullScreen } from "./show-fullscreen";
 
 type T = Messages["quickTalk"];
 
@@ -37,6 +38,7 @@ export function PhraseSheet({
   const [answer, setAnswer] = useState<Reply | null>(null);
   const [speaking, setSpeaking] = useState(false);
   const [hasVoice, setHasVoice] = useState(true);
+  const [big, setBig] = useState(false);
 
   const option = phrase.slot?.[slotIndex];
   const sq = fillSlot(phrase.sq, option?.sq);
@@ -99,6 +101,13 @@ export function PhraseSheet({
           <p lang="tr" className="mt-5 border-t border-hairline pt-4 text-[20px]">
             {tr}
           </p>
+          {/* Albanian speakers: how to say the Turkish line, in Albanian spelling. */}
+          {lang === "sq" && prefs.showReading && (
+            <p className="mt-1 text-[15px] text-muted">
+              <span className="sr-only">{t.reading}: </span>
+              {turkishReading(tr)}
+            </p>
+          )}
         </div>
 
         {phrase.slot && (
@@ -119,6 +128,15 @@ export function PhraseSheet({
             ))}
           </div>
         )}
+
+        <button
+          type="button"
+          onClick={() => setBig(true)}
+          className="pressable flex h-12 items-center justify-center gap-2 rounded-2xl bg-surface text-[16px] font-semibold shadow-card ring-1 ring-hairline hover:bg-surface-2"
+        >
+          <Maximize2 aria-hidden="true" className="h-5 w-5 text-accent-text" />
+          {t.fullScreen}
+        </button>
 
         {hasVoice ? (
           <button
@@ -184,6 +202,18 @@ export function PhraseSheet({
           </section>
         )}
       </div>
+      {big && (
+        // Turkish speakers show the Albanian; Albanian speakers show the Turkish.
+        <ShowFullScreen
+          text={lang === "tr" ? sq : tr}
+          sub={lang === "tr" ? tr : sq}
+          lang={lang === "tr" ? "sq" : "tr"}
+          subLang={lang}
+          hint={t.fullScreenHint}
+          rotateHint={t.rotateHint}
+          onClose={() => setBig(false)}
+        />
+      )}
     </dialog>
   );
 }

@@ -218,6 +218,18 @@ Alerts to your phone: install the Sentry app and create an alert rule ("a new is
 Only `moderator` and `admin` roles can see or change them (RLS); each review is written to `audit_log`.
 Make someone a moderator in the SQL editor: `update profiles set role = 'moderator' where id = '<user id>';`
 
+## Engagement (preferences sync, Turkish course, reminders, own phrases, invites)
+
+Database: `supabase/migrations/20261125120000_engagement.sql` (tests: `supabase/tests/database/engagement.test.sql`).
+Apply it **before** deploying this code: the Learn sync reads the new `user_progress.course` column.
+
+- **Preferences** (dashboard → Tercihler) live on the device and sync to `profiles.preferences`; the newer copy wins, and a device new to the account takes the account's copy.
+- **Learn Turkish**: picking "I speak Albanian" (or the SQ | TR switch on /learn) mirrors every lesson so Turkish is the target language. Progress is kept apart: item ids and lesson keys get a `tr:` prefix on the device, `user_progress.course = 'tr'` on the account. The Kosovan-slang track is Albanian-only (`src/lib/learn/course.ts`).
+- **Daily reminders** (web push): set `NEXT_PUBLIC_VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` and `CRON_SECRET` in Vercel (`npx web-push generate-vapid-keys`). `.github/workflows/reminders.yml` calls `POST /api/cron/reminders` every 15 minutes; add the repository secrets `SITE_URL` and `CRON_SECRET`. A reminder goes out once a day at the chosen local time, only if no lesson was done that day ("your streak ends tonight" when it would break). iPhones need the app on the Home Screen.
+- **Own Quick Talk phrases**: up to 50 per person, on the device (IndexedDB) and synced to `custom_phrases`. "Auto-translate" uses the normal translator (counts toward the daily quota).
+- **Invites**: `/r/<code>` stores the code in an httpOnly cookie; at the new account's first consent `claim_referral()` gives both people 7 days of Premium (new accounts only, once, at most 10 rewarded invites per person).
+- **Weekly summary, streak freeze, sharing**: the dashboard's week card reads the device history; Premium learners can miss one day a week without losing the streak; `/api/share?kind=streak|badge` draws the share picture (font in `assets/fonts`, DM Sans, SIL OFL).
+
 ## Deploy to Vercel
 
 Hosting is Vercel. (Turnstile, the bot check, is a Cloudflare widget, not Cloudflare hosting.)

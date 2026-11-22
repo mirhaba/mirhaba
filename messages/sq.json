@@ -48,7 +48,38 @@
     "noResultsTitle": "Nuk u gjet asgjë",
     "clearSearch": "Pastro kërkimin",
     "saveError": "Nuk u ruajt. Provo përsëri.",
-    "searchLabel": "Kërko fjali"
+    "searchLabel": "Kërko fjali",
+    "myPhrases": "Fjalitë e mia",
+    "myPhrasesEmptyTitle": "Shto fjalinë tënde",
+    "myPhrasesEmpty": "Ruaj fjalitë që i thua shpesh: adresën, “Lëreni pakon para derës”…",
+    "addPhrase": "Shto fjali",
+    "editPhrase": "Ndrysho fjalinë",
+    "newPhrase": "Fjali e re",
+    "fieldTr": "Turqisht",
+    "fieldSq": "Shqip",
+    "fieldTrPlaceholder": "örn. Paketi kapının önüne bırakın",
+    "fieldSqPlaceholder": "p.sh. Lëreni pakon para derës",
+    "translateFill": "Përkthe automatikisht",
+    "translateHint": "Shkruaj njërën gjuhë, tjetrën e përkthejmë ne.",
+    "translateNeedsSignIn": "Për përkthim automatik hyr në llogari. Përkthimin mund ta shkruash edhe vetë.",
+    "translateLimit": "Përkthimet e sotme mbaruan. Përkthimin mund ta shkruash vetë.",
+    "translateFailed": "Nuk u përkthye. Provo përsëri ose shkruaje vetë.",
+    "save": "Ruaj",
+    "delete": "Fshi",
+    "cancel": "Anulo",
+    "phraseSaved": "Fjalia u ruajt",
+    "phraseDeleted": "Fjalia u fshi",
+    "phrasesFull": "Mund të shtosh deri në 50 fjali. Fshi njërën më parë.",
+    "needBoth": "Plotëso të dyja gjuhët ose prek Përkthe automatikisht.",
+    "ownBadge": "Jotja",
+    "edit": "Ndrysho",
+    "voiceSearch": "Kërko me zë",
+    "listening": "Po dëgjoj… fol",
+    "voiceError": "Nuk e kuptova. Provo përsëri ose shkruaj.",
+    "voiceDenied": "Leja për mikrofonin nuk u dha.",
+    "fullScreen": "Ekran i plotë",
+    "fullScreenHint": "Prek ekranin për ta mbyllur",
+    "rotateHint": "Ktheje telefonin anash për shkronja më të mëdha"
   },
   "offline": {
     "title": "Nuk ka internet",
@@ -100,6 +131,10 @@
         "Rezultatet e përkthimit ruhen 30 ditë në memorie që i njëjti tekst të përkthehet më shpejt. Vetë teksti yt nuk ruhet (vetëm një përmbledhje e pakthyeshme), as kush e përktheu. Për përkthim, teksti dërgohet te inteligjenca artificiale OpenAI gpt-oss, që punon në Groq.",
         "Që t'i rregullojmë gabimet, kur aplikacioni prishet, një regjistër teknik i gabimit dërgohet te Sentry (serverë në BE). Ky regjistër nuk përmban adresë IP, cookies, email apo tekstin që shkruan.",
         "Pagesat me kartelë kryhen përmes RaiAccept, sistemit të pagesave të Raiffeisen Bank; të dhënat e kartelës nuk vijnë kurrë te ne. Për pagesën i dërgojmë RaiAccept-it adresën email, adresën IP dhe ID-në e llogarisë (nëse dëshiron ta ruash kartelën për pagesën e radhës). Ne ruajmë vetëm shumën, planin, datën dhe rezultatin e pagesës, për aq kohë sa e kërkon ligji tatimor.",
+        "Fjalitë e Bisedës së shpejtë që shton vetë ruhen në pajisjen tënde; nëse ke hyrë në llogari, sinkronizohen me të që të duken edhe në pajisjet e tjera. Preferencat e llogarisë (tema, qëllimi ditor, nofka etj.) gjithashtu sinkronizohen me llogarinë.",
+        "Kërkimi me zë përdor njohjen e të folurit të vetë shfletuesit. Disa shfletues (p.sh. Chrome) e dërgojnë zërin në serverët e tyre për njohje; Mirhaba nuk e merr dhe nuk e ruan zërin tënd. Kërkimi me zë punon vetëm kur prek butonin e mikrofonit.",
+        "Nëse aktivizon kujtesën ditore, ruajmë adresën e njoftimeve të shfletuesit, orën e zgjedhur dhe zonën kohore që të mund të dërgojmë njoftimin. Kur e çaktivizon kujtesën, ky regjistrim fshihet.",
+        "Për llogaritë që vijnë me lidhje ftese ruajmë kush e ftoi kë (për dhuratën Premium). Emaili i atij që fton nuk i shfaqet të ftuarit, as anasjelltas.",
         "Kur të shtohen llogaritë, pagesat dhe analitika, kjo faqe do të listojë në detaje të dhënat që mblidhen, qëllimin, kohëzgjatjen e ruajtjes, palët e treta dhe të drejtat e tua.",
         "Për pyetje rreth privatësisë: privacy@mirhaba.app"
       ]
@@ -130,6 +165,7 @@
         "MIRHABA_ANON: një identifikues i rastësishëm për të vërtetuar zgjedhjen e vizitorit pa llogari. Nuk përdoret për ndjekje. Kohëzgjatja: 6 muaj.",
         "sb-…-auth-token: seanca e hyrjes (vetëm nëse ke hyrë në llogari). Nuk lexohet nga JavaScript (httpOnly). Kohëzgjatja: gjatë seancës.",
         "MIRHABA_SIGNED_IN: tregon vetëm që ke hyrë në llogari (vlera \"1\"), që aplikacioni ta dijë kur t'i sinkronizojë fjalitë e preferuara me llogarinë. Nuk përmban të dhëna personale. Kohëzgjatja: derisa të dalësh nga llogaria.",
+        "MIRHABA_REF: nëse erdhe me lidhje ftese, e mban mend kodin e ftesës deri në regjistrim (për dhuratën Premium për të dy). Nuk lexohet nga JavaScript. Kohëzgjatja: 30 ditë ose deri në regjistrim.",
         "Cookies analitike (vetëm nëse zgjedh \"Prano\"):",
         "ph_…_posthog: statistika anonime përdorimi nga PostHog (serverë në BE). Teksti i ekranit dhe ajo që shkruan nuk dërgohen. Kohëzgjatja: 1 vit.",
         "Në pajisjen tënde ruhen edhe fjalitë e preferuara dhe përparimi në mësime (IndexedDB), si dhe gjendja e këshillës për ekranin kryesor (localStorage). Nëse ke hyrë në llogari, fjalitë e preferuara dhe përparimi sinkronizohen me llogarinë; përndryshe nuk largohen kurrë nga pajisja.",
@@ -196,7 +232,8 @@
     "verifyTitle": "Verifiko email-in",
     "verifySentTo": "Të dërguam një lidhje verifikimi në {email}. Prek lidhjen në email për të hapur llogarinë.",
     "sendVerification": "Dërgo përsëri lidhjen e verifikimit",
-    "spamHint": "Nëse emaili nuk vjen brenda pak minutash, shiko te dosja e spam-it."
+    "spamHint": "Nëse emaili nuk vjen brenda pak minutash, shiko te dosja e spam-it.",
+    "invitedBanner": "Një shok të ka ftuar! Regjistrohu dhe të dy merrni 7 ditë Premium dhuratë. 🎁"
   },
   "consent": {
     "title": "Para se të fillosh",
@@ -628,7 +665,21 @@
     "lockedBody": "Me Premium hapen mësimet në të gjitha kurset.",
     "lockedSignInHint": "Nëse ke Premium, hyr në llogari.",
     "seePremium": "Shih Premium",
-    "signIn": "Hyr"
+    "signIn": "Hyr",
+    "turkishCourse": {
+      "title": "Mëso turqisht",
+      "subtitle": "Mësime 5-minutëshe turqishte për shqipfolësit, për situata të vërteta.",
+      "courseLabel": "Cilën gjuhë po mëson?",
+      "courseSq": "Shqip",
+      "courseTr": "Turqisht",
+      "player": {
+        "chooseAlbanian": "Zgjidh fjalën turqisht",
+        "matchHint": "Prek së pari një fjalë turqisht, pastaj përkthimin shqip.",
+        "typeTitle": "Shkruaj turqisht",
+        "typeLabel": "Përgjigja jote turqisht",
+        "reading": "Shqiptimi"
+      }
+    }
   },
   "checkout": {
     "title": "Pagesa",
@@ -775,7 +826,8 @@
         "body": "Përkthe zhargonin kosovar sipas kuptimit."
       }
     },
-    "toDashboard": "Shko te paneli im"
+    "toDashboard": "Shko te paneli im",
+    "invitedGift": "Erdhe me ftesë: ty dhe shokut tënd 7 ditë Premium dhuratë! 🎁"
   },
   "dashboard": {
     "tabsLabel": "Seksionet e llogarisë",
@@ -833,14 +885,49 @@
     },
     "tour": "Shiko turin e aplikacionit",
     "tourHint": "Veçoritë kryesore për 1 minutë.",
-    "deviceNote": "Statistikat llogariten nga progresi në këtë pajisje dhe sinkronizohen me llogarinë."
+    "deviceNote": "Statistikat llogariten nga progresi në këtë pajisje dhe sinkronizohen me llogarinë.",
+    "weekTitle": "Këtë javë",
+    "weekLessons": "mësime",
+    "weekActiveDays": "ditë aktive",
+    "weekWords": "fjalë",
+    "weekBetter": "{n} mësime më shumë se java e kaluar. Po shkon shkëlqyeshëm! 🎉",
+    "weekSame": "I njëjti ritëm si java e kaluar. Vazhdo!",
+    "weekLess": "Java e kaluar kishte {n} mësime më shumë. Një mësim sot?",
+    "weekEmpty": "Këtë javë ende s'ka mësime. A ke 5 minuta?",
+    "freezeTitle": "Mbrojtja e serisë",
+    "freezeReady": "Gati: nëse humb një ditë, seria nuk prishet.",
+    "freezeUsed": "U përdor këtë javë; do të jetë gati sërish pas pak ditësh.",
+    "freezeSaved": "Mbrojtja e serisë ta shpëtoi serinë dje. Përfundo një mësim sot! 🧊",
+    "freezePremium": "Me Premium seria nuk prishet edhe nëse humb një ditë.",
+    "freezeSeePremium": "Shih Premium",
+    "share": "Shpërndaj",
+    "shareStreak": "Shpërndaj serinë",
+    "shareBadge": "Shpërndaj distinktivin",
+    "shareStreakText": "Kam një seri {n}-ditore në Mirhaba! 🔥",
+    "shareBadgeText": "Fitova një distinktiv të ri në Mirhaba: {badge} 🏅",
+    "shareLearningSq": "Po mësoj shqip me Mirhaba",
+    "shareLearningTr": "Po mësoj turqisht me Mirhaba",
+    "shareStreakTitle": "Seri {n}-ditore!",
+    "shareNewBadge": "Distinktiv i ri",
+    "shareDownloaded": "Fotoja u shkarkua. Mund ta shpërndash ku të duash.",
+    "shareFailed": "Nuk u shpërnda. Provo përsëri.",
+    "inviteTitle": "Fto një shok",
+    "inviteBody": "Kur shoku yt regjistrohet me lidhjen tënde, të dy merrni 7 ditë Premium dhuratë.",
+    "inviteCopy": "Kopjo",
+    "inviteCopied": "Lidhja u kopjua",
+    "inviteShare": "Fto",
+    "inviteShareText": "Po mësoj gjuhë me Mirhaba. Regjistrohu me këtë lidhje dhe të dy marrim 7 ditë Premium dhuratë:",
+    "inviteCount": "{n} / {max} shokë u bashkuan",
+    "inviteMax": "E arrite kufirin e ftesave. Faleminderit! 💛",
+    "inviteLoading": "Lidhja e ftesës po përgatitet…",
+    "inviteError": "Lidhja nuk mund të merret tani. Provo pak më vonë."
   },
   "prefs": {
-    "savedHere": "Preferencat ruhen në këtë pajisje dhe zbatohen menjëherë.",
+    "savedHere": "Preferencat zbatohen menjëherë dhe sinkronizohen me llogarinë në të gjitha pajisjet.",
     "saved": "U ruajt",
     "profileTitle": "Profili",
     "nicknameLabel": "Nofka",
-    "nicknameHint": "Përdoret në përshëndetje; mbetet vetëm në këtë pajisje.",
+    "nicknameHint": "Përdoret në përshëndetje. E sheh vetëm ti.",
     "nicknamePlaceholder": "p.sh. Arta",
     "learningTitle": "Të mësuarit",
     "directionLabel": "Çfarë po mëson?",
@@ -866,7 +953,7 @@
     "speechTest": "Dëgjo",
     "speechNoVoice": "Kjo pajisje nuk ka zë shqip. Zërat e regjistruar luhen gjithsesi me shpejtësinë e zgjedhur.",
     "readingLabel": "Shfaq shqiptimin",
-    "readingHint": "Shfaq leximin në stilin turk poshtë fjalëve shqip.",
+    "readingHint": "Shfaq shqiptimin poshtë fjalëve shqip ose turqisht.",
     "appearanceTitle": "Pamja",
     "themeLabel": "Tema",
     "themeSystem": "Sistemi",
@@ -880,6 +967,25 @@
     "faq": "Pyetjet e shpeshta",
     "faqHint": "Përgjigje të shkurtra",
     "reset": "Rivendos preferencat",
-    "resetDone": "Preferencat u rivendosën"
+    "resetDone": "Preferencat u rivendosën",
+    "remindersTitle": "Kujtesa",
+    "remindersLabel": "Kujtesë ditore",
+    "remindersHint": "Nëse sot s'ke bërë mësim, të dërgojmë një njoftim në këtë pajisje.",
+    "remindersTime": "Ora",
+    "remindersTest": "Kështu duken këto njoftime.",
+    "remindersOn": "Kujtesa u aktivizua",
+    "remindersOff": "Kujtesa u çaktivizua",
+    "remindersDenied": "Leja për njoftime nuk u dha. Mund ta lejosh Mirhaba-n te cilësimet e shfletuesit.",
+    "remindersUnsupported": "Ky shfletues nuk i mbështet njoftimet.",
+    "remindersIos": "Në iPhone, për njoftime shtoje fillimisht Mirhaba-n në ekranin kryesor (Shpërndaj → Shto në ekranin kryesor) dhe hape prej andej.",
+    "remindersNotConfigured": "Kujtesat ende nuk janë aktive.",
+    "remindersError": "Nuk u ruajt. Provo përsëri."
+  },
+  "reminders": {
+    "streakTitle": "🔥 Seria jote {n}-ditore mbaron sonte!",
+    "streakBody": "Një mësim 5-minutësh e shpëton serinë.",
+    "dailyTitleSq": "Mësimi yt i shqipes për sot është gati 🇦🇱",
+    "dailyTitleTr": "Mësimi yt i turqishtes për sot është gati 🇹🇷",
+    "dailyBody": "Mjaftojnë 5 minuta. Edhe një hap drejt qëllimit!"
   }
 }

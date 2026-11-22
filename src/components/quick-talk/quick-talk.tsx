@@ -11,6 +11,10 @@ import { CategoryIcon } from "@/components/icons";
 import { StateView } from "@/components/state-view";
 import { Toast } from "@/components/toast";
 import { PhraseSheet } from "./phrase-sheet";
+import { MyPhrases } from "./my-phrases";
+import { VoiceSearchButton } from "./voice-search";
+import { listCustomPhrases, OWN_PREFIX, syncCustomPhrasesWithAccount } from "@/lib/custom-phrases/store";
+import type { CustomPhraseRow } from "@/lib/offline-db";
 
 type T = Messages["quickTalk"];
 
@@ -61,7 +65,29 @@ export function QuickTalk({
   const [favorites, setFavorites] = useState<string[] | null>(null); // null = still loading
   const [open, setOpen] = useState<Phrase | null>(null);
   const [toast, setToast] = useState("");
+  const [own, setOwn] = useState<CustomPhraseRow[] | null>(null); // null = still loading
   const searchRef = useRef<HTMLInputElement>(null);
+
+  const refreshOwn = useCallback(() => {
+    void listCustomPhrases().then(setOwn);
+  }, []);
+
+  useEffect(() => {
+    // This phone's own phrases first, then the account's (signed in only) when the browser is idle.
+    void listCustomPhrases().then((list) => {
+      setOwn(list);
+      setTimeout(() => {
+        void syncCustomPhrasesWithAccount().then((changed) => changed && refreshOwn());
+      }, 2000);
+    });
+  }, [refreshOwn]);
+
+  const onOwnChanged = useCallback(() => {
+    refreshOwn();
+    void syncCustomPhrasesWithAccount().then((changed) => changed && refreshOwn());
+  }, [refreshOwn]);
+
+  const ownAsPhrase = (row: CustomPhraseRow): Phrase => ({ id: `${OWN_PREFIX}${row.id}`, tr: row.tr, sq: row.sq });
 
   const refreshFavorites = useCallback(() => {
     void listFavorites().then(setFavorites);
@@ -93,10 +119,12 @@ export function QuickTalk({
 
   const category = categories.find((c) => c.slug === categorySlug) ?? categories[0] ?? { slug: "", name: { tr: "", sq: "" }, icon: "", basic: false, phrases: [] };
   const q = normalizeForSearch(query);
-  const results = useMemo(
-    () => (q ? searchIndex.filter((e) => e.haystack.includes(q)).map((e) => e.phrase) : null),
-    [q, searchIndex],
-  );
+  const results = useMemo(() => {
+    if (!q) return null;
+    // Own phrases first: they're what this person says most.
+    const mine = (own ?? []).filter((r) => normalizeForSearch(`${r.tr} ${r.sq}`).includes(q)).map(ownAsPhrase);
+    return [...mine, ...searchIndex.filter((e) => e.haystack.includes(q)).map((e) => e.phrase)];
+  }, [q, searchIndex, own]);
   const favoritePhrases = (favorites ?? []).map((id) => phraseById[id]?.phrase).filter(Boolean) as Phrase[];
 
   const list = (phrases: Phrase[], key: string) => (
@@ -111,7 +139,8 @@ export function QuickTalk({
           t={t}
           pinned={!!favorites?.includes(p.id)}
           onOpen={() => setOpen(p)}
-          onToggleFavorite={() => onToggleFavorite(p.id)}
+          // Own phrases can't be pinned (pins sync by the site's phrase ids); they have their own section.
+          onToggleFavorite={p.id.startsWith(OWN_PREFIX) ? undefined : () => onToggleFavorite(p.id)}
         />
       ))}
     </ul>
@@ -139,21 +168,24 @@ export function QuickTalk({
             placeholder={t.searchPlaceholder}
             enterKeyHint="search"
             autoComplete="off"
-            className="h-12 w-full rounded-xl bg-surface-2 pr-11 pl-10 text-[17px] transition-shadow duration-150 outline-none placeholder:text-muted/70 focus:ring-2 focus:ring-accent-text/40 [&::-webkit-search-cancel-button]:hidden"
+            className="h-12 w-full rounded-xl bg-surface-2 pr-20 pl-10 text-[17px] transition-shadow duration-150 outline-none placeholder:text-muted/70 focus:ring-2 focus:ring-accent-text/40 [&::-webkit-search-cancel-button]:hidden"
           />
-          {query && (
-            <button
-              type="button"
-              onClick={() => {
-                setQuery("");
-                searchRef.current?.focus();
-              }}
-              aria-label={t.clearSearch}
-              className="pressable absolute top-1/2 right-1 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full text-muted"
-            >
-              <X aria-hidden="true" className="h-[18px] w-[18px]" />
-            </button>
-          )}
+          <div className="absolute top-1/2 right-1 flex -translate-y-1/2 items-center">
+            {query && (
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("");
+                  searchRef.current?.focus();
+                }}
+                aria-label={t.clearSearch}
+                className="pressable flex h-10 w-10 items-center justify-center rounded-full text-muted"
+              >
+                <X aria-hidden="true" className="h-[18px] w-[18px]" />
+              </button>
+            )}
+            <VoiceSearchButton lang={lang} labels={t} onResult={setQuery} onMessage={setToast} />
+          </div>
         </div>
       </div>
 
@@ -201,6 +233,8 @@ export function QuickTalk({
               </div>
             )}
           </section>
+
+          <MyPhrases lang={lang} t={t} phrases={own} onOpen={(row) => setOpen(ownAsPhrase(row))} onChanged={onOwnChanged} onMessage={setToast} />
 
           <section aria-labelledby="cat-heading" className="min-w-0">
             <h2 id="cat-heading" className="mb-2 text-[20px] font-semibold">
@@ -257,7 +291,8 @@ function PhraseRow({
   t: T;
   pinned: boolean;
   onOpen: () => void;
-  onToggleFavorite: () => void;
+  /** Missing for own phrases (they can't be pinned). */
+  onToggleFavorite?: () => void;
 }) {
   // The user's own language on top (what they mean), the other language underneath.
   const primary = lang === "tr" ? phrase.tr : phrase.sq;
@@ -281,15 +316,17 @@ function PhraseRow({
         </span>
         <ChevronRight aria-hidden="true" className="h-4 w-4 shrink-0 text-muted/60" />
       </button>
-      <button
-        type="button"
-        onClick={onToggleFavorite}
-        aria-pressed={pinned}
-        aria-label={pinned ? t.unpin : t.pin}
-        className={`pressable flex w-14 shrink-0 items-center justify-center ${pinned ? "text-accent-text" : "text-muted/70 hover:text-muted"}`}
-      >
-        <Star aria-hidden="true" className="h-[22px] w-[22px]" fill={pinned ? "currentColor" : "none"} strokeWidth={1.75} />
-      </button>
+      {onToggleFavorite && (
+        <button
+          type="button"
+          onClick={onToggleFavorite}
+          aria-pressed={pinned}
+          aria-label={pinned ? t.unpin : t.pin}
+          className={`pressable flex w-14 shrink-0 items-center justify-center ${pinned ? "text-accent-text" : "text-muted/70 hover:text-muted"}`}
+        >
+          <Star aria-hidden="true" className="h-[22px] w-[22px]" fill={pinned ? "currentColor" : "none"} strokeWidth={1.75} />
+        </button>
+      )}
     </li>
   );
 }

@@ -38,6 +38,12 @@ export const RULES = {
   // Learn progress sync (on the Learn page and after each lesson).
   learnSyncUser: { limit: 30, window: "1 m" },
   favoritesSyncUser: { limit: 30, window: "1 m" },
+  // Dashboard preferences and own Quick Talk phrases (synced after each change and on load).
+  preferencesSyncUser: { limit: 30, window: "1 m" },
+  customPhrasesSyncUser: { limit: 30, window: "1 m" },
+  // Reminder (push) settings, invite codes.
+  remindersUser: { limit: 20, window: "10 m" },
+  referralUser: { limit: 10, window: "10 m" },
   // Payments: starting checkouts, checking a payment's status, RaiAccept notifications per payment.
   checkoutUser: { limit: 10, window: "10 m" },
   paymentCheckUser: { limit: 30, window: "1 m" },

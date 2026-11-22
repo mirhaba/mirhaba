@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
-import { MailCheck } from "lucide-react";
+import { Gift, MailCheck } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/client";
@@ -209,6 +209,12 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
   const usingLink = mode === "signin" && method === "link";
   return (
     <div className="flex flex-col gap-6">
+      {params.get("invited") === "1" && (
+        <p className="fade-in flex items-center gap-2.5 rounded-2xl bg-brand-gold/20 px-4 py-3 text-[15px] font-semibold">
+          <Gift aria-hidden="true" className="h-5 w-5 shrink-0 text-brand-gold" />
+          {t.invitedBanner}
+        </p>
+      )}
       <div>
         <h1 className="text-[34px] leading-tight font-bold">{mode === "signup" ? t.signUpTitle : t.title}</h1>
         <p className="mt-1 text-[15px] text-muted">{mode === "signup" ? t.signUpSubtitle : t.subtitle}</p>

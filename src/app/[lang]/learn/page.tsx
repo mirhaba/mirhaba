@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { CircleAlert } from "lucide-react";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { LearnHome } from "./learn-home";
+import { LearnHome, LearnTitle } from "./learn-home";
 import { getTracks } from "@/lib/content/queries";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/learn">): Promise<Metadata> {
@@ -24,10 +24,7 @@ export default async function LearnPage({ params }: PageProps<"/[lang]/learn">) 
 
   return (
     <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-[34px] leading-tight font-bold">{t.title}</h1>
-        <p className="mt-1 text-[15px] text-muted">{t.subtitle}</p>
-      </div>
+      <LearnTitle t={t} />
       {/* The list needs titles only; lesson words stay on the lesson pages. */}
       <LearnHome
         lang={lang}
