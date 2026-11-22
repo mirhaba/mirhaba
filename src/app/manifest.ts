@@ -7,7 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: "Mirhaba",
     description: "Kosova'da yaşayanlar için hazır Arnavutça cümleler, argo çeviri ve dersler. İnternetsiz çalışır.",
     lang: "tr",
-    start_url: "/tr",
+    // "/" rather than "/tr": the proxy sends it to the language the person chose (cookie), else the browser's.
+    start_url: "/",
     scope: "/",
     display: "standalone",
     orientation: "portrait",

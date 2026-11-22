@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LOCALE_COOKIE, type Locale } from "@/i18n/config";
 import { localizedPath } from "@/lib/site";
+import { SIGNED_IN_HINT } from "@/lib/supabase/cookies";
+import { saveLanguage } from "@/lib/language-action";
 
 const ONE_YEAR = 60 * 60 * 24 * 365;
 
@@ -33,6 +35,8 @@ export function LanguageSwitcher({ lang, label, switchLabel }: { lang: Locale; l
             aria-label={switchLabel}
             onClick={() => {
               document.cookie = `${LOCALE_COOKIE}=${other}; path=/; max-age=${ONE_YEAR}; samesite=lax`;
+              // Signed in: the account remembers it too, or the next sign-in would switch back.
+              if (document.cookie.split("; ").includes(`${SIGNED_IN_HINT}=1`)) void saveLanguage(other).catch(() => {});
             }}
             className="pressable flex h-9 min-w-10 items-center justify-center rounded-full px-2.5 text-muted hover:text-foreground min-[360px]:min-w-11 min-[360px]:px-3"
           >

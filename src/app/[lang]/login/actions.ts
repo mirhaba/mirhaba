@@ -50,11 +50,16 @@ function implicitClient() {
   });
 }
 
-/** After any successful sign-in: remember the profile's language and continue (consent first if needed). */
-async function finishSignIn(userId: string, fallbackLang: Locale, next: string | undefined): Promise<never> {
+/**
+ * After any successful sign-in: continue in the language the person is using right now (the page
+ * they signed in on) and save it to the account if it changed; then consent first if needed.
+ * (Taking the account's stored language instead switched people back to the old one on every sign-in.)
+ */
+async function finishSignIn(userId: string, pageLang: Locale, next: string | undefined): Promise<never> {
   const supabase = await createClient();
   const { data: profile } = await supabase.from("profiles").select("ui_lang, age_confirmed_at").eq("id", userId).single();
-  const uiLang: Locale = profile?.ui_lang === "sq" ? "sq" : profile?.ui_lang === "tr" ? "tr" : fallbackLang;
+  const uiLang: Locale = pageLang;
+  if (profile && profile.ui_lang !== uiLang) await supabase.from("profiles").update({ ui_lang: uiLang }).eq("id", userId);
   (await cookies()).set(LOCALE_COOKIE, uiLang, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });
   redirect(afterLoginPath(safeNextPath(next, uiLang), uiLang, !!profile?.age_confirmed_at));
 }

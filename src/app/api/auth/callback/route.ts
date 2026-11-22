@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { LOCALE_COOKIE, type Locale } from "@/i18n/config";
+import { hasLocale, LOCALE_COOKIE, type Locale } from "@/i18n/config";
 import { createClient } from "@/lib/supabase/server";
 import { afterLoginPath, localeOfPath, safeNextPath } from "@/lib/safe-redirect";
 
@@ -27,7 +27,10 @@ export async function GET(request: NextRequest) {
   if (error || !data.user) return fail();
 
   const { data: profile } = await supabase.from("profiles").select("ui_lang, age_confirmed_at").eq("id", data.user.id).single();
-  const uiLang: Locale = profile?.ui_lang === "sq" ? "sq" : profile?.ui_lang === "tr" ? "tr" : lang;
+  // This device's choice (cookie) wins; else the account's; else the language the flow started in.
+  const chosen = request.cookies.get(LOCALE_COOKIE)?.value;
+  const uiLang: Locale = hasLocale(chosen) ? chosen : profile?.ui_lang === "sq" ? "sq" : profile?.ui_lang === "tr" ? "tr" : lang;
+  if (profile && profile.ui_lang !== uiLang) await supabase.from("profiles").update({ ui_lang: uiLang }).eq("id", data.user.id);
 
   const response = NextResponse.redirect(new URL(afterLoginPath(next, uiLang, !!profile?.age_confirmed_at), origin));
   response.cookies.set(LOCALE_COOKIE, uiLang, { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" });

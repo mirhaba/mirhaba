@@ -31,6 +31,16 @@ export async function proxy(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // The bare start page ("/tr", "/sq") follows the language the person chose on this device. Apps
+  // installed before the manifest's start_url became "/" (iPhones keep it) and old bookmarks open
+  // "/tr"; without this an Albanian speaker would land in Turkish every time. Deeper links are kept.
+  const remembered = request.cookies.get(LOCALE_COOKIE)?.value;
+  if (pathname === `/${segment}` && hasLocale(remembered) && remembered !== segment) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${remembered}`;
+    return NextResponse.redirect(url);
+  }
+
   if (!AUTH_ROUTE.test(pathname) && !isAdmin) return NextResponse.next();
 
   // 2) Refresh the Supabase session (rotates tokens into httpOnly cookies) and guard routes.

@@ -22,6 +22,7 @@ import { LOCALE_COOKIE, type Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import { localizedPath } from "@/lib/site";
 import { SIGNED_IN_HINT } from "@/lib/supabase/cookies";
+import { saveLanguage } from "@/lib/language-action";
 import { GUIDE_SEEN_KEY, OPEN_GUIDE_EVENT, readPreferences, storageGet, storageSet, updatePreferences, type Direction } from "@/lib/preferences";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/brand/Logo";
@@ -92,7 +93,11 @@ export function FirstRunGuide({ lang, texts }: { lang: Locale; texts: Record<Loc
       if (direction) updatePreferences({ direction });
       setOpen(false);
       const changeLang = cardLang !== lang;
-      if (changeLang) document.cookie = `${LOCALE_COOKIE}=${cardLang}; path=/; max-age=${ONE_YEAR}; samesite=lax`;
+      if (changeLang) {
+        document.cookie = `${LOCALE_COOKIE}=${cardLang}; path=/; max-age=${ONE_YEAR}; samesite=lax`;
+        // Signed in (tour reopened from the dashboard): the account remembers it too.
+        if (document.cookie.split("; ").includes(`${SIGNED_IN_HINT}=1`)) void saveLanguage(cardLang).catch(() => {});
+      }
       if (destination === "signup") router.push(`/${cardLang}/login?mode=signup`);
       else if (destination === "home") router.push(`/${cardLang}`);
       // Read the path only now (not with usePathname: this lives in the root layout, outside Suspense).
