@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowRight,
@@ -45,7 +45,6 @@ const QUIET_PATHS = /^\/(tr|sq)\/(app|login|checkout|legal)(\/|$)/;
  */
 export function FirstRunGuide({ lang, texts }: { lang: Locale; texts: Record<Locale, T> }) {
   const router = useRouter();
-  const pathname = usePathname() ?? `/${lang}`;
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(0);
   const [motion, setMotion] = useState<"next" | "prev">("next");
@@ -96,9 +95,10 @@ export function FirstRunGuide({ lang, texts }: { lang: Locale; texts: Record<Loc
       if (changeLang) document.cookie = `${LOCALE_COOKIE}=${cardLang}; path=/; max-age=${ONE_YEAR}; samesite=lax`;
       if (destination === "signup") router.push(`/${cardLang}/login?mode=signup`);
       else if (destination === "home") router.push(`/${cardLang}`);
-      else if (changeLang) router.push(localizedPath(pathname, cardLang));
+      // Read the path only now (not with usePathname: this lives in the root layout, outside Suspense).
+      else if (changeLang) router.push(localizedPath(window.location.pathname, cardLang));
     },
-    [cardLang, direction, lang, pathname, router],
+    [cardLang, direction, lang, router],
   );
 
   if (!open) return null;
