@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/app">): Pr
   return { title: t.account.title, robots: { index: false, follow: false } };
 }
 
-export default async function AccountPage({ params }: PageProps<"/[lang]/app">) {
+export default async function AccountPage({ params, searchParams }: PageProps<"/[lang]/app">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const t = await getDictionary(lang);
@@ -28,13 +28,13 @@ export default async function AccountPage({ params }: PageProps<"/[lang]/app">) 
       <h1 className="text-[34px] leading-tight font-bold">{t.account.title}</h1>
       {/* Reading the session happens per request, so only this part waits. */}
       <Suspense fallback={<AccountSkeleton />}>
-        <Account lang={lang} t={t} />
+        <Account lang={lang} t={t} searchParams={searchParams} />
       </Suspense>
     </div>
   );
 }
 
-async function Account({ lang, t }: { lang: Locale; t: Messages }) {
+async function Account({ lang, t, searchParams }: { lang: Locale; t: Messages; searchParams: PageProps<"/[lang]/app">["searchParams"] }) {
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) redirect(`/${lang}/login?next=/${lang}/app`); // the proxy already guards; this is defence in depth
@@ -43,11 +43,12 @@ async function Account({ lang, t }: { lang: Locale; t: Messages }) {
   // Premium status below is current. No request is made when there is nothing pending.
   if (await checkLimit("paymentCheckUser", auth.user.id)) await syncRecentPendingPayments(auth.user.id).catch(() => {});
 
-  const [{ data: profile }, entitlement, { data: isModerator }, admin] = await Promise.all([
+  const [{ data: profile }, entitlement, { data: isModerator }, admin, query] = await Promise.all([
     supabase.from("profiles").select("ui_lang, marketing_opt_in, age_confirmed_at").eq("id", auth.user.id).single(),
     getEntitlement(),
     supabase.rpc("is_moderator"),
     getAdmin(),
+    searchParams,
   ]);
 
   if (!profile?.age_confirmed_at) return <ConsentForm lang={lang} t={t.consent} />;
@@ -65,6 +66,10 @@ async function Account({ lang, t }: { lang: Locale; t: Messages }) {
       activeUntil={activeUntil}
       moderationLink={isModerator && !admin ? { href: `/${lang}/app/moderation`, label: t.moderation.open, hint: t.moderation.openHint } : null}
       adminLink={admin ? { href: "/admin", label: t.account.adminOpen, hint: t.account.adminOpenHint } : null}
+      // Set when a password is chosen at sign-up or on this page (Supabase doesn't say whether one exists).
+      hasPassword={auth.user.user_metadata?.password_set === true}
+      openPassword={query.password === "1"}
+      passwordLabels={{ show: t.auth.showPassword, hide: t.auth.hidePassword }}
     />
   );
 }

@@ -64,7 +64,18 @@ Pushing to the hosted project (when you're ready): `supabase link --project-ref 
 
 ## Login (Supabase Auth)
 
-- `/[lang]/login`: email → 6-digit code (no magic links), or Google when `NEXT_PUBLIC_AUTH_GOOGLE_ENABLED=true`.
+- `/[lang]/login` (`?mode=signup` opens the sign-up tab):
+  - **Sign up** with email + password (8–72 characters, not a common password, not the email; `src/lib/password.ts`).
+    Supabase emails a 6-digit confirmation code (the "Confirm signup" template), entered on the same screen.
+    An existing address gets "already registered" and the sign-in tab.
+  - **Sign in** with email + password, or "send me a code" (passwordless, 6-digit code).
+  - **Forgot password** = sign in with a code, then the account page opens "Set a new password".
+  - Unconfirmed accounts get a fresh confirmation code via `resendConfirmation` (a sign-in code would make Supabase
+    drop the password they chose).
+  - Google when `NEXT_PUBLIC_AUTH_GOOGLE_ENABLED=true`.
+  - Every request needs the Turnstile token (Supabase attack protection) and is rate-limited per IP and per address.
+- Account page → Password: set one (code-only accounts) or change it. "Has a password" is the `password_set` flag in
+  user metadata, set by sign-up and by this form (Supabase stores a random hash even for code-only accounts).
 - `/[lang]/app` is the account page and is protected by `src/proxy.ts`. Only `/app` and `/login` touch auth, so Quick Talk never waits on it.
 - Session cookies are forced httpOnly + SameSite=Lax (+ Secure in production) in `src/lib/supabase/cookies.ts`.
 - First sign-in shows a one-time consent (16+, terms, privacy; marketing optional), stored in `consents`.

@@ -20,10 +20,16 @@ type Rule = { limit: number; window: Duration };
 /** Every limit in the app, in one place. */
 export const RULES = {
   // Login: stop email-bombing and code guessing.
-  sendCodeIp: { limit: 5, window: "10 m" },
+  // Per IP is looser than per address: many people share one mobile-carrier IP, and sign-ups count here too.
+  sendCodeIp: { limit: 10, window: "10 m" },
   sendCodeEmail: { limit: 3, window: "10 m" },
   verifyCodeIp: { limit: 10, window: "10 m" },
   verifyCodeEmail: { limit: 6, window: "10 m" },
+  // Password sign-in: stop guessing (the per-address limit protects one account from many IPs).
+  passwordIp: { limit: 10, window: "10 m" },
+  passwordEmail: { limit: 8, window: "10 m" },
+  // Setting / changing a password from the account page.
+  setPasswordUser: { limit: 5, window: "10 m" },
   // Translation: bursts (the daily quota is enforced separately in Postgres).
   translateUser: { limit: 12, window: "1 m" },
   translateIp: { limit: 30, window: "1 m" },

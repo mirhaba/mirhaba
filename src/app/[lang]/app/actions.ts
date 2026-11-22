@@ -3,8 +3,10 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { hasLocale, LOCALE_COOKIE, type Locale } from "@/i18n/config";
+import { defaultLocale, hasLocale, LOCALE_COOKIE, type Locale } from "@/i18n/config";
 import { createClient } from "@/lib/supabase/server";
+import { checkLimit } from "@/lib/rate-limit";
+import { passwordProblem, type PasswordProblem } from "@/lib/password";
 
 /** Bump when the terms/privacy text changes materially; users are asked again. */
 const CONSENT_VERSION = "2026-11";
@@ -16,7 +18,7 @@ const langSchema = z.custom<Locale>((v) => typeof v === "string" && hasLocale(v)
 async function requireUser() {
   const supabase = await createClient();
   const { data, error } = await supabase.auth.getUser();
-  if (error || !data.user) redirect("/tr/login");
+  if (error || !data.user) redirect(`/${defaultLocale}/login`);
   return { supabase, user: data.user };
 }
 
@@ -82,4 +84,24 @@ export async function deleteAccount(input: { lang: string }): Promise<Result> {
   // The user no longer exists; clear the session cookies locally.
   await supabase.auth.signOut({ scope: "local" }).catch(() => {});
   redirect(`/${lang.success ? lang.data : "tr"}`);
+}
+
+export type PasswordResult = { ok: true } | { ok: false; error: PasswordProblem | "same" | "reauth" | "tooMany" | "generic" };
+
+/** Set a password (accounts that signed in with email codes) or change it. The session proves who it is. */
+export async function setPassword(password: unknown): Promise<PasswordResult> {
+  if (typeof password !== "string") return { ok: false, error: "generic" };
+  const { supabase, user } = await requireUser();
+  const problem = passwordProblem(password, user.email);
+  if (problem) return { ok: false, error: problem };
+  if (!(await checkLimit("setPasswordUser", user.id))) return { ok: false, error: "tooMany" };
+
+  // password_set: lets the account page say "Change password" from now on.
+  const { error } = await supabase.auth.updateUser({ password, data: { password_set: true } });
+  if (!error) return { ok: true };
+  if (error.code === "same_password") return { ok: false, error: "same" };
+  if (error.code === "weak_password") return { ok: false, error: "tooCommon" };
+  if (error.code === "reauthentication_needed" || error.code === "reauthentication_not_valid") return { ok: false, error: "reauth" };
+  if (error.status === 429) return { ok: false, error: "tooMany" };
+  return { ok: false, error: "generic" };
 }

@@ -22,12 +22,9 @@ export default async function LoginPage({ params }: PageProps<"/[lang]/login">) 
 
   return (
     <div className="mx-auto flex max-w-sm flex-col gap-8 py-4">
-      <div>
-        <Logo size="lg" showWordmark={false} className="mb-4" />
-        <h1 className="text-[34px] leading-tight font-bold">{t.auth.title}</h1>
-        <p className="mt-1 text-[15px] text-muted">{t.auth.subtitle}</p>
-      </div>
-      <Suspense fallback={<LoginSkeleton />}>
+      <Logo size="lg" showWordmark={false} className="-mb-4" />
+      {/* The form renders the heading: it changes between "Sign in" and "Create account". */}
+      <Suspense fallback={<LoginSkeleton title={t.auth.title} subtitle={t.auth.subtitle} />}>
         <LoginForm lang={lang} t={t.auth} />
       </Suspense>
       <p className="text-center text-[13px] text-muted">
@@ -43,16 +40,23 @@ export default async function LoginPage({ params }: PageProps<"/[lang]/login">) 
   );
 }
 
-function LoginSkeleton() {
+function LoginSkeleton({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <div aria-hidden="true" className="flex flex-col gap-5">
-      <div className="skeleton h-12 rounded-full" />
-      <div className="skeleton mx-auto h-3 w-1/3 rounded" />
-      <div className="space-y-1.5">
-        <div className="skeleton h-3.5 w-16 rounded" />
-        <div className="skeleton h-12 rounded-xl" />
+    <div className="flex flex-col gap-6">
+      <div>
+        <h1 className="text-[34px] leading-tight font-bold">{title}</h1>
+        <p className="mt-1 text-[15px] text-muted">{subtitle}</p>
       </div>
-      <div className="skeleton h-12 rounded-full" />
+      <div aria-hidden="true" className="flex flex-col gap-5">
+        <div className="skeleton h-12 rounded-xl" />
+        {[0, 1].map((i) => (
+          <div key={i} className="space-y-1.5">
+            <div className="skeleton h-3.5 w-16 rounded" />
+            <div className="skeleton h-12 rounded-xl" />
+          </div>
+        ))}
+        <div className="skeleton h-12 rounded-full" />
+      </div>
     </div>
   );
 }
