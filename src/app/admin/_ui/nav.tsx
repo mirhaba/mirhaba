@@ -7,6 +7,7 @@ import {
   BookOpen,
   Download,
   Flag,
+  Gauge,
   GraduationCap,
   Languages,
   LayoutDashboard,
@@ -27,6 +28,7 @@ const items: { href: string; label: string; Icon: LucideIcon }[] = [
   { href: "/admin/users", label: "Users & Premium", Icon: Users },
   { href: "/admin/activity", label: "Activity log", Icon: Activity },
   { href: "/admin/import", label: "Import starter content", Icon: Download },
+  { href: "/admin/system", label: "System check", Icon: Gauge },
 ];
 
 export function AdminNav() {
