@@ -221,13 +221,13 @@ export async function WordPage({ lang, slug }: { lang: Locale; slug: string }) {
       <div className="flex flex-col gap-2 sm:flex-row">
         <Link
           href={`/${lang}/translate`}
-          className="pressable inline-flex h-12 flex-1 items-center justify-center rounded-full bg-accent px-5 font-semibold text-on-accent hover:bg-accent-pressed"
+          className="pressable inline-flex h-12 items-center justify-center rounded-full bg-accent px-5 font-semibold text-on-accent hover:bg-accent-pressed sm:flex-1"
         >
           {t.tryTranslate}
         </Link>
         <Link
           href={`/${lang}`}
-          className="pressable inline-flex h-12 flex-1 items-center justify-center rounded-full bg-surface px-5 font-semibold shadow-card ring-1 ring-hairline hover:bg-surface-2"
+          className="pressable inline-flex h-12 items-center justify-center rounded-full bg-surface px-5 font-semibold shadow-card ring-1 ring-hairline hover:bg-surface-2 sm:flex-1"
         >
           {t.tryQuickTalk}
         </Link>

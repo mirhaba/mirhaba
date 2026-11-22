@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Download, Share } from "lucide-react";
 import type { Messages } from "@/i18n/dictionaries";
 import { readConsentCookie } from "@/lib/consent";
@@ -26,10 +27,17 @@ function write(key: string, value: string) {
   }
 }
 
+/**
+ * Screens where the hint would sit on top of what the person is doing (lesson answers, the code
+ * field, the text box): it waits for a calmer screen instead.
+ */
+const FOCUSED = /^\/(tr|sq)\/(learn\/.+|login|app|translate)(\/|$)/;
+
 /** Friendly "Add to Home Screen" hint from the second visit on (Android prompt or iPhone steps). */
 export function InstallPrompt({ t }: { t: Messages["install"] }) {
   const [deferred, setDeferred] = useState<BeforeInstallPromptEvent | null>(null);
   const [mode, setMode] = useState<"hidden" | "android" | "ios">("hidden");
+  const focused = FOCUSED.test(usePathname() ?? "");
 
   useEffect(() => {
     const visits = readNumber(VISITS_KEY) + 1;
@@ -57,7 +65,7 @@ export function InstallPrompt({ t }: { t: Messages["install"] }) {
     return () => window.removeEventListener("beforeinstallprompt", onPrompt);
   }, []);
 
-  if (mode === "hidden") return null;
+  if (mode === "hidden" || focused) return null;
 
   const dismiss = () => {
     write(DISMISSED_KEY, "1");

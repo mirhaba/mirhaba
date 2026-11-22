@@ -77,16 +77,17 @@ export default async function PricingPage({ params }: PageProps<"/[lang]/pricing
         <h2 id="compare" className="sr-only">
           {t.feature}
         </h2>
-        <table className="w-full overflow-hidden rounded-2xl bg-surface text-left shadow-card ring-1 ring-hairline">
+        {/* Narrow phones: tighter cells, and a long word ("drejtpërdrejtë") may break instead of widening the page. */}
+        <table className="w-full overflow-hidden rounded-2xl bg-surface text-left shadow-card ring-1 ring-hairline [overflow-wrap:anywhere] sm:[overflow-wrap:normal]">
           <thead>
             <tr className="border-b border-hairline text-[13px] text-muted">
-              <th scope="col" className="px-4 py-3 font-medium">
+              <th scope="col" className="px-3 py-3 font-medium sm:px-4">
                 {t.feature}
               </th>
               <th scope="col" className="px-2 py-3 font-medium">
                 {t.free}
               </th>
-              <th scope="col" className="px-4 py-3 font-medium text-accent-text">
+              <th scope="col" className="px-3 py-3 font-medium text-accent-text sm:px-4">
                 {t.premium}
               </th>
             </tr>
@@ -94,11 +95,11 @@ export default async function PricingPage({ params }: PageProps<"/[lang]/pricing
           <tbody>
             {t.rows.map((r) => (
               <tr key={r.label} className="border-b border-hairline align-top last:border-b-0">
-                <th scope="row" className="px-4 py-3 text-[15px] font-medium">
+                <th scope="row" className="px-3 py-3 text-[14px] font-medium sm:px-4 sm:text-[15px]">
                   {r.label}
                 </th>
                 <td className="px-2 py-3 text-[13px] text-muted">{fill(r.free, values)}</td>
-                <td className="px-4 py-3 text-[13px] font-medium">{fill(r.premium, values)}</td>
+                <td className="px-3 py-3 text-[13px] font-medium sm:px-4">{fill(r.premium, values)}</td>
               </tr>
             ))}
           </tbody>

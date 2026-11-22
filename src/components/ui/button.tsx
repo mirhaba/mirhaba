@@ -7,7 +7,9 @@ const styles: Record<Variant, string> = {
   // The one filled accent button per screen: the main action.
   primary: "bg-accent text-on-accent hover:bg-accent-pressed disabled:bg-accent/50",
   // Quiet surface button for alternatives.
-  secondary: "bg-surface text-foreground shadow-card ring-1 ring-hairline hover:bg-surface-2 disabled:opacity-50",
+  // Dark mode: --surface equals the glass panels (cookie banner, sheets), so the button would vanish into them.
+  secondary:
+    "bg-surface text-foreground shadow-card ring-1 ring-hairline hover:bg-surface-2 disabled:opacity-50 dark:bg-surface-2 dark:ring-foreground/15 dark:hover:brightness-110",
   // Text-only, for low-priority actions.
   plain: "text-accent-text hover:bg-accent-soft disabled:opacity-50",
 };

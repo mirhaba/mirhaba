@@ -21,6 +21,8 @@ export default async function ReviewPage({ params }: PageProps<"/[lang]/learn/re
   const allItems = tracks.flatMap((tr) => tr.units.filter((u) => u.isFree).flatMap((u) => u.lessons.flatMap((l) => l.items)));
   return (
     <div className="mx-auto w-full max-w-xl">
+      {/* The player has no page title of its own (same as lesson pages): one h1 for screen readers. */}
+      <h1 className="sr-only">{t.reviewTitle}</h1>
       <LessonPlayer lang={lang} t={t} mode="review" allItems={allItems} />
     </div>
   );

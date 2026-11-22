@@ -11,7 +11,7 @@ import { MainNavLinks } from "./main-nav-links";
 export function SiteHeader({ lang, t }: { lang: Locale; t: Messages }) {
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-glass backdrop-blur-xl backdrop-saturate-150">
-      <div className="mx-auto flex h-14 max-w-3xl items-center gap-3 px-4">
+      <div className="mx-auto flex h-14 max-w-3xl items-center gap-2 px-4 min-[360px]:gap-3">
         <Link href={`/${lang}`} className="pressable flex items-center rounded-lg" aria-label="Mirhaba">
           <Logo size="md" />
         </Link>
@@ -20,14 +20,15 @@ export function SiteHeader({ lang, t }: { lang: Locale; t: Messages }) {
             <MainNavLinks lang={lang} t={t.nav} variant="top" />
           </Suspense>
         </nav>
-        <div className="ml-auto flex items-center gap-1">
+        {/* Below 360px (iPhone SE 1st gen, small Androids) everything is a little tighter so the bar fits without sideways scrolling. */}
+        <div className="ml-auto flex shrink-0 items-center gap-0.5 min-[360px]:gap-1">
           {/* Static link; the proxy sends signed-out visitors to the login page. No prefetch: the
               answer depends on the session, and a prefetched "go to login" must not outlive a sign-in. */}
           <Link
             href={`/${lang}/app`}
             prefetch={false}
             aria-label={t.nav.account}
-            className="pressable flex h-11 w-11 items-center justify-center rounded-full text-muted hover:text-foreground"
+            className="pressable flex h-11 w-10 items-center justify-center rounded-full text-muted hover:text-foreground min-[360px]:w-11"
           >
             <CircleUserRound aria-hidden="true" className="h-6 w-6" strokeWidth={1.75} />
           </Link>

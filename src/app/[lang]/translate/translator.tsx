@@ -110,13 +110,14 @@ export function Translator({
             role="radio"
             aria-checked={direction === d}
             onClick={() => direction !== d && swap()}
-            className={`pressable flex h-10 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg px-2 text-[14px] font-semibold sm:text-[15px] ${
+            className={`pressable flex min-h-10 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-1 text-[14px] leading-tight font-semibold sm:text-[15px] ${
               direction === d ? "bg-surface text-foreground shadow-card" : "text-muted"
             }`}
           >
-            {/* The label already says the direction; on phones the icon would push it into "Arnav…". */}
+            {/* The label already says the direction; on phones the icon would only take room from it. */}
             {direction === d && <ArrowLeftRight aria-hidden="true" className="hidden h-4 w-4 shrink-0 text-accent-text sm:block" />}
-            <span className="truncate">{d === "tr-sq" ? t.trToSq : t.sqToTr}</span>
+            {/* Wraps onto two lines on narrow phones instead of being cut to "Türkçe → Arnav…". */}
+            <span className="min-w-0 text-center text-balance">{d === "tr-sq" ? t.trToSq : t.sqToTr}</span>
           </button>
         ))}
       </div>

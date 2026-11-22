@@ -1,20 +1,12 @@
-import Link from "next/link";
-import { Compass } from "lucide-react";
-import { StateView } from "@/components/state-view";
-import tr from "../../../messages/tr.json";
-import sq from "../../../messages/sq.json";
+import { Suspense } from "react";
+import { LocalizedNotFound, NotFoundView } from "./not-found-content";
 
-// not-found.tsx gets no params, so show both languages; the main action goes to the default locale.
+// not-found.tsx gets no params: the client part reads the URL so /sq/... shows Albanian first.
+// Until it renders (or without JavaScript) the Turkish-first version is shown.
 export default function NotFound() {
   return (
-    <>
-      <StateView Icon={Compass} title={tr.notFound.title} body={tr.notFound.body} action={{ label: tr.notFound.cta, href: "/tr" }} />
-      <p lang="sq" className="-mt-6 text-center text-[15px] text-muted">
-        {sq.notFound.title}.{" "}
-        <Link href="/sq" className="inline-flex min-h-11 items-center font-medium text-accent-text">
-          {sq.notFound.cta}
-        </Link>
-      </p>
-    </>
+    <Suspense fallback={<NotFoundView lang="tr" />}>
+      <LocalizedNotFound />
+    </Suspense>
   );
 }

@@ -24,7 +24,7 @@ export function LanguageSwitcher({ lang, label, switchLabel }: { lang: Locale; l
           <span
             key={code}
             aria-current="true"
-            className="flex h-9 min-w-11 items-center justify-center rounded-full bg-surface px-3 text-foreground shadow-card"
+            className="flex h-9 min-w-10 items-center justify-center rounded-full bg-surface px-2.5 text-foreground shadow-card min-[360px]:min-w-11 min-[360px]:px-3"
           >
             {code.toUpperCase()}
           </span>
@@ -37,7 +37,7 @@ export function LanguageSwitcher({ lang, label, switchLabel }: { lang: Locale; l
             onClick={() => {
               document.cookie = `${LOCALE_COOKIE}=${other}; path=/; max-age=${ONE_YEAR}; samesite=lax`;
             }}
-            className="pressable flex h-9 min-w-11 items-center justify-center rounded-full px-3 text-muted hover:text-foreground"
+            className="pressable flex h-9 min-w-10 items-center justify-center rounded-full px-2.5 text-muted hover:text-foreground min-[360px]:min-w-11 min-[360px]:px-3"
           >
             {code.toUpperCase()}
           </Link>

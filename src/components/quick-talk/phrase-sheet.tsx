@@ -84,7 +84,8 @@ export function PhraseSheet({
         </div>
 
         <div className="rounded-3xl bg-surface p-6 shadow-card ring-1 ring-hairline">
-          <p id="phrase-sq" lang="sq" className="text-[40px] leading-[1.1] font-bold break-words">
+          {/* Scales down on narrow phones so long words ("Përshëndetje") stay whole on the screen shown to the other person. */}
+          <p id="phrase-sq" lang="sq" className="text-[clamp(1.75rem,10vw,2.5rem)] leading-[1.1] font-bold break-words">
             {sq}
           </p>
           {lang === "tr" && (

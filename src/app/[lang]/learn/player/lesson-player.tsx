@@ -187,7 +187,7 @@ function Session({
         <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-accent text-on-accent">
           <Check aria-hidden="true" className="h-8 w-8" />
         </div>
-        <h1 className="text-[28px] font-bold">{mode === "review" ? p.reviewFinishTitle : p.finishTitle}</h1>
+        <h2 className="text-[28px] font-bold">{mode === "review" ? p.reviewFinishTitle : p.finishTitle}</h2>
         <div className="grid w-full max-w-sm grid-cols-2 gap-3">
           <div className="rounded-2xl bg-surface p-4 shadow-card ring-1 ring-hairline">
             <p className="text-[34px] leading-none font-bold tabular-nums">%{result.score}</p>
@@ -264,7 +264,9 @@ function Session({
       </div>
 
       {/* Exercise */}
-      <div key={index} className="fade-in flex min-h-[340px] flex-1 flex-col gap-5">
+      {/* No fixed min-height here: the parent's min-height already keeps the button at the bottom, and a
+          floor of its own pushed the button behind the tab bar on short phones (320×568). */}
+      <div key={index} className="fade-in flex flex-1 flex-col gap-5">
         {exercise.kind === "learn" && <LearnCard item={exercise.item} lang={lang} t={p} />}
 
         {exercise.kind === "choose" && (

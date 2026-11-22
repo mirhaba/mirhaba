@@ -68,7 +68,8 @@ export function Turnstile({
         if (cancelled || !container.current || !window.turnstile) return;
         widgetId.current = window.turnstile.render(container.current, {
           sitekey: SITE_KEY,
-          language: lang,
+          // Turnstile has no Albanian; "auto" follows the browser instead of logging a warning.
+          language: lang === "tr" ? "tr" : "auto",
           appearance: "interaction-only",
           callback: (token: string) => onTokenRef.current(token),
           "expired-callback": () => onTokenRef.current(""),
