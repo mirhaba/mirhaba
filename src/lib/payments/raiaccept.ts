@@ -192,15 +192,30 @@ const transactionSchema = z
   })
   .passthrough();
 export type RaiAcceptTransaction = z.infer<typeof transactionSchema>;
+// Items may come flat or wrapped like the single-transaction endpoint ({ transaction: {...}, card: {...} }).
+const transactionItem = z.preprocess(
+  (v) => (v && typeof v === "object" && "transaction" in v && typeof (v as { transaction: unknown }).transaction === "object" ? (v as { transaction: unknown }).transaction : v),
+  transactionSchema,
+);
 // Documented as a single object in the example; accept a list or a wrapped list too.
 const transactionsSchema = z.union([
-  z.array(transactionSchema),
-  z.object({ transactions: z.array(transactionSchema) }).transform((v) => v.transactions),
-  transactionSchema.transform((v) => [v]),
+  z.array(transactionItem),
+  z.object({ transactions: z.array(transactionItem) }).transform((v) => v.transactions),
+  transactionItem.transform((v) => [v]),
 ]);
 
+/**
+ * All transactions of an order. The docs say POST, but the live API answers 405 to POST and serves GET
+ * (seen in production, Nov 2026); POST stays as a fallback in case an environment follows the docs.
+ */
 export async function getOrderTransactions(orderId: string): Promise<RaiAcceptTransaction[]> {
-  return call("POST", `/orders/${encodeURIComponent(orderId)}/transactions`, transactionsSchema);
+  const path = `/orders/${encodeURIComponent(orderId)}/transactions`;
+  try {
+    return await call("GET", path, transactionsSchema);
+  } catch (error) {
+    if (error instanceof RaiAcceptError && error.status === 405) return call("POST", path, transactionsSchema);
+    throw error;
+  }
 }
 
 const refundSchema = z.object({ transactionId: id }).passthrough();

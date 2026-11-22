@@ -224,7 +224,9 @@ const server = http.createServer(async (req, res) => {
     return send(res, 201, { sessionId: s.id, paymentRedirectURL: `${ORIGIN}/checkout?paymentSession=${s.id}` });
   }
   if (!sub && req.method === "GET") return send(res, 200, publicOrder(o));
-  if (sub === "transactions" && !txId && req.method === "POST") return send(res, 200, o.txs.map((t) => ({ ...t, isProduction: state.isProduction })));
+  // Like the live API: GET works, POST (what the docs say) is 405.
+  if (sub === "transactions" && !txId && req.method === "POST") return fail(res, 405, "HTTP request method is not supported.");
+  if (sub === "transactions" && !txId && req.method === "GET") return send(res, 200, o.txs.map((t) => ({ ...t, isProduction: state.isProduction })));
   if (sub === "transactions" && txId && refund && req.method === "POST") {
     const tx = o.txs.find((t) => t.transactionId === txId && t.status === "SUCCESS" && t.transactionType === "PURCHASE");
     if (!tx) return fail(res, 404, "transaction not found");
