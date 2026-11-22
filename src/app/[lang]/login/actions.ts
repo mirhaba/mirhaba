@@ -14,7 +14,6 @@ import { passwordProblem, PASSWORD_MAX, type PasswordProblem } from "@/lib/passw
 
 export type AuthError =
   | "invalidEmail"
-  | "invalidCode"
   | "wrongCode"
   | "wrongPassword"
   | "unconfirmed"
@@ -24,11 +23,10 @@ export type AuthError =
   | "generic"
   | PasswordProblem;
 export type AuthResult = { ok: true } | { ok: false; error: AuthError };
-/** Sign-up: "code" = a confirmation code was emailed (the usual case); a direct sign-in redirects instead. */
+/** Sign-up: "code" = a confirmation link was emailed (the usual case); a direct sign-in redirects instead. */
 export type SignUpResult = { ok: true; step: "code" } | { ok: false; error: AuthError };
 
 const emailSchema = z.string().trim().toLowerCase().email().max(254);
-const codeSchema = z.string().trim().regex(/^\d{6}$/);
 const langSchema = z.custom<Locale>((v) => typeof v === "string" && hasLocale(v));
 // Length only here; the rules (and their messages) come from passwordProblem().
 const passwordSchema = z.string().min(1).max(PASSWORD_MAX * 4);
@@ -62,11 +60,10 @@ async function finishSignIn(userId: string, fallbackLang: Locale, next: string |
 }
 
 /**
- * Email a sign-in code and link. Creates the account on first use (profile trigger stores ui_lang).
- * Also the "forgot password" path: sign in with a code, then set a new password on the account page.
+ * Email a sign-in link. Creates the account on first use (profile trigger stores ui_lang).
+ * Also the "forgot password" path: sign in with a link, then set a new password on the account page.
  *
- * The email may contain a 6-digit code ({{ .Token }}), a link ({{ .ConfirmationURL }}) or both,
- * depending on the template set in the Supabase dashboard. We send with the implicit flow so the
+ * Supabase's built-in emails (no custom SMTP) contain only the link. We send with the implicit flow so the
  * link works even when it opens in a different browser than the one that asked for it (e.g. the
  * Gmail in-app browser): the session arrives in the URL fragment and AuthLinkHandler stores it.
  */
@@ -90,32 +87,6 @@ export async function sendCode(input: { lang: string; email: string; captchaToke
     },
   });
   return error ? { ok: false, error: mapError(error) } : { ok: true };
-}
-
-/**
- * Check a 6-digit code: a sign-in code (`sendCode`) or the confirmation code of a new account (`signUp`).
- * On success the session cookies are set and we go to `next`.
- */
-export async function verifyCode(input: { lang: string; email: string; code: string; next?: string; purpose?: "signin" | "signup" }): Promise<AuthResult> {
-  const email = emailSchema.safeParse(input.email);
-  const code = codeSchema.safeParse(input.code);
-  const lang = langSchema.safeParse(input.lang);
-  if (!lang.success || !email.success) return { ok: false, error: "invalidEmail" };
-  if (!code.success) return { ok: false, error: "invalidCode" };
-
-  // Stop code guessing: per IP and per address.
-  const ip = await clientIp();
-  if (!(await checkLimits([["verifyCodeIp", ip], ["verifyCodeEmail", email.data]]))) return { ok: false, error: "tooMany" };
-
-  const supabase = await createClient();
-  // A new account's confirmation code is a "signup" token; everything else is an "email" sign-in code.
-  const types = input.purpose === "signup" ? (["signup", "email"] as const) : (["email"] as const);
-  let result = await supabase.auth.verifyOtp({ email: email.data, token: code.data, type: types[0] });
-  if (result.error && types[1]) result = await supabase.auth.verifyOtp({ email: email.data, token: code.data, type: types[1] });
-  const { data, error } = result;
-  if (error || !data.user) return { ok: false, error: mapError(error) };
-
-  return finishSignIn(data.user.id, lang.data, input.next);
 }
 
 /** Email + password sign-in. Wrong password and unknown email get the same answer. */
@@ -150,8 +121,8 @@ export async function signInWithPassword(input: {
 }
 
 /**
- * New account with email + password. Supabase emails a confirmation code (and link); the account
- * works after `verifyCode({ purpose: "signup" })`. If the project auto-confirms, the user is signed in at once.
+ * New account with email + password. Supabase emails a confirmation link; opening it signs the person in
+ * (AuthLinkHandler). If the project auto-confirms, the user is signed in at once.
  */
 export async function signUp(input: {
   lang: string;
@@ -198,8 +169,8 @@ export async function signUp(input: {
 }
 
 /**
- * A new confirmation code for an account that was created with a password but never confirmed.
- * (A sign-in code would also work, but Supabase then removes the unconfirmed account's password.)
+ * A new confirmation link for an account that was created with a password but never confirmed.
+ * (A sign-in link would also work, but Supabase then removes the unconfirmed account's password.)
  */
 export async function resendConfirmation(input: { lang: string; email: string; captchaToken?: string; next?: string }): Promise<AuthResult> {
   const email = emailSchema.safeParse(input.email);

@@ -2,9 +2,11 @@
 
 import { useEffect, useRef, useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
+import { MailCheck } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/client";
+import { SIGNED_IN_HINT } from "@/lib/supabase/cookies";
 import { safeNextPath } from "@/lib/safe-redirect";
 import { passwordProblem } from "@/lib/password";
 import { Button } from "@/components/ui/button";
@@ -13,18 +15,19 @@ import { PasswordField } from "@/components/ui/password-field";
 import { GoogleMark } from "@/components/google-mark";
 import { Toast } from "@/components/toast";
 import { Turnstile, type TurnstileHandle } from "@/components/turnstile";
-import { resendConfirmation, sendCode, signInWithPassword, signUp, verifyCode, type AuthError } from "./actions";
+import { resendConfirmation, sendCode, signInWithPassword, signUp, type AuthError } from "./actions";
 
 const RESEND_SECONDS = 60;
 const googleEnabled = process.env.NEXT_PUBLIC_AUTH_GOOGLE_ENABLED === "true";
 
 type T = Messages["auth"];
 type Mode = "signin" | "signup";
-/** Sign in with a password, or with a code sent by email (also the "forgot password" path). */
-type Method = "password" | "code";
+/** Sign in with a password, or with a link sent by email (also the "forgot password" path). */
+type Method = "password" | "link";
 type Problem = AuthError | "oauth" | "link";
 
 const PASSWORD_ERRORS = new Set<Problem>(["wrongPassword", "tooShort", "tooLong", "tooCommon", "sameAsEmail"]);
+const signedIn = () => document.cookie.split("; ").includes(`${SIGNED_IN_HINT}=1`);
 
 export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
   const params = useSearchParams();
@@ -32,12 +35,12 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
 
   const [mode, setMode] = useState<Mode>(params.get("mode") === "signup" ? "signup" : "signin");
   const [method, setMethod] = useState<Method>("password");
-  const [step, setStep] = useState<"form" | "code">("form");
+  const [step, setStep] = useState<"form" | "sent">("form");
+  /** What the email link does: sign in, or confirm a new account. */
   const [purpose, setPurpose] = useState<"signin" | "signup">("signin");
   const [forgot, setForgot] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [code, setCode] = useState("");
   const initialError = params.get("error");
   const [error, setError] = useState<Problem | null>(initialError === "oauth" || initialError === "link" ? initialError : null);
   const [captchaToken, setCaptchaToken] = useState("");
@@ -46,9 +49,11 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
   const [pending, startTransition] = useTransition();
   const [googlePending, setGooglePending] = useState(false);
   const turnstile = useRef<TurnstileHandle>(null);
-  const codeInput = useRef<HTMLInputElement>(null);
   const emailInput = useRef<HTMLInputElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
+
+  // Where the email link should land: "forgot password" opens "set a new password" on the account page.
+  const linkNext = forgot ? `/${lang}/app?password=1` : next;
 
   useEffect(() => {
     if (cooldown <= 0) return;
@@ -56,9 +61,20 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
     return () => clearTimeout(timer);
   }, [cooldown]);
 
+  // While waiting for the email: if the link is opened in another tab of this browser, the session cookie
+  // appears here too (the readable signed-in hint), so this tab moves on by itself.
   useEffect(() => {
-    if (step === "code") codeInput.current?.focus();
-  }, [step]);
+    if (step !== "sent") return;
+    const check = () => {
+      if (signedIn()) window.location.replace(linkNext);
+    };
+    const timer = setInterval(check, 2000);
+    document.addEventListener("visibilitychange", check);
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", check);
+    };
+  }, [step, linkNext]);
 
   const switchMode = (m: Mode) => {
     setMode(m);
@@ -68,14 +84,15 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
   };
 
   /**
-   * Email a code: a sign-in code (passwordless, "forgot password"), or, for a new account, its confirmation
-   * code again (resendConfirmation keeps the chosen password; a sign-in code would make Supabase drop it).
+   * Email a link: a sign-in link (passwordless, "forgot password"), or, for a new account, its
+   * confirmation link again (resendConfirmation keeps the chosen password; a sign-in link would make
+   * Supabase drop an unconfirmed account's password).
    */
-  const requestCode = (isResend: boolean, codePurpose: "signin" | "signup" = purpose) => {
+  const requestLink = (isResend: boolean, linkPurpose: "signin" | "signup" = purpose) => {
     setError(null);
     startTransition(async () => {
-      const send = codePurpose === "signup" ? resendConfirmation : sendCode;
-      const result = await send({ lang, email, captchaToken, next });
+      const send = linkPurpose === "signup" ? resendConfirmation : sendCode;
+      const result = await send({ lang, email, captchaToken, next: linkNext });
       turnstile.current?.reset(); // tokens are single-use
       if (!result.ok) {
         setError(result.error);
@@ -83,9 +100,9 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
         return;
       }
       setCooldown(RESEND_SECONDS);
-      setPurpose(codePurpose);
+      setPurpose(linkPurpose);
       if (isResend) setToast(t.codeResent);
-      else setStep("code");
+      else setStep("sent");
     });
   };
 
@@ -124,18 +141,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
       }
       setPurpose("signup");
       setCooldown(RESEND_SECONDS);
-      setStep("code");
-    });
-  };
-
-  const submitCode = (value: string) => {
-    setError(null);
-    startTransition(async () => {
-      const result = await verifyCode({ lang, email, code: value, next: forgot ? `/${lang}/app?password=1` : next, purpose });
-      if (result && !result.ok) {
-        setError(result.error); // on success the server redirects
-        codeInput.current?.select(); // retyping replaces the wrong code
-      }
+      setStep("sent");
     });
   };
 
@@ -156,48 +162,21 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
   const message = (e: Problem | null) => (e ? t.errors[e] : undefined);
   const emailError = step === "form" && error === "invalidEmail" ? message(error) : undefined;
   const passwordError = step === "form" && error && PASSWORD_ERRORS.has(error) ? message(error) : undefined;
-  const codeError = step === "code" && (error === "invalidCode" || error === "wrongCode") ? message(error) : undefined;
-  const formError = error && !emailError && !passwordError && !codeError ? message(error) : undefined;
+  const formError = error && !emailError && !passwordError ? message(error) : undefined;
 
-  // ---------- Step 2: the 6-digit code ----------
-  if (step === "code") {
+  // ---------- Step 2: check your email ----------
+  if (step === "sent") {
     return (
-      <div key="code" className="fade-in flex flex-col gap-5">
-        <div>
-          <h2 className="text-[22px] font-semibold">{purpose === "signup" ? t.verifyTitle : t.codeTitle}</h2>
-          <p className="mt-1 text-[15px] text-muted">{(purpose === "signup" ? t.verifySentTo : t.codeSentTo).replace("{email}", email)}</p>
+      <div key="sent" className="fade-in flex flex-col gap-5">
+        <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-soft text-accent-text">
+          <MailCheck aria-hidden="true" className="h-7 w-7" strokeWidth={1.75} />
         </div>
-        <form
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            submitCode(code);
-          }}
-          className="flex flex-col gap-4"
-        >
-          <Field
-            ref={codeInput}
-            id="code"
-            label={t.codeLabel}
-            value={code}
-            onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, "").slice(0, 6);
-              setCode(value);
-              if (value.length === 6 && !pending) submitCode(value); // auto-submit, also for SMS-style autofill
-            }}
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            pattern="\d{6}"
-            maxLength={6}
-            placeholder="123456"
-            className="text-center text-[24px] font-semibold tracking-[0.3em]"
-            error={codeError}
-          />
-          {formError && <FormError message={formError} />}
-          <Button type="submit" loading={pending} disabled={code.length !== 6}>
-            {pending ? t.verifying : t.verify}
-          </Button>
-        </form>
+        <div>
+          <h1 className="text-[28px] leading-tight font-bold">{purpose === "signup" ? t.verifyTitle : t.codeTitle}</h1>
+          <p className="mt-2 text-[17px]">{(purpose === "signup" ? t.verifySentTo : t.codeSentTo).replace("{email}", email)}</p>
+          <p className="mt-2 text-[15px] text-muted">{t.spamHint}</p>
+        </div>
+        {formError && <FormError message={formError} />}
         {/* A fresh bot-check token for "Resend" (the one from the first step was used up). */}
         <Turnstile ref={turnstile} lang={lang} onToken={setCaptchaToken} />
         <div className="flex flex-col items-center gap-1">
@@ -206,7 +185,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
               {t.resendIn.replace("{s}", String(cooldown))}
             </p>
           ) : (
-            <Button variant="plain" onClick={() => requestCode(true)} disabled={pending}>
+            <Button variant="plain" onClick={() => requestLink(true)} disabled={pending} loading={pending}>
               {t.resend}
             </Button>
           )}
@@ -214,7 +193,6 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
             variant="plain"
             onClick={() => {
               setStep("form");
-              setCode("");
               setError(null);
             }}
             className="text-muted hover:bg-surface-2"
@@ -228,7 +206,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
   }
 
   // ---------- Step 1: sign in / sign up ----------
-  const usingCode = mode === "signin" && method === "code";
+  const usingLink = mode === "signin" && method === "link";
   return (
     <div className="flex flex-col gap-6">
       <div>
@@ -252,7 +230,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
       </div>
 
       <div key={`${mode}-${method}`} className="fade-in flex flex-col gap-5">
-        {googleEnabled && !usingCode && (
+        {googleEnabled && !usingLink && (
           <>
             <Button variant="secondary" onClick={signInWithGoogle} loading={googlePending}>
               {!googlePending && <GoogleMark className="h-5 w-5" />}
@@ -266,13 +244,13 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
           </>
         )}
 
-        {usingCode && forgot && <p className="rounded-xl bg-surface-2 px-4 py-3 text-[15px] text-muted">{t.forgotHint}</p>}
+        {usingLink && forgot && <p className="rounded-xl bg-surface-2 px-4 py-3 text-[15px] text-muted">{t.forgotHint}</p>}
 
         <form
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
-            if (usingCode) requestCode(false, "signin");
+            if (usingLink) requestLink(false, "signin");
             else if (mode === "signup") submitSignUp();
             else submitPassword();
           }}
@@ -290,11 +268,11 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
             inputMode="email"
             autoCapitalize="none"
             spellCheck={false}
-            enterKeyHint={usingCode ? "send" : "next"}
+            enterKeyHint={usingLink ? "send" : "next"}
             required
             error={emailError || undefined}
           />
-          {!usingCode && (
+          {!usingLink && (
             <PasswordField
               ref={passwordInput}
               id="password"
@@ -314,18 +292,18 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
           <Turnstile ref={turnstile} lang={lang} onToken={setCaptchaToken} />
           {formError && <FormError message={formError} />}
           {error === "unconfirmed" && (
-            <Button variant="secondary" onClick={() => requestCode(false, "signup")} disabled={pending}>
+            <Button variant="secondary" onClick={() => requestLink(false, "signup")} disabled={pending}>
               {t.sendVerification}
             </Button>
           )}
-          <Button type="submit" loading={pending} disabled={!email.trim() || (!usingCode && !password)}>
-            {usingCode ? (pending ? t.sending : t.sendCode) : mode === "signup" ? (pending ? t.creating : t.createAccount) : pending ? t.signingIn : t.signIn}
+          <Button type="submit" loading={pending} disabled={!email.trim() || (!usingLink && !password)}>
+            {usingLink ? (pending ? t.sending : t.sendCode) : mode === "signup" ? (pending ? t.creating : t.createAccount) : pending ? t.signingIn : t.signIn}
           </Button>
         </form>
 
         {mode === "signin" && (
           <div className="flex flex-col items-center gap-1">
-            {usingCode ? (
+            {usingLink ? (
               <Button
                 variant="plain"
                 onClick={() => {
@@ -341,7 +319,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
                 <Button
                   variant="plain"
                   onClick={() => {
-                    setMethod("code");
+                    setMethod("link");
                     setForgot(true);
                     setError(null);
                   }}
@@ -352,7 +330,7 @@ export function LoginForm({ lang, t }: { lang: Locale; t: T }) {
                   variant="plain"
                   className="text-muted hover:bg-surface-2"
                   onClick={() => {
-                    setMethod("code");
+                    setMethod("link");
                     setForgot(false);
                     setError(null);
                   }}
