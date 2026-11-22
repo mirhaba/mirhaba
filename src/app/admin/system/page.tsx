@@ -2,6 +2,8 @@ import { connection } from "next/server";
 import { adminEmails, requireAdmin } from "@/lib/admin/auth";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { upstashRedis } from "@/lib/rate-limit";
+import { paymentsConfig } from "@/lib/payments/config";
+import { testCredentials } from "@/lib/payments/raiaccept";
 import { envNeedsCleanup, serverEnv } from "@/lib/server-env";
 import { siteUrl } from "@/lib/site";
 import { Badge, Card, PageHeader } from "../_ui/ui";
@@ -81,13 +83,25 @@ async function checkTurnstile(): Promise<[Status, string]> {
   }
 }
 
+async function checkRaiAccept(): Promise<[Status, string]> {
+  const config = paymentsConfig();
+  if (!config.configured) return ["off", "Card payments are off (Premium shows \"coming soon\"). Premium can still be given in Users & Premium."];
+  try {
+    await testCredentials(); // logs in only; no order is created
+    const webhook = config.webhookSecret ? "Notifications on." : "RAIACCEPT_WEBHOOK_SECRET missing: no notifications (payments are still confirmed on return).";
+    return ["ok", `Credentials accepted. Mode: ${config.mode}${config.mode === "sandbox" ? " (test cards, admins only on the live site)" : ""}. ${webhook}`];
+  } catch (error) {
+    return ["fail", `RaiAccept rejected the login: ${error instanceof Error ? error.message.slice(0, 160) : "unknown error"}`];
+  }
+}
+
 export default async function SystemCheck() {
   await requireAdmin();
   await connection();
 
-  const [supabase, groq, upstash, turnstile] = await Promise.all([checkSupabaseSecret(), checkGroq(), checkUpstash(), checkTurnstile()]);
+  const [supabase, groq, upstash, turnstile, raiaccept] = await Promise.all([checkSupabaseSecret(), checkGroq(), checkUpstash(), checkTurnstile(), checkRaiAccept()]);
   const admins = adminEmails().size;
-  const CHECKED = ["SUPABASE_SECRET_KEY", "GROQ_API_KEY", "ADMIN_EMAILS", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "TURNSTILE_SECRET_KEY", "AI_DAILY_SPEND_CAP_EUR", "TRANSLATION_MODEL"];
+  const CHECKED = ["SUPABASE_SECRET_KEY", "GROQ_API_KEY", "ADMIN_EMAILS", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "TURNSTILE_SECRET_KEY", "AI_DAILY_SPEND_CAP_EUR", "TRANSLATION_MODEL", "RAIACCEPT_USERNAME", "RAIACCEPT_PASSWORD", "RAIACCEPT_MODE", "RAIACCEPT_WEBHOOK_SECRET"];
   const quoted = CHECKED.filter(envNeedsCleanup);
 
   const groups: { title: string; description: string; rows: Row[] }[] = [
@@ -144,10 +158,10 @@ export default async function SystemCheck() {
         { name: "NEXT_PUBLIC_POSTHOG_KEY", what: "Analytics (after cookie consent)", status: set("NEXT_PUBLIC_POSTHOG_KEY") ? "ok" : "off" },
         { name: "NEXT_PUBLIC_SENTRY_DSN", what: "Error tracking", status: set("NEXT_PUBLIC_SENTRY_DSN") ? "ok" : "off" },
         {
-          name: "RAIACCEPT_*",
-          what: "Payments (not live yet)",
-          status: set("RAIACCEPT_API_URL") ? "ok" : "off",
-          detail: "Waiting for the bank. Premium can be granted by hand in Users & Premium.",
+          name: "RAIACCEPT_USERNAME + _PASSWORD, RAIACCEPT_MODE, RAIACCEPT_WEBHOOK_SECRET",
+          what: "Card payments (RaiAccept)",
+          status: raiaccept[0],
+          detail: raiaccept[1],
         },
       ],
     },

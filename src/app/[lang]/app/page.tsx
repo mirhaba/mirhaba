@@ -6,6 +6,8 @@ import { getDictionary, type Messages } from "@/i18n/dictionaries";
 import { createClient } from "@/lib/supabase/server";
 import { getEntitlement } from "@/lib/billing/entitlement";
 import { getAdmin } from "@/lib/admin/auth";
+import { syncRecentPendingPayments } from "@/lib/payments/service";
+import { checkLimit } from "@/lib/rate-limit";
 import { AccountSettings } from "./account-settings";
 import { ConsentForm } from "./consent-form";
 
@@ -36,6 +38,10 @@ async function Account({ lang, t }: { lang: Locale; t: Messages }) {
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) redirect(`/${lang}/login?next=/${lang}/app`); // the proxy already guards; this is defence in depth
+
+  // A payment the buyer didn't come back from (closed the tab, webhook missed): confirm it now, so the
+  // Premium status below is current. No request is made when there is nothing pending.
+  if (await checkLimit("paymentCheckUser", auth.user.id)) await syncRecentPendingPayments(auth.user.id).catch(() => {});
 
   const [{ data: profile }, entitlement, { data: isModerator }, admin] = await Promise.all([
     supabase.from("profiles").select("ui_lang, marketing_opt_in, age_confirmed_at").eq("id", auth.user.id).single(),

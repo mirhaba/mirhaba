@@ -6,6 +6,9 @@ import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { amount, fill } from "@/lib/format";
 import { FREE_TEXT_TRANSLATIONS_PER_DAY, PLANS, YEARLY_SAVING_PERCENT } from "@/lib/plans";
+import { Suspense, type ComponentProps } from "react";
+import { getAdmin } from "@/lib/admin/auth";
+import { checkoutAvailability, paymentsConfig } from "@/lib/payments/config";
 import { PremiumCard } from "./premium-card";
 
 /** Indexes into `pricing.rows` of features that already exist (others are marked "coming soon"). */
@@ -28,6 +31,16 @@ export default async function PricingPage({ params }: PageProps<"/[lang]/pricing
   const t = (await getDictionary(lang)).pricing;
   const [monthly, yearly] = PLANS;
   const values = { freeTranslations: FREE_TEXT_TRANSLATIONS_PER_DAY };
+  const cardProps = {
+    t,
+    lang,
+    testModeText: (await getDictionary(lang)).checkout.testMode,
+    monthly: amount(monthly.priceEur, lang),
+    yearly: amount(yearly.priceEur, lang),
+    yearlyPerMonth: amount(yearly.priceEur / 12, lang),
+    savePercent: YEARLY_SAVING_PERCENT,
+    accountHref: `/${lang}/app`,
+  };
 
   return (
     <div className="flex flex-col gap-8">
@@ -61,14 +74,10 @@ export default async function PricingPage({ params }: PageProps<"/[lang]/pricing
           </Link>
         </div>
 
-        <PremiumCard
-          t={t}
-          monthly={amount(monthly.priceEur, lang)}
-          yearly={amount(yearly.priceEur, lang)}
-          yearlyPerMonth={amount(yearly.priceEur / 12, lang)}
-          savePercent={YEARLY_SAVING_PERCENT}
-          accountHref={`/${lang}/app`}
-        />
+        {/* Whether checkout is open depends on the viewer (sandbox = admins only), so only the card waits. */}
+        <Suspense fallback={<PremiumCard {...cardProps} checkout="off" />}>
+          <PremiumCardWithCheckout {...cardProps} />
+        </Suspense>
       </div>
 
       <p className="-mt-4 text-[13px] text-muted">{t.vat}</p>
@@ -124,4 +133,12 @@ export default async function PricingPage({ params }: PageProps<"/[lang]/pricing
       </section>
     </div>
   );
+}
+
+/** Card payments open to everyone with production credentials; with sandbox credentials on the live site, only to admins. */
+async function PremiumCardWithCheckout(props: Omit<ComponentProps<typeof PremiumCard>, "checkout">) {
+  const config = paymentsConfig();
+  const needsViewer = config.configured && config.mode === "sandbox";
+  const checkout = checkoutAvailability(needsViewer ? !!(await getAdmin()) : false);
+  return <PremiumCard {...props} checkout={checkout} />;
 }

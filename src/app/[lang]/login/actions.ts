@@ -1,6 +1,6 @@
 "use server";
 
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { createClient as createPlainClient } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 import { z } from "zod";
@@ -9,7 +9,7 @@ import { createClient } from "@/lib/supabase/server";
 import { afterLoginPath, safeNextPath } from "@/lib/safe-redirect";
 import { checkLimits, clientIp } from "@/lib/rate-limit";
 import { supabasePublishableKey, supabaseUrl } from "@/lib/supabase/env";
-import { siteUrl } from "@/lib/site";
+import { requestOrigin } from "@/lib/request-origin";
 
 export type AuthError = "invalidEmail" | "invalidCode" | "wrongCode" | "tooMany" | "captcha" | "generic";
 export type AuthResult = { ok: true } | { ok: false; error: AuthError };
@@ -25,15 +25,6 @@ function mapError(error: { status?: number; code?: string } | null): AuthError {
   if (error.code === "email_address_invalid" || error.code === "validation_failed") return "invalidEmail";
   if (error.code === "otp_expired" || error.code === "invalid_credentials" || error.status === 403) return "wrongCode";
   return "generic";
-}
-
-/** The origin the visitor is on (so preview deployments get links back to themselves). */
-async function requestOrigin(): Promise<string> {
-  const h = await headers();
-  const host = h.get("x-forwarded-host") ?? h.get("host");
-  if (!host) return siteUrl;
-  const proto = h.get("x-forwarded-proto") ?? (host.startsWith("localhost") || host.startsWith("127.") ? "http" : "https");
-  return `${proto}://${host}`;
 }
 
 /**

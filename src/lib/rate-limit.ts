@@ -34,6 +34,10 @@ export const RULES = {
   // Learn progress sync (on the Learn page and after each lesson).
   learnSyncUser: { limit: 30, window: "1 m" },
   favoritesSyncUser: { limit: 30, window: "1 m" },
+  // Payments: starting checkouts, checking a payment's status, RaiAccept notifications per payment.
+  checkoutUser: { limit: 10, window: "10 m" },
+  paymentCheckUser: { limit: 30, window: "1 m" },
+  paymentWebhook: { limit: 30, window: "1 m" },
 } satisfies Record<string, Rule>;
 
 export type RuleName = keyof typeof RULES;

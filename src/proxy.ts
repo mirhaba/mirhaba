@@ -15,7 +15,7 @@ function pickLocale(request: NextRequest): Locale {
 }
 
 /** Routes that need a fresh session. Everything else (Quick Talk!) never waits on auth. */
-const AUTH_ROUTE = /^\/(tr|sq)\/(app|login|translate)(\/|$)/;
+const AUTH_ROUTE = /^\/(tr|sq)\/(app|login|translate|checkout)(\/|$)/;
 
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
@@ -66,7 +66,7 @@ export async function proxy(request: NextRequest) {
     return redirectKeepingCookies(`/${pickLocale(request)}/login?next=${encodeURIComponent(pathname + search)}`);
   }
 
-  const isApp = /^\/(tr|sq)\/app(\/|$)/.test(pathname);
+  const isApp = /^\/(tr|sq)\/(app|checkout)(\/|$)/.test(pathname);
   if (isApp && !user) {
     return redirectKeepingCookies(`/${segment}/login?next=${encodeURIComponent(pathname + search)}`);
   }

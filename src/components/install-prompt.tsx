@@ -31,7 +31,7 @@ function write(key: string, value: string) {
  * Screens where the hint would sit on top of what the person is doing (lesson answers, the code
  * field, the text box): it waits for a calmer screen instead.
  */
-const FOCUSED = /^\/(tr|sq)\/(learn\/.+|login|app|translate)(\/|$)/;
+const FOCUSED = /^\/(tr|sq)\/(learn\/.+|login|app|translate|checkout)(\/|$)/;
 
 /** Friendly "Add to Home Screen" hint from the second visit on (Android prompt or iPhone steps). */
 export function InstallPrompt({ t }: { t: Messages["install"] }) {

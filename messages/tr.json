@@ -99,6 +99,7 @@
         "Konuşma ve çeviri içeriklerini varsayılan olarak saklamayız; yalnızca anonim kullanım sayıları tutulur.",
         "Çeviri sonuçları, aynı metin tekrar çevrildiğinde hızlı olsun diye 30 gün önbellekte tutulur. Yazdığın metnin kendisi saklanmaz (yalnızca geri çevrilemeyen bir özeti), kimin çevirdiği de kaydedilmez. Çeviri için metin Groq üzerinde çalışan OpenAI gpt-oss yapay zekâsına gönderilir.",
         "Hataları düzeltebilmek için uygulama çöktüğünde teknik hata kaydı Sentry'ye (AB sunucuları) gönderilir. Bu kayıtlar IP adresi, çerez, e-posta veya yazdığın metni içermez.",
+        "Kartla ödemeler, Raiffeisen Bank'ın ödeme sistemi RaiAccept üzerinden yapılır; kart bilgilerin bize hiç ulaşmaz. Ödeme için RaiAccept'e e-posta adresini, IP adresini ve hesap kimliğini (kartını bir sonraki ödeme için kaydetmek istersen) göndeririz. Biz yalnızca tutarı, planı, tarihi ve ödeme sonucunu saklarız; vergi yasasının gerektirdiği süre boyunca.",
         "Hesap, ödeme ve analiz özellikleri eklendiğinde bu sayfa; toplanan verileri, amaçlarını, saklama sürelerini, üçüncü tarafları ve haklarını ayrıntılı olarak listeleyecek.",
         "Gizlilik soruların için: privacy@mirhaba.app"
       ]
@@ -108,13 +109,16 @@
       "body": [
         "Mirhaba, Türkçe ile Arnavutça arasında iletişime yardımcı olan bir araçtır. Çeviriler yardım amaçlıdır; hukuki, tıbbi veya resmi tavsiye yerine geçmez.",
         "Uygulamayı kullanmak için en az 16 yaşında olmalısın.",
+        "Premium, seçtiğin süre (1 ay ya da 1 yıl) için ön ödemelidir ve otomatik yenilenmez. Fiyatlara KDV dahildir.",
         "Uygulanacak hukuk: Kosova Cumhuriyeti."
       ]
     },
     "refunds": {
       "title": "İade politikası",
       "body": [
-        "Şu anda ücretli bir özellik yok. Ücretli planlar başladığında, ücretli özellikleri neredeyse hiç kullanmadıysan 14 gün içinde tam iade alabileceksin."
+        "Premium ön ödemelidir ve otomatik yenilenmez.",
+        "Satın almadan sonraki 14 gün içinde, ücretli özellikleri neredeyse hiç kullanmadıysan tam iade alabilirsin. İade için hesabının e-posta adresinden hello@mirhaba.app adresine yaz.",
+        "İade, ödemede kullandığın karta yapılır. Bankana bağlı olarak hesabına geçmesi birkaç iş günü sürebilir. İade edilen dönemin Premium erişimi sona erer."
       ]
     },
     "cookies": {
@@ -404,7 +408,7 @@
   "pricing": {
     "title": "Fiyatlar",
     "subtitle": "Hızlı Konuş her zaman ücretsiz. Daha fazlası için Premium.",
-    "metaDescription": "Mirhaba fiyatları: Hızlı Konuş ve sözlük ücretsiz; Premium aylık {monthly} € ya da yıllık {yearly} €. KDV dahil, gizli ücret yok, tek dokunuşla iptal.",
+    "metaDescription": "Mirhaba fiyatları: Hızlı Konuş ve sözlük ücretsiz; Premium aylık {monthly} € ya da yıllık {yearly} €. KDV dahil, gizli ücret yok, otomatik yenileme yok.",
     "plansLabel": "Planlar",
     "free": "Ücretsiz",
     "freeTagline": "Kapıda ve günlük hayatta",
@@ -455,13 +459,22 @@
     "paymentNote": "Kartla ödeme, banka onayı tamamlanınca açılacak. Ödeme Raiffeisen Bank'ın güvenli sayfasında yapılır; kart bilgilerin bize hiç ulaşmaz.",
     "cancelTitle": "İptal ve iade",
     "cancel": [
-      "İstediğin zaman, hesap sayfasından tek dokunuşla iptal edebilirsin. Ödediğin dönemin sonuna kadar Premium devam eder.",
+      "Otomatik yenileme yok: bir kez ödersin, süre bitince Premium kendiliğinden biter. İptal etmen gereken bir şey yok.",
       "Ücretli özellikleri neredeyse hiç kullanmadıysan 14 gün içinde tam iade."
     ],
     "refundLink": "İade politikasını oku",
     "youArePremium": "Premium'un aktif",
     "seeAccount": "Hesabında gör",
-    "yes": "Var"
+    "yes": "Var",
+    "pay": "Kartla öde · {price} €",
+    "extend": "Premium'u uzat · {price} €",
+    "redirecting": "Ödeme sayfası açılıyor…",
+    "checkoutErrors": {
+      "unavailable": "Ödemeler şu anda kapalı. Biraz sonra tekrar dene.",
+      "tooMany": "Çok fazla deneme. Birkaç dakika bekleyip tekrar dene.",
+      "failed": "Ödeme sayfası açılamadı. Tekrar dene."
+    },
+    "paymentNoteLive": "Ödeme, Raiffeisen Bank'ın güvenli ödeme sayfasında (RaiAccept) yapılır; kart bilgilerin bize hiç ulaşmaz. Otomatik yenileme yok: süre bitince Premium kendiliğinden biter."
   },
   "faq": {
     "title": "Sık sorulan sorular",
@@ -502,7 +515,7 @@
       },
       {
         "q": "Premium'u nasıl iptal ederim?",
-        "a": "Hesap sayfasından tek dokunuşla. Ödediğin dönemin sonuna kadar Premium devam eder; gizli ücret yoktur."
+        "a": "İptal etmene gerek yok: Premium otomatik yenilenmez. Ödediğin süre bitince kendiliğinden sona erer; istersen yeniden alırsın."
       },
       {
         "q": "Hesabımı ve verilerimi silebilir miyim?",
@@ -572,5 +585,31 @@
     "lockedSignInHint": "Premium'un varsa giriş yap.",
     "seePremium": "Premium'u gör",
     "signIn": "Giriş yap"
+  },
+  "checkout": {
+    "title": "Ödeme",
+    "successTitle": "Ödeme başarılı",
+    "successBody": "Premium {date} tarihine kadar aktif. Teşekkürler!",
+    "pendingTitle": "Ödemen onaylanıyor…",
+    "pendingBody": "Bu birkaç saniye sürebilir. Sayfayı kapatma.",
+    "pendingSlow": "Onay beklenenden uzun sürüyor. Ödeme yapıldıysa Premium birkaç dakika içinde açılır; hesabından kontrol edebilirsin. Kartından iki kez çekim yapılmaz.",
+    "canceledTitle": "Ödeme iptal edildi",
+    "canceledBody": "Kartından para çekilmedi.",
+    "failedTitle": "Ödeme tamamlanamadı",
+    "failedBody": "Kartından para çekilmedi. Tekrar deneyebilir ya da başka bir kart kullanabilirsin.",
+    "refundedTitle": "Bu ödeme iade edildi",
+    "refundedBody": "Tutar ödemede kullandığın karta iade edildi.",
+    "reasons": {
+      "insufficient": "Bankan yetersiz bakiye bildirdi.",
+      "declined": "Bankan ödemeyi reddetti. Gerekirse bankanla iletişime geç.",
+      "card": "Kart geçersiz, süresi dolmuş ya da kullanıma kapalı.",
+      "cvv": "Güvenlik kodu (CVV) yanlış.",
+      "threeDs": "Banka doğrulaması (3-D Secure) tamamlanamadı.",
+      "technical": "Teknik bir sorun oluştu. Biraz sonra tekrar dene."
+    },
+    "tryAgain": "Tekrar dene",
+    "toAccount": "Hesabıma git",
+    "startUsing": "Çeviriye başla",
+    "testMode": "Test modu: gerçek para çekilmez. RaiAccept test kartını kullan: 4999 9999 9999 0011, ileri bir son kullanma tarihi ve herhangi bir CVV."
   }
 }

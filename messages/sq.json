@@ -99,6 +99,7 @@
         "Bisedat dhe përkthimet nuk i ruajmë si parazgjedhje; mbahen vetëm numra anonimë të përdorimit.",
         "Rezultatet e përkthimit ruhen 30 ditë në memorie që i njëjti tekst të përkthehet më shpejt. Vetë teksti yt nuk ruhet (vetëm një përmbledhje e pakthyeshme), as kush e përktheu. Për përkthim, teksti dërgohet te inteligjenca artificiale OpenAI gpt-oss, që punon në Groq.",
         "Që t'i rregullojmë gabimet, kur aplikacioni prishet, një regjistër teknik i gabimit dërgohet te Sentry (serverë në BE). Ky regjistër nuk përmban adresë IP, cookies, email apo tekstin që shkruan.",
+        "Pagesat me kartelë kryhen përmes RaiAccept, sistemit të pagesave të Raiffeisen Bank; të dhënat e kartelës nuk vijnë kurrë te ne. Për pagesën i dërgojmë RaiAccept-it adresën email, adresën IP dhe ID-në e llogarisë (nëse dëshiron ta ruash kartelën për pagesën e radhës). Ne ruajmë vetëm shumën, planin, datën dhe rezultatin e pagesës, për aq kohë sa e kërkon ligji tatimor.",
         "Kur të shtohen llogaritë, pagesat dhe analitika, kjo faqe do të listojë në detaje të dhënat që mblidhen, qëllimin, kohëzgjatjen e ruajtjes, palët e treta dhe të drejtat e tua.",
         "Për pyetje rreth privatësisë: privacy@mirhaba.app"
       ]
@@ -108,13 +109,16 @@
       "body": [
         "Mirhaba është mjet që ndihmon komunikimin mes turqishtes dhe shqipes. Përkthimet janë ndihmë; nuk zëvendësojnë këshillën ligjore, mjekësore apo zyrtare.",
         "Për ta përdorur aplikacionin duhet të jesh të paktën 16 vjeç.",
+        "Premium paguhet paraprakisht për periudhën që zgjedh (1 muaj ose 1 vit) dhe nuk rinovohet automatikisht. Çmimet përfshijnë TVSH-në.",
         "Ligji i zbatueshëm: Republika e Kosovës."
       ]
     },
     "refunds": {
       "title": "Politika e rimbursimit",
       "body": [
-        "Aktualisht nuk ka veçori me pagesë. Kur të fillojnë planet me pagesë, do të mund të marrësh rimbursim të plotë brenda 14 ditëve nëse pothuajse nuk i ke përdorur veçoritë me pagesë."
+        "Premium paguhet paraprakisht dhe nuk rinovohet automatikisht.",
+        "Brenda 14 ditëve nga blerja, nëse pothuajse nuk i ke përdorur veçoritë me pagesë, mund të marrësh rimbursim të plotë. Për rimbursim shkruaj në hello@mirhaba.app nga adresa email e llogarisë tënde.",
+        "Rimbursimi bëhet në kartelën me të cilën ke paguar. Varësisht nga banka, mund të zgjasë disa ditë pune derisa të arrijë në llogari. Qasja në Premium për periudhën e rimbursuar përfundon."
       ]
     },
     "cookies": {
@@ -404,7 +408,7 @@
   "pricing": {
     "title": "Çmimet",
     "subtitle": "Biseda e shpejtë është gjithmonë falas. Për më shumë: Premium.",
-    "metaDescription": "Çmimet e Mirhaba-s: Biseda e shpejtë dhe fjalori falas; Premium {monthly} € në muaj ose {yearly} € në vit. TVSH e përfshirë, pa tarifa të fshehura, anulim me një prekje.",
+    "metaDescription": "Çmimet e Mirhaba-s: Biseda e shpejtë dhe fjalori falas; Premium {monthly} € në muaj ose {yearly} € në vit. TVSH e përfshirë, pa tarifa të fshehura, pa rinovim automatik.",
     "plansLabel": "Planet",
     "free": "Falas",
     "freeTagline": "Te dera dhe në jetën e përditshme",
@@ -455,13 +459,22 @@
     "paymentNote": "Pagesa me kartelë do të hapet pasi banka ta miratojë. Pagesa bëhet në faqen e sigurt të Raiffeisen Bank; të dhënat e kartelës nuk vijnë kurrë te ne.",
     "cancelTitle": "Anulimi dhe rimbursimi",
     "cancel": [
-      "Mund ta anulosh kurdo me një prekje nga faqja e llogarisë. Premium vazhdon deri në fund të periudhës që ke paguar.",
+      "Pa rinovim automatik: paguan një herë dhe kur mbaron periudha, Premium përfundon vetë. Nuk ke asgjë për të anuluar.",
       "Rimbursim i plotë brenda 14 ditëve, nëse pothuajse nuk i ke përdorur veçoritë me pagesë."
     ],
     "refundLink": "Lexo politikën e rimbursimit",
     "youArePremium": "Premium yt është aktiv",
     "seeAccount": "Shih në llogari",
-    "yes": "Po"
+    "yes": "Po",
+    "pay": "Paguaj me kartelë · {price} €",
+    "extend": "Zgjat Premium · {price} €",
+    "redirecting": "Po hapet faqja e pagesës…",
+    "checkoutErrors": {
+      "unavailable": "Pagesat janë të mbyllura për momentin. Provo përsëri pak më vonë.",
+      "tooMany": "Shumë tentativa. Prit disa minuta dhe provo përsëri.",
+      "failed": "Faqja e pagesës nuk u hap. Provo përsëri."
+    },
+    "paymentNoteLive": "Pagesa bëhet në faqen e sigurt të pagesave të Raiffeisen Bank (RaiAccept); të dhënat e kartelës nuk vijnë kurrë te ne. Pa rinovim automatik: kur mbaron periudha, Premium përfundon vetë."
   },
   "faq": {
     "title": "Pyetje të shpeshta",
@@ -502,7 +515,7 @@
       },
       {
         "q": "Si ta anuloj Premium-in?",
-        "a": "Me një prekje nga faqja e llogarisë. Premium vazhdon deri në fund të periudhës së paguar; nuk ka tarifa të fshehura."
+        "a": "Nuk ke nevojë ta anulosh: Premium nuk rinovohet automatikisht. Përfundon vetë kur mbaron periudha e paguar; nëse dëshiron, e blen përsëri."
       },
       {
         "q": "A mund ta fshij llogarinë dhe të dhënat?",
@@ -572,5 +585,31 @@
     "lockedSignInHint": "Nëse ke Premium, hyr në llogari.",
     "seePremium": "Shih Premium",
     "signIn": "Hyr"
+  },
+  "checkout": {
+    "title": "Pagesa",
+    "successTitle": "Pagesa u krye me sukses",
+    "successBody": "Premium është aktiv deri më {date}. Faleminderit!",
+    "pendingTitle": "Pagesa po konfirmohet…",
+    "pendingBody": "Kjo mund të zgjasë disa sekonda. Mos e mbyll faqen.",
+    "pendingSlow": "Konfirmimi po zgjat më shumë se zakonisht. Nëse pagesa është kryer, Premium aktivizohet brenda pak minutash; mund ta kontrollosh te llogaria. Kartela nuk tarifohet dy herë.",
+    "canceledTitle": "Pagesa u anulua",
+    "canceledBody": "Nga kartela nuk u tërhoq asnjë shumë.",
+    "failedTitle": "Pagesa nuk u krye",
+    "failedBody": "Nga kartela nuk u tërhoq asnjë shumë. Mund të provosh përsëri ose të përdorësh një kartelë tjetër.",
+    "refundedTitle": "Kjo pagesë është rimbursuar",
+    "refundedBody": "Shuma u kthye në kartelën me të cilën ke paguar.",
+    "reasons": {
+      "insufficient": "Banka njoftoi se nuk ka mjete të mjaftueshme.",
+      "declined": "Banka e refuzoi pagesën. Nëse duhet, kontakto bankën tënde.",
+      "card": "Kartela është e pavlefshme, e skaduar ose e bllokuar.",
+      "cvv": "Kodi i sigurisë (CVV) është i gabuar.",
+      "threeDs": "Verifikimi i bankës (3-D Secure) nuk u krye.",
+      "technical": "Ndodhi një problem teknik. Provo përsëri pak më vonë."
+    },
+    "tryAgain": "Provo përsëri",
+    "toAccount": "Shko te llogaria",
+    "startUsing": "Fillo përkthimin",
+    "testMode": "Modaliteti test: nuk tërhiqen para të vërteta. Përdor kartelën test të RaiAccept: 4999 9999 9999 0011, një datë skadimi në të ardhmen dhe çfarëdo CVV."
   }
 }

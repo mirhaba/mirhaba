@@ -9,11 +9,11 @@
  * - Other same-origin GETs (icons, fonts, audio): stale-while-revalidate.
  * - /api and cross-origin requests are never cached.
  */
-const VERSION = "v6"; // v6: stop caching private pages (drops any cached by v5)
+const VERSION = "v7"; // v7: checkout pages are private too (v6: stop caching private pages)
 const PAGES = `mirhaba-pages-${VERSION}`;
 const ASSETS = `mirhaba-assets-${VERSION}`;
 // Pages with personal or session-dependent content: never cached.
-const PRIVATE = /^\/((tr|sq)\/(app|login|translate)|admin)(\/|$)/;
+const PRIVATE = /^\/((tr|sq)\/(app|login|translate|checkout)|admin)(\/|$)/;
 const PRECACHE = ["/tr", "/sq", "/tr/offline", "/sq/offline", "/manifest.webmanifest", "/icons/icon-192.png", "/icons/icon-512.png", "/icon.svg"];
 
 self.addEventListener("install", (event) => {

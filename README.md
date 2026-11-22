@@ -112,9 +112,8 @@ Hosted setup when you go live (Supabase dashboard):
   Translation limits, the account page and Premium lessons all read it from there.
 - **Turning Premium on**: only the SQL function `activate_subscription(uid, plan, ref, days)` (service role / SQL editor; users can't call it).
   It reuses the user's row, adds one billing period (or `days`), extends from the current end when renewing early,
-  restarts from now after a lapse, and writes `audit_log`. The RaiAccept webhook will call it after a verified payment.
-  Until then, grant Premium by hand in the SQL editor:
-  `select activate_subscription('<user id>', 'monthly');` or `select activate_subscription('<user id>', 'yearly', null, 30);` (30 free days).
+  restarts from now after a lapse, and writes `audit_log`. Card payments (below) call it through `settle_payment`;
+  Admin → Users & Premium can also give Premium by hand.
 - **Premium lessons**: `/[lang]/learn/<lesson>` of a Premium unit checks the account on every request and shows
   "this lesson is part of Premium" (with sign-in / pricing links) instead of the lesson. Free lessons stay static and offline.
 - **UI hints**: `usePremium()` (`src/lib/billing/use-premium.ts`) unlocks Premium units in the Learn list and shows
@@ -125,6 +124,29 @@ Hosted setup when you go live (Supabase dashboard):
   review words through a server action) so they can't be read from the bundle.
 - Tests: `supabase/tests/database/premium.test.sql` (`npm run db:test`).
 
+## Card payments (RaiAccept)
+
+- **Model**: Premium is prepaid (1 month / 1 year) and never renews by itself: RaiAccept has no merchant-initiated
+  recurring charges. Paying again while Premium is active adds the time on top. RaiAccept may offer the buyer to save
+  the card (one-click checkout, `customerReference` = user id).
+- **Flow**: Pricing → `beginCheckout` server action (signed in + consent, rate-limited) → `create_payment` (price from
+  `plans`, never from the browser) → RaiAccept "create order" + "create payment session" → full-page redirect to
+  `payment.raiaccept.com` → back to `/[lang]/checkout/return?payment=<id>`.
+- **Confirmation is never trusted from the browser or the webhook body.** RaiAccept webhooks aren't signed, so
+  `/api/payments/raiaccept/webhook?payment=<id>&key=<hmac>` only accepts links we signed and then asks the RaiAccept API
+  for the order (`syncPayment`). Order id, reference, amount, currency and `isProduction` must all match before
+  `settle_payment` (row lock, idempotent) marks it paid and grants Premium exactly once. A late "failed" never undoes a success.
+- The return page, the account page (recent pending payments) and Admin → Payments → "Re-check" all run the same check,
+  so a missed webhook never loses a payment.
+- **Refunds**: Admin → Payments → Refund (full, to the paying card; type REFUND to confirm), optionally taking back the
+  Premium time that payment bought. `claim_refund` makes a double refund impossible.
+- **Sandbox vs production**: same URLs, different credentials. `RAIACCEPT_MODE=sandbox` on the live site lets only admins
+  open the checkout (test card 4999 9999 9999 0011); everyone else still sees "Premium coming soon".
+  Going live: create Production credentials in the Merchant portal, set them + `RAIACCEPT_MODE=production` in Vercel, redeploy.
+- Env vars: see `.env.example`. Admin → System check tests the credentials (login only).
+- Tests: `supabase/tests/database/payments.test.sql`; locally, `node scripts/raiaccept-mock.mjs` is a stand-in RaiAccept
+  (payment page with success / decline / cancel buttons, webhooks with retries, refunds).
+
 ## Public pages (bank audit + SEO)
 
 - `/[lang]/about` (landing, Organization + WebApplication JSON-LD), `/[lang]/pricing`, `/[lang]/faq` (FAQPage JSON-LD).
@@ -132,7 +154,6 @@ Hosted setup when you go live (Supabase dashboard):
 - Prices live in one place: `PLANS` in `src/lib/plans.ts` (pricing page, FAQ, JSON-LD and the DB seed all read it).
 - Company details for the footer and contact page: fill in `src/lib/business.ts` once registered with ARBK
   (name, registration number, fiscal number, address). Until then a "will be published after registration" note shows.
-- Premium checkout shows "coming soon" until RaiAccept is live.
 
 ## Slang dictionary (SEO)
 

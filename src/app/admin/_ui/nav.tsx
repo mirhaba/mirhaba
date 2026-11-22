@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   Activity,
   BookOpen,
+  CreditCard,
   Download,
   Flag,
   Gauge,
@@ -26,6 +27,7 @@ const items: { href: string; label: string; Icon: LucideIcon }[] = [
   { href: "/admin/texts", label: "UI text", Icon: Type },
   { href: "/admin/reports", label: "Reports", Icon: Flag },
   { href: "/admin/users", label: "Users & Premium", Icon: Users },
+  { href: "/admin/payments", label: "Payments", Icon: CreditCard },
   { href: "/admin/activity", label: "Activity log", Icon: Activity },
   { href: "/admin/import", label: "Import starter content", Icon: Download },
   { href: "/admin/system", label: "System check", Icon: Gauge },

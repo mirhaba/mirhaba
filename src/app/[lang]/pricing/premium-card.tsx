@@ -1,19 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
-import { Check, Crown } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Check, Crown, FlaskConical } from "lucide-react";
+import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import { usePremium } from "@/lib/billing/use-premium";
+import { beginCheckout, type CheckoutResult } from "./checkout-action";
 
 type T = Messages["pricing"];
+type Availability = "live" | "test" | "off";
 
 /**
  * Premium plan as a card with a monthly / yearly choice (cards, not radio lists).
- * Checkout stays disabled until RaiAccept is live; the reason is stated right below.
+ * `checkout` (decided on the server): "live" = card payments open, "test" = RaiAccept sandbox for this
+ * viewer (admins), "off" = "Premium coming soon".
  */
 export function PremiumCard({
   t,
+  lang,
+  checkout,
+  testModeText,
   monthly,
   yearly,
   yearlyPerMonth,
@@ -21,6 +29,9 @@ export function PremiumCard({
   accountHref,
 }: {
   t: T;
+  lang: Locale;
+  checkout: Availability;
+  testModeText: string;
   monthly: string;
   yearly: string;
   yearlyPerMonth: string;
@@ -28,7 +39,44 @@ export function PremiumCard({
   accountHref: string;
 }) {
   const [interval, setInterval] = useState<"month" | "year">("year");
+  const [error, setError] = useState<Exclude<CheckoutResult, { ok: true }>["error"] | null>(null);
+  const [pending, startTransition] = useTransition();
   const premium = usePremium();
+  const router = useRouter();
+  const price = interval === "month" ? monthly : yearly;
+
+  const pay = () => {
+    setError(null);
+    startTransition(async () => {
+      const result = await beginCheckout({ plan: interval === "month" ? "monthly" : "yearly", lang }).catch(
+        (): CheckoutResult => ({ ok: false, error: "failed" }),
+      );
+      if (result.ok) {
+        window.location.assign(result.url); // RaiAccept's payment page (checked on the server)
+        return new Promise<void>(() => {}); // keep the button busy while the page changes
+      }
+      const back = encodeURIComponent(`/${lang}/pricing`);
+      if (result.error === "signin") router.push(`/${lang}/login?next=${back}`);
+      else if (result.error === "consent") router.push(`/${lang}/app?next=${back}`);
+      else setError(result.error);
+    });
+  };
+
+  const payButton = (label: string, variant: "primary" | "secondary") => (
+    <button
+      type="button"
+      onClick={pay}
+      disabled={pending}
+      aria-busy={pending || undefined}
+      className={`pressable mt-3 inline-flex h-12 w-full items-center justify-center rounded-full px-5 text-[17px] font-semibold disabled:opacity-70 ${
+        variant === "primary"
+          ? "bg-accent text-on-accent hover:bg-accent-pressed"
+          : "bg-surface text-foreground ring-1 ring-hairline hover:bg-surface-2 dark:bg-surface-2"
+      }`}
+    >
+      {pending ? t.redirecting : label.replace("{price}", price)}
+    </button>
+  );
 
   return (
     <div className="flex flex-col rounded-3xl bg-surface p-5 shadow-card ring-2 ring-accent">
@@ -71,31 +119,45 @@ export function PremiumCard({
         {interval === "year" ? t.yearlyEquivalent.replace("{price}", yearlyPerMonth) : ""}
       </p>
 
+      {checkout === "test" && (
+        <p className="mt-2 flex gap-2 rounded-xl bg-surface-2 px-3 py-2 text-[13px] text-muted">
+          <FlaskConical aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" />
+          {testModeText}
+        </p>
+      )}
+
       {premium ? (
         <div className="mt-3 flex flex-col items-center gap-2">
           <p className="inline-flex h-12 w-full items-center justify-center gap-2 rounded-full bg-accent-soft px-5 text-[17px] font-semibold text-accent-text">
             <Check aria-hidden="true" className="h-5 w-5" />
             {t.youArePremium}
           </p>
-          <Link href={accountHref} className="text-[15px] font-medium text-accent-text">
+          {checkout !== "off" && payButton(t.extend, "secondary")}
+          <Link href={accountHref} className="inline-flex min-h-11 items-center text-[15px] font-medium text-accent-text">
             {t.seeAccount}
           </Link>
         </div>
+      ) : checkout === "off" ? (
+        <button
+          type="button"
+          disabled
+          aria-describedby="payment-note"
+          className="mt-3 inline-flex h-12 cursor-not-allowed items-center justify-center rounded-full bg-accent/50 px-5 text-[17px] font-semibold text-on-accent"
+        >
+          {t.premiumSoon}
+        </button>
       ) : (
-        <>
-          <button
-            type="button"
-            disabled
-            aria-describedby="payment-note"
-            className="mt-3 inline-flex h-12 cursor-not-allowed items-center justify-center rounded-full bg-accent/50 px-5 text-[17px] font-semibold text-on-accent"
-          >
-            {t.premiumSoon}
-          </button>
-          <p id="payment-note" className="mt-2 text-[13px] text-muted">
-            {t.paymentNote}
-          </p>
-        </>
+        payButton(t.pay, "primary")
       )}
+
+      {error && (
+        <p role="alert" className="fade-in mt-3 rounded-xl bg-accent-soft px-4 py-3 text-[15px] font-medium text-accent-text">
+          {t.checkoutErrors[error === "signin" || error === "consent" ? "failed" : error]}
+        </p>
+      )}
+      <p id="payment-note" className="mt-2 text-[13px] text-muted">
+        {checkout === "off" ? t.paymentNote : t.paymentNoteLive}
+      </p>
     </div>
   );
 }
