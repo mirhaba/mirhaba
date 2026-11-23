@@ -38,7 +38,8 @@ export async function proxy(request: NextRequest) {
   // Only for real page loads: a router prefetch runs before any click, so redirecting it by the old
   // cookie would get cached and undo the language switch.
   const isPrefetch = request.headers.has("next-router-prefetch");
-  if (pathname === `/${segment}` && hasLocale(remembered) && remembered !== segment && !isPrefetch) {
+  // Locale start pages only: "/admin" is also a single segment and must never be redirected here.
+  if (!isAdmin && pathname === `/${segment}` && hasLocale(remembered) && remembered !== segment && !isPrefetch) {
     const url = request.nextUrl.clone();
     url.pathname = `/${remembered}`;
     return NextResponse.redirect(url);
