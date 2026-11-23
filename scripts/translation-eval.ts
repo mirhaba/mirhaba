@@ -6,6 +6,9 @@
 //
 // Run it after EVERY prompt, model or glossary-format change and commit last-run.json:
 // `npm run eval:check` (and CI) fails while the recorded run doesn't match the current setup.
+//   npm run eval -- --tpm=30000       pace for a higher Groq limit (default 8000 tokens/min; 0 = no pacing)
+//
+// Paced to stay under Groq's tokens-per-minute limit: a full run takes about 20 minutes at 8000.
 // Needs GROQ_API_KEY (reads .env.local). TRANSLATION_MODEL overrides the model, as in the app.
 // The glossary is the starter dictionary (src/content/slang.ts), which the database is seeded from.
 //
@@ -20,6 +23,7 @@ import {
   promptFingerprint,
   PROMPT_VERSION,
   runTranslation,
+  TranslationUnavailable,
 } from "../src/lib/translate/engine.ts";
 import { checkOutput, chrF, copyWarnings, type CheckFailure, type EvalCase } from "../evals/translation/checks.ts";
 
@@ -39,7 +43,11 @@ if (!apiKey) {
   process.exit(1);
 }
 const model = args.model || process.env.TRANSLATION_MODEL?.trim() || DEFAULT_MODEL;
-const concurrency = Math.max(1, Number(args.concurrency) || 4);
+const tpm = Number(args.tpm ?? (process.env.GROQ_TPM?.trim() || 8000));
+if (!Number.isFinite(tpm) || tpm < 0) {
+  console.error("--tpm / GROQ_TPM must be a number of tokens per minute (0 = no pacing).");
+  process.exit(1);
+}
 
 const casesRaw = readFileSync(CASES_URL, "utf8");
 const allCases = (JSON.parse(casesRaw) as { cases: EvalCase[] }).cases;
@@ -62,11 +70,55 @@ type CaseResult = {
   error?: string;
 };
 
+// ---------------------------------------------------------------- pacing
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/** Rate-limit waits per case before giving up on it. */
+const MAX_WAITS = 5;
+
+let nextStart = 0;
+
+/** How long Groq asks to wait, from its message ("Please try again in 1m2.5s" / "997.5ms"). */
+function retryDelayMs(message: string): number {
+  const m = /try again in (?:(d+)h)?(?:(d+)m(?!s))?(?:([d.]+)(ms|s))?/.exec(message);
+  if (!m) return 0;
+  const seconds = m[3] ? Number(m[3]) / (m[4] === "ms" ? 1000 : 1) : 0;
+  return (Number(m[1] ?? 0) * 3600 + Number(m[2] ?? 0) * 60 + seconds) * 1000;
+}
+
+/** One translation, started once the previous ones' tokens have been refilled; waits out 429s. */
+async function pacedTranslation(...params: Parameters<typeof runTranslation>) {
+  for (let waits = 0; ; waits++) {
+    await sleep(Math.max(0, nextStart - Date.now()));
+    const startedAt = Date.now();
+    try {
+      const result = await runTranslation(...params);
+      // Cases run one at a time when paced, so spacing starts by tokens used keeps us under the limit.
+      if (tpm) nextStart = startedAt + ((result.inputTokens + result.outputTokens) / (tpm * 0.95)) * 60_000;
+      return result;
+    } catch (error) {
+      if (!(error instanceof TranslationUnavailable) || !error.message.startsWith("groq 429")) throw error;
+      if (/per day|((?:TPD|RPD))/i.test(error.message)) {
+        // Every remaining case would fail the same way, so the run says nothing about quality.
+        console.error(`
+Groq's daily limit is used up; stopped without recording a run.
+${error.message}`);
+        process.exit(1);
+      }
+      if (waits >= MAX_WAITS) throw error;
+      nextStart = Date.now() + Math.min(60_000, Math.max(retryDelayMs(error.message), 5_000 * (waits + 1)));
+    }
+  }
+}
+
+const concurrency = tpm ? 1 : Math.max(1, Number(args.concurrency) || 4);
+
 async function runCase(c: EvalCase): Promise<CaseResult> {
   const glossary = matchGlossary(c.source, slang);
   const base = { id: c.id, source: c.source, expected: c.expected, glossary: glossary.map((g) => g.term.text) };
   try {
-    const result = await runTranslation(
+    const result = await pacedTranslation(
       { text: c.source, direction: c.direction, variant: c.variant, uiLang: c.direction === "tr-sq" ? "tr" : "sq", glossary },
       { apiKey: apiKey!, model, timeoutMs: 30_000 },
     );

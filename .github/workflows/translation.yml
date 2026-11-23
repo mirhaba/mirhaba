@@ -28,7 +28,7 @@ permissions:
 jobs:
   translation:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 35 # the live run is paced to Groq's token limit (about 20 minutes)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

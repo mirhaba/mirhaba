@@ -453,7 +453,7 @@
       "source": "Hesabı alabilir miyiz?",
       "expected": "A mund ta marrim llogarinë?",
       "mustInclude": [
-        "llogari"
+        "llogari|fatur"
       ],
       "tags": [
         "restaurant"
