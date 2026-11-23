@@ -5,6 +5,7 @@ import { upstashRedis } from "@/lib/rate-limit";
 import { paymentsConfig } from "@/lib/payments/config";
 import { testCredentials } from "@/lib/payments/raiaccept";
 import { envNeedsCleanup, serverEnv } from "@/lib/server-env";
+import { parseOrigins } from "@/lib/cors";
 import { siteUrl } from "@/lib/site";
 import { Badge, Card, PageHeader } from "../_ui/ui";
 
@@ -101,7 +102,10 @@ export default async function SystemCheck() {
 
   const [supabase, groq, upstash, turnstile, raiaccept] = await Promise.all([checkSupabaseSecret(), checkGroq(), checkUpstash(), checkTurnstile(), checkRaiAccept()]);
   const admins = adminEmails().size;
-  const CHECKED = ["SUPABASE_SECRET_KEY", "GROQ_API_KEY", "ADMIN_EMAILS", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "TURNSTILE_SECRET_KEY", "AI_DAILY_SPEND_CAP_EUR", "TRANSLATION_MODEL", "RAIACCEPT_USERNAME", "RAIACCEPT_PASSWORD", "RAIACCEPT_MODE", "RAIACCEPT_WEBHOOK_SECRET"];
+  const CHECKED = ["SUPABASE_SECRET_KEY", "GROQ_API_KEY", "ADMIN_EMAILS", "UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN", "TURNSTILE_SECRET_KEY", "AI_DAILY_SPEND_CAP_EUR", "TRANSLATION_MODEL", "RAIACCEPT_USERNAME", "RAIACCEPT_PASSWORD", "RAIACCEPT_MODE", "RAIACCEPT_WEBHOOK_SECRET", "CORS_ALLOWED_ORIGINS", "NEXT_PUBLIC_VAPID_PUBLIC_KEY", "VAPID_PRIVATE_KEY", "VAPID_SUBJECT", "CRON_SECRET"];
+  const corsOrigins = [...parseOrigins(serverEnv("CORS_ALLOWED_ORIGINS"))];
+  const reminderVars = ["NEXT_PUBLIC_VAPID_PUBLIC_KEY", "VAPID_PRIVATE_KEY", "CRON_SECRET"];
+  const reminderMissing = reminderVars.filter((name) => !set(name));
   const quoted = CHECKED.filter(envNeedsCleanup);
 
   const groups: { title: string; description: string; rows: Row[] }[] = [
@@ -162,6 +166,24 @@ export default async function SystemCheck() {
           what: "Card payments (RaiAccept)",
           status: raiaccept[0],
           detail: raiaccept[1],
+        },
+        {
+          name: "NEXT_PUBLIC_VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY, CRON_SECRET",
+          what: "Daily reminders (push)",
+          status: !reminderMissing.length ? "ok" : reminderMissing.length === reminderVars.length ? "off" : "missing",
+          detail: reminderMissing.length
+            ? `Not set: ${reminderMissing.join(", ")}.`
+            : "All set. GitHub also needs the repository secrets SITE_URL and CRON_SECRET (the same value).",
+        },
+        {
+          name: "CORS_ALLOWED_ORIGINS",
+          what: "Other sites that may call the API",
+          status: corsOrigins.length ? "ok" : set("CORS_ALLOWED_ORIGINS") ? "fail" : "off",
+          detail: corsOrigins.length
+            ? `Allowed: ${corsOrigins.join(", ")}`
+            : set("CORS_ALLOWED_ORIGINS")
+              ? 'No valid origin in the value ("*" is not accepted). Use e.g. https://example.com, comma separated.'
+              : "Only this site itself. Nothing to do unless another domain or app calls the API.",
         },
       ],
     },

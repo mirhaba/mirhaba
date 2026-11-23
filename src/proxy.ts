@@ -1,6 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 import { defaultLocale, hasLocale, LOCALE_COOKIE, type Locale } from "@/i18n/config";
+import { corsFor, parseOrigins } from "@/lib/cors";
+import { siteUrl } from "@/lib/site";
 import { sessionCookieWrites } from "@/lib/supabase/cookies";
 import { supabasePublishableKey, supabaseUrl } from "@/lib/supabase/env";
 
@@ -17,8 +19,26 @@ function pickLocale(request: NextRequest): Locale {
 /** Routes that need a fresh session. Everything else (Quick Talk!) never waits on auth. */
 const AUTH_ROUTE = /^\/(tr|sq)\/(app|login|translate|checkout)(\/|$)/;
 
+const corsOrigins = parseOrigins(process.env.CORS_ALLOWED_ORIGINS).add(siteUrl);
+
+/** /api requests only get CORS headers here; sessions and checks stay in the route handlers. */
+function apiCors(request: NextRequest): NextResponse {
+  const { preflight, allowed, headers } = corsFor(
+    {
+      method: request.method,
+      pathname: request.nextUrl.pathname,
+      origin: request.headers.get("origin"),
+      requestedMethod: request.headers.get("access-control-request-method"),
+    },
+    corsOrigins,
+  );
+  if (preflight) return new NextResponse(null, { status: allowed ? 204 : 403, headers });
+  return NextResponse.next({ headers });
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
+  if (pathname.startsWith("/api/")) return apiCors(request);
   const segment = pathname.split("/")[1];
 
   // The admin dashboard lives outside the locales (/admin) and always needs a fresh session.
@@ -94,6 +114,6 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Skip Next internals, API routes, metadata/PWA files and anything with an extension.
-  matcher: ["/((?!_next|api|monitoring|icons|manifest.webmanifest|sw.js|robots.txt|sitemap.xml|.*\\..*).*)"],
+  // API routes (CORS only), then every page: skip Next internals, metadata/PWA files and anything with an extension.
+  matcher: ["/api/:path*", "/((?!_next|api|monitoring|icons|manifest.webmanifest|sw.js|robots.txt|sitemap.xml|.*\\..*).*)"],
 };

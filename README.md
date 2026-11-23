@@ -204,6 +204,10 @@ Keys are hashed, so Redis never stores an IP, email or user id. Without Upstash 
 in-memory limiter in development and skips limits on Vercel (logged), so a missing variable never locks people out.
 Setup: create a Redis database at console.upstash.com (region: Frankfurt, eu-central-1), copy the REST URL + token.
 
+**CORS** (`src/lib/cors.ts`, applied to `/api` in `src/proxy.ts`). `CORS_ALLOWED_ORIGINS` lists the other sites that may
+call the API from a browser (comma separated, exact origins; `*` is ignored; empty = only this site). Cookies are never allowed
+cross-origin, and `auth`, `account`, `consent`, `cron` and `payments` routes stay closed even to listed sites.
+
 **Error tracking** (Sentry, `src/instrumentation*.ts`, `src/lib/sentry-options.ts`). Off until `NEXT_PUBLIC_SENTRY_DSN` is set.
 No IPs, cookies, headers, request bodies or query strings are sent; no session replay. Reports go through `/monitoring`.
 In the browser Sentry is lazy-loaded after the page is idle (and not at all without a DSN), so it never slows Quick Talk; browser performance tracing is off, server tracing samples 10%.
