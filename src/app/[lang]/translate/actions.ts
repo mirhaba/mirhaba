@@ -4,6 +4,7 @@ import { createHash } from "node:crypto";
 import { z } from "zod";
 import { hasLocale, type Locale } from "@/i18n/config";
 import { findGlossaryMatches } from "@/lib/glossary";
+import { glossaryFingerprint } from "@/lib/translate/engine";
 import { FREE_TEXT_TRANSLATIONS_PER_DAY, MAX_TRANSLATION_CHARS, PAID_TEXT_TRANSLATIONS_PER_DAY } from "@/lib/plans";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { serverEnv } from "@/lib/server-env";
@@ -86,9 +87,15 @@ export async function translateText(raw: z.input<typeof inputSchema>): Promise<T
     return { ok: true, translation: fixedRow.translation, notes, remaining };
   }
 
-  // 4) Cache: same text, same direction/style/reader language → same answer, no AI call.
+  // 4) Slang glossary for this text. Matched for every AI request and part of the cache key, so
+  //    adding or fixing a glossary word takes effect at once instead of a cached answer winning.
+  const glossary = await findGlossaryMatches(text);
+
+  // 5) Cache: same text, same direction/style/reader language/glossary → same answer, no AI call.
   //    Only a hash of the input is stored, never the input itself.
-  const hash = createHash("sha256").update([PROMPT_VERSION, direction, variant, lang, text].join("|")).digest("hex");
+  const hash = createHash("sha256")
+    .update([PROMPT_VERSION, direction, variant, lang, glossaryFingerprint(glossary), text].join("|"))
+    .digest("hex");
   const { data: cached } = await admin.from("translation_cache").select("output, hits").eq("hash", hash).maybeSingle();
   if (cached) {
     await admin.from("translation_cache").update({ hits: cached.hits + 1, last_hit_at: new Date().toISOString() }).eq("hash", hash);
@@ -100,16 +107,16 @@ export async function translateText(raw: z.input<typeof inputSchema>): Promise<T
     }
   }
 
-  // 5) Global spending cap: an attack (or a bug) can never produce a huge bill.
+  // 6) Global spending cap: an attack (or a bug) can never produce a huge bill.
   const { data: budgetOk } = await admin.rpc("ai_budget_available", { cap_eur: DAILY_CAP_EUR });
   if (!budgetOk) {
     await refund();
     return { ok: false, error: "busy", remaining };
   }
 
-  // 6) Translate by meaning, with the slang glossary for any slang in the text.
+  // 7) Translate by meaning, with the slang glossary for any slang in the text.
   try {
-    const result = await translateWithAi({ text, direction, variant, uiLang: lang, glossary: await findGlossaryMatches(text) });
+    const result = await translateWithAi({ text, direction, variant, uiLang: lang, glossary });
 
     await Promise.all([
       admin.rpc("record_ai_spend", {
@@ -137,12 +144,17 @@ export async function translateText(raw: z.input<typeof inputSchema>): Promise<T
 
 const correctionSchema = z.object({
   direction: z.enum(["tr-sq", "sq-tr"]),
+  variant: z.enum(["standard", "kosovan"]).optional(),
   source: z.string().trim().min(1).max(MAX_TRANSLATION_CHARS),
   translation: z.string().trim().min(1).max(4000),
   suggestion: z.string().trim().min(1).max(1000),
 });
 
-/** "Wrong translation?" → the moderation queue (`corrections`, status pending). */
+/**
+ * "Wrong translation?" → the moderation queue (`corrections`, status pending), with the source
+ * text, the app's output and the user's fix in their own columns, so admins can turn the report
+ * into a glossary word or a fixed translation (Admin → Reports).
+ */
 export async function submitCorrection(raw: z.input<typeof correctionSchema>): Promise<{ ok: boolean }> {
   const parsed = correctionSchema.safeParse(raw);
   if (!parsed.success) return { ok: false };
@@ -152,10 +164,16 @@ export async function submitCorrection(raw: z.input<typeof correctionSchema>): P
   if (!(await checkLimit("correctionUser", auth.user.id))) return { ok: false };
 
   const { direction, source, translation, suggestion } = parsed.data;
+  const variant = direction === "tr-sq" ? (parsed.data.variant ?? "kosovan") : "standard";
   const { error } = await supabase.from("corrections").insert({
     user_id: auth.user.id,
-    free_text: `[${direction}] ${source}\n→ ${translation}`.slice(0, 1000),
+    direction,
+    variant,
+    source_text: source,
+    output_text: translation,
     suggestion,
+    prompt_version: PROMPT_VERSION,
   });
+  if (error) console.error("correction insert failed", error.message);
   return { ok: !error };
 }

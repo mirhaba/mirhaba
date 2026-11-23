@@ -12,7 +12,10 @@
     "db:test": "supabase test db",
     "typecheck": "tsc --noEmit",
     "icons": "node scripts/generate-icons.mjs",
-    "db:import": "node --env-file=.env.local --experimental-strip-types --no-warnings scripts/import-content.ts"
+    "db:import": "node --env-file=.env.local --experimental-strip-types --no-warnings scripts/import-content.ts",
+    "test": "node --experimental-strip-types --no-warnings --test \"tests/**/*.test.ts\"",
+    "eval": "node --env-file-if-exists=.env.local --experimental-strip-types --no-warnings scripts/translation-eval.ts",
+    "eval:check": "node --experimental-strip-types --no-warnings scripts/translation-eval-check.ts"
   },
   "dependencies": {
     "@sentry/nextjs": "^11.16.0",

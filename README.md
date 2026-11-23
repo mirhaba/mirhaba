@@ -188,7 +188,10 @@ Hosted setup when you go live (Supabase dashboard):
 - Limits (`src/lib/plans.ts`): free 5/day, paid 300/day (fair use), counted atomically in Postgres; failed AI calls are refunded.
 - Global AI spending cap: `AI_DAILY_SPEND_CAP_EUR` (default 5). Over the cap, translation pauses ("busy") instead of billing more.
 - Cache: identical requests reuse the answer for 30 days. Only a hash of the input is stored, never the input or who sent it. Run `select prune_translation_cache()` daily once live.
-- "Wrong translation?" saves a correction to the moderation queue (`corrections`, pending).
+- "Wrong translation?" saves a correction to the moderation queue (`corrections`, pending) with the source text, the app's output, the user's fix, direction, style and prompt version in their own columns. Admin → Reports can turn it into a fixed translation or, via "Add a word … to the glossary", a pre-filled dictionary word.
+- Glossary: every AI request gets the dictionary entries whose words appear in the text (inflected forms too: "argoyu" finds "argo"). The matched entries are part of the cache key, so a dictionary edit takes effect immediately.
+- Prompt + engine: `src/lib/translate/engine.ts` (shared by the app and the regression run). Bump `PROMPT_VERSION` on any prompt or model change.
+- **Regression set** (`evals/translation/cases.json`, 50 TR→SQ + 50 SQ→TR incl. slang): run `npm run eval` (needs `GROQ_API_KEY`) after every prompt, model or glossary-format change and commit `evals/translation/last-run.json`. `npm run eval:check` fails while that run is stale; `npm test` checks glossary injection and the set itself. CI: `.github/workflows/translation.yml` (add the `GROQ_API_KEY` repository secret to run the live set there). Add every confirmed wrong-translation report as a new case.
 - Local dev without a key: `TRANSLATION_MOCK=1` returns `[mock]` translations (ignored on Vercel production). With a key: set `GROQ_API_KEY` and remove `TRANSLATION_MOCK`.
 
 ## Launch essentials

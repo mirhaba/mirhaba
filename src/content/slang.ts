@@ -442,6 +442,21 @@ export const slang: SlangEntry[] = [
     },
     sources: ["team", "husaj2018"],
   }),
+  e({
+    // Regression: the model once wrote "argë" (Albanianised Turkish) for this.
+    slug: "argo",
+    kind: "turkish_slang",
+    term: { text: "argo", lang: "tr" },
+    register: "neutral",
+    tr: "argo",
+    sqStandard: "zhargon",
+    meaning: {
+      tr: "Sokak dili, gündelik konuşma dili. Arnavutçası \"zhargon\"; \"argë\" diye bir kelime yok.",
+      sq: "Gjuha e rrugës, e folura e përditshme. Në shqip: \"zhargon\".",
+    },
+    example: { sq: "Shqipja e Kosovës, edhe me zhargon", tr: "Kosova'da Arnavutça, argo dahil" },
+    sources: ["team"],
+  }),
 ];
 
 export const slangBySlug: Record<string, SlangEntry> = Object.fromEntries(slang.map((s) => [s.slug, s]));

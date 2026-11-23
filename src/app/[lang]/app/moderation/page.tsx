@@ -67,7 +67,7 @@ async function Queue({
   const [{ data: items, error }, { count: pendingCount }] = await Promise.all([
     supabase
       .from("corrections")
-      .select("id, free_text, suggestion, status, created_at")
+      .select("id, free_text, direction, source_text, output_text, suggestion, status, created_at")
       .eq("status", status)
       .order("created_at", { ascending: status === "pending" }) // oldest pending first
       .limit(50),
@@ -116,7 +116,11 @@ async function Queue({
                 <div>
                   <p className="text-[13px] font-medium text-muted">{t.moderation.source}</p>
                   {/* Plain text rendering: user content is never injected as HTML. */}
-                  <p className="mt-0.5 text-[15px] whitespace-pre-wrap break-words">{item.free_text}</p>
+                  <p className="mt-0.5 text-[15px] whitespace-pre-wrap break-words">
+                    {item.source_text
+                      ? `[${item.direction}] ${item.source_text}\n→ ${item.output_text ?? ""}`
+                      : item.free_text}
+                  </p>
                 </div>
                 <div>
                   <p className="text-[13px] font-medium text-muted">{t.moderation.suggestion}</p>

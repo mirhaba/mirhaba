@@ -1,0 +1,49 @@
+# Translation quality gate. Runs when the prompt, model setup, glossary or regression set changes.
+#  - npm test: glossary matching/injection + the regression set's own consistency (no network).
+#  - With the GROQ_API_KEY repository secret: the full 100-case regression run against the model.
+#    Without it: checks that evals/translation/last-run.json was recorded for the current prompt/model.
+name: Translation regression
+
+on:
+  pull_request:
+    paths:
+      - "src/lib/translate/**"
+      - "src/lib/glossary.ts"
+      - "src/content/slang.ts"
+      - "evals/translation/**"
+      - "scripts/translation-eval*.ts"
+      - "tests/**"
+  push:
+    branches: [main]
+    paths:
+      - "src/lib/translate/**"
+      - "src/lib/glossary.ts"
+      - "src/content/slang.ts"
+      - "evals/translation/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  translation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - name: Regression run (live) or freshness check
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          if [ -n "$GROQ_API_KEY" ]; then
+            npm run eval
+          else
+            echo "GROQ_API_KEY secret not set: checking the recorded run instead."
+            npm run eval:check
+          fi

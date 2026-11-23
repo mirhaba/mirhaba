@@ -11,7 +11,7 @@ import { submitCorrection, translateText, type TranslateError } from "./actions"
 type T = Messages["translate"];
 type Direction = "tr-sq" | "sq-tr";
 type Variant = "standard" | "kosovan";
-type Result = { source: string; direction: Direction; translation: string; notes: { term: string; meaning: string }[] };
+type Result = { source: string; direction: Direction; variant: Variant; translation: string; notes: { term: string; meaning: string }[] };
 
 export function Translator({
   lang,
@@ -74,11 +74,12 @@ export function Translator({
     setError(null);
     const source = text;
     const dir = direction;
+    const style = variant;
     startTransition(async () => {
-      const res = await translateText({ lang, text: source, direction: dir, variant });
+      const res = await translateText({ lang, text: source, direction: dir, variant: style });
       if ("remaining" in res && res.remaining !== undefined) setRemaining(res.remaining);
       if (res.ok) {
-        setResult({ source, direction: dir, translation: res.translation, notes: res.notes });
+        setResult({ source, direction: dir, variant: style, translation: res.translation, notes: res.notes });
       } else {
         setError(res.error);
         setResult(null);
@@ -312,6 +313,7 @@ function ResultCard({ result, t }: { result: Result; t: T }) {
               startSending(async () => {
                 const res = await submitCorrection({
                   direction: result.direction,
+                  variant: result.variant,
                   source: result.source,
                   translation: result.translation,
                   suggestion,

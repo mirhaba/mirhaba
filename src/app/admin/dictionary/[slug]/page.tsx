@@ -11,9 +11,17 @@ export const metadata = { title: "Word" };
 // Private dashboard: pages read fresh data on every visit, so navigations may wait for it.
 export const instant = false;
 
-export default async function WordAdmin({ params }: PageProps<"/admin/dictionary/[slug]">) {
+/** Pre-fill for a new word, e.g. from a "Wrong translation?" report (Admin → Reports). */
+type Prefill = { term_lang?: string; tr?: string; sq_standard?: string; report_output?: string };
+const one = (v: unknown) => (typeof v === "string" ? v.slice(0, 1000) : undefined);
+
+export default async function WordAdmin({ params, searchParams }: PageProps<"/admin/dictionary/[slug]">) {
   await requireAdmin();
   const { slug } = await params;
+  const query = (await searchParams) as Record<string, unknown>;
+  const prefill: Prefill = slug === "new"
+    ? { term_lang: one(query.term_lang), tr: one(query.tr), sq_standard: one(query.sq_standard), report_output: one(query.report_output) }
+    : {};
   const [entries, sources] = await Promise.all([getDictionaryEntries(), getSources()]);
   const isNew = slug === "new";
   const index = entries.findIndex((e) => e.slug === slug);
@@ -34,15 +42,27 @@ export default async function WordAdmin({ params }: PageProps<"/admin/dictionary
         }
       />
       <div className="flex flex-col gap-6">
+        {isNew && (prefill.tr || prefill.sq_standard) && (
+          <p className="rounded-xl bg-surface-2 px-4 py-3 text-[14px]">
+            Pre-filled from a wrong-translation report: the whole sentence and the user&apos;s fix. Shorten both to the
+            word or idiom itself before saving.
+            {prefill.report_output && (
+              <>
+                {" "}
+                The app had written: <span className="text-muted line-through">{prefill.report_output}</span>
+              </>
+            )}
+          </p>
+        )}
         <Card>
           <ActionForm action={saveWord} submitLabel={isNew ? "Add word" : "Save"}>
             {!isNew && <input type="hidden" name="original" value={slug} />}
             <Grid cols={3}>
               <Field label="Headword (the word the page is about)">
-                <input name="term" required defaultValue={e?.term.text} className={inputClass} />
+                <input name="term" required defaultValue={e?.term.text ?? (prefill.term_lang === "sq" ? prefill.sq_standard : prefill.tr)} className={inputClass} />
               </Field>
               <Field label="Headword language">
-                <select name="term_lang" defaultValue={e?.term.lang ?? "sq"} className={inputClass}>
+                <select name="term_lang" defaultValue={e?.term.lang ?? (prefill.term_lang === "tr" ? "tr" : "sq")} className={inputClass}>
                   <option value="sq">Albanian</option>
                   <option value="tr">Turkish</option>
                 </select>
@@ -57,7 +77,7 @@ export default async function WordAdmin({ params }: PageProps<"/admin/dictionary
                 </Field>
               )}
               <Field label="Kind">
-                <select name="kind" defaultValue={e?.kind ?? "kosovan"} className={inputClass}>
+                <select name="kind" defaultValue={e?.kind ?? (prefill.term_lang === "tr" ? "turkish_slang" : "kosovan")} className={inputClass}>
                   <option value="kosovan">Kosovan word</option>
                   <option value="loanword">Turkish loanword used in Kosovo</option>
                   <option value="turkish_slang">Turkish slang → Kosovan</option>
@@ -81,10 +101,10 @@ export default async function WordAdmin({ params }: PageProps<"/admin/dictionary
                 </select>
               </Field>
               <Field label="Turkish">
-                <input name="tr" required defaultValue={e?.tr} className={inputClass} />
+                <input name="tr" required defaultValue={e?.tr ?? prefill.tr} className={inputClass} />
               </Field>
               <Field label="Standard Albanian">
-                <input name="sq_standard" required defaultValue={e?.sqStandard} className={inputClass} />
+                <input name="sq_standard" required defaultValue={e?.sqStandard ?? prefill.sq_standard} className={inputClass} />
               </Field>
               <Field label="How it's said in Kosovo (if different)">
                 <input name="sq_kosovo" defaultValue={e?.sqKosovo} className={inputClass} />
