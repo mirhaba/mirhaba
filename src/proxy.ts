@@ -35,7 +35,10 @@ export async function proxy(request: NextRequest) {
   // installed before the manifest's start_url became "/" (iPhones keep it) and old bookmarks open
   // "/tr"; without this an Albanian speaker would land in Turkish every time. Deeper links are kept.
   const remembered = request.cookies.get(LOCALE_COOKIE)?.value;
-  if (pathname === `/${segment}` && hasLocale(remembered) && remembered !== segment) {
+  // Only for real page loads: a router prefetch runs before any click, so redirecting it by the old
+  // cookie would get cached and undo the language switch.
+  const isPrefetch = request.headers.has("next-router-prefetch");
+  if (pathname === `/${segment}` && hasLocale(remembered) && remembered !== segment && !isPrefetch) {
     const url = request.nextUrl.clone();
     url.pathname = `/${remembered}`;
     return NextResponse.redirect(url);

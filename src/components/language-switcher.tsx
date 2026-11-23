@@ -31,6 +31,10 @@ export function LanguageSwitcher({ lang, label, switchLabel }: { lang: Locale; l
           <Link
             key={code}
             href={href}
+            // No prefetch: a prefetch made before the click still carries the old language cookie, so on
+            // the start page the proxy answers "/tr" with a redirect back to "/sq" — the router caches that
+            // and the tap does nothing until the app is reopened.
+            prefetch={false}
             hrefLang={other}
             aria-label={switchLabel}
             onClick={() => {
