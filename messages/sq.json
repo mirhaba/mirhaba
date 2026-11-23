@@ -119,7 +119,8 @@
     "address": "Adresa",
     "email": "Email",
     "phone": "Telefoni",
-    "companyPending": "Të dhënat e kompanisë do të publikohen këtu pasi të përfundojë regjistrimi i biznesit në Kosovë."
+    "companyPending": "Të dhënat e kompanisë do të publikohen këtu pasi të përfundojë regjistrimi i biznesit në Kosovë.",
+    "help": "Udhëzuesi"
   },
   "legal": {
     "draft": "Draft: Ky tekst është draft i publikuar para kontrollit nga avokati.",
@@ -604,7 +605,8 @@
       }
     ],
     "contactTitle": "Nuk e gjen pyetjen tënde?",
-    "contactBody": "Na shkruaj, të ndihmojmë:"
+    "contactBody": "Na shkruaj, të ndihmojmë:",
+    "guideLink": "Për shpjegime hap pas hapi shiko udhëzuesin e përdorimit"
   },
   "learn": {
     "title": "Mëso shqip",
@@ -979,7 +981,9 @@
     "remindersUnsupported": "Ky shfletues nuk i mbështet njoftimet.",
     "remindersIos": "Në iPhone, për njoftime shtoje fillimisht Mirhaba-n në ekranin kryesor (Shpërndaj → Shto në ekranin kryesor) dhe hape prej andej.",
     "remindersNotConfigured": "Kujtesat ende nuk janë aktive.",
-    "remindersError": "Nuk u ruajt. Provo përsëri."
+    "remindersError": "Nuk u ruajt. Provo përsëri.",
+    "guideLink": "Udhëzuesi i përdorimit",
+    "guideLinkHint": "Çdo veçori hap pas hapi"
   },
   "reminders": {
     "streakTitle": "🔥 Seria jote {n}-ditore mbaron sonte!",
@@ -987,5 +991,226 @@
     "dailyTitleSq": "Mësimi yt i shqipes për sot është gati 🇦🇱",
     "dailyTitleTr": "Mësimi yt i turqishtes për sot është gati 🇹🇷",
     "dailyBody": "Mjaftojnë 5 minuta. Edhe një hap drejt qëllimit!"
+  },
+  "help": {
+    "metaTitle": "Udhëzuesi i përdorimit",
+    "metaDescription": "Si përdoret Mirhaba: Biseda e shpejtë, përkthimi, mësimet, fjalori i zhargonit, kujtesat dhe përdorimi pa internet. Hap pas hapi.",
+    "eyebrow": "Ndihmë",
+    "title": "Udhëzuesi i përdorimit",
+    "subtitle": "Gjithçka në Mirhaba, hap pas hapi. Zgjidh një pjesë ose lëviz poshtë.",
+    "tourTitle": "Ke nxitim?",
+    "tourBody": "Turi 1-minutësh të tregon veçoritë kryesore me provë të vogla.",
+    "tourCta": "Fillo turin",
+    "tasksTitle": "Çfarë dëshiron të bësh?",
+    "tasks": {
+      "courier": "Të flas me dikë te dera",
+      "message": "Të përkthej një mesazh",
+      "daily": "Të mësoj pak çdo ditë",
+      "slang": "Të kuptoj një fjalë që dëgjova",
+      "offline": "Ta përdor pa internet",
+      "install": "Ta shtoj në telefon si aplikacion"
+    },
+    "contentsTitle": "Përmbajtja",
+    "stepsLabel": "Hap pas hapi",
+    "tipLabel": "Këshillë",
+    "backToTop": "Kthehu lart",
+    "noAccount": "Pa llogari",
+    "needsAccount": "Duhet llogari falas",
+    "sections": {
+      "start": {
+        "title": "Fillimi",
+        "intro": "Mirhaba është aplikacion uebi: nuk ka nevojë ta shkarkosh, hapet në shfletues. Nëse e shton në ekranin kryesor, punon si aplikacion i zakonshëm.",
+        "steps": [
+          "Zgjidh gjuhën: me butonin TR | SQ lart djathtas e kalon ndërfaqen në turqisht ose shqip.",
+          "Shtoje në telefon (Android): hap menynë e shfletuesit (⋮) dhe prek “Shto në ekranin kryesor”. Mirhaba mund ta sugjerojë edhe vetë poshtë ekranit me butonin “Shto”.",
+          "Shtoje në telefon (iPhone): në Safari prek butonin Ndaj, pastaj “Shto në ekranin bazë”.",
+          "Hap llogari (sipas dëshirës): prek ikonën e personit lart djathtas dhe regjistrohu me email e fjalëkalim ose me Google. Konfirmoje llogarinë me lidhjen që të vjen në email.",
+          "Menyja: në telefon shiriti poshtë, në kompjuter menyja lart. Ka katër pjesë: Bisedë e shpejtë, Përkthim, Mëso, Fjalori i zhargonit."
+        ],
+        "tip": "Biseda e shpejtë, fjalori dhe mësimet punojnë edhe pa llogari. Llogaria duhet për përkthim, progres të njëjtë në çdo pajisje dhe distinktivë.",
+        "cta": "Krijo llogari falas"
+      },
+      "quickTalk": {
+        "title": "Bisedë e shpejtë",
+        "intro": "Te dera, në dyqan, te mjeku: zgjidh një fjali të gatshme, tregoja ekranin tjetrit ose lëre ta lexojë me zë.",
+        "steps": [
+          "Zgjidh një kategori (Përshëndetje, Dërgesa, Shtëpia dhe pronari, Mjeku dhe barnatorja, Taksi…) ose shkruaj një fjalë në kërkim.",
+          "Mund të kërkosh edhe me zë duke prekur ikonën e mikrofonit. Herën e parë kërkohet leja për mikrofonin.",
+          "Prek një fjali. Hapet shqip me shkronja të mëdha dhe turqisht poshtë saj.",
+          "Disa fjali kanë zgjedhje (p.sh. cila hyrje, cila ditë). Prek zgjedhjen e duhur dhe fjalia ndryshon vetë.",
+          "Me “Lexoje me zë” telefoni e lexon fjalinë. Me “Ekran i plotë” shkronjat zmadhohen shumë; nëse e kthen telefonin anash, edhe më shumë. Prek ekranin për ta mbyllur.",
+          "Jepja telefonin tjetrit: ai prek butonat e përgjigjes poshtë (Po, Jo, Prit pak, Kati i dytë…) dhe ti e sheh përgjigjen në gjuhën tënde.",
+          "Prek yllin e fjalisë: shtohet te “Të preferuarat” lart (deri në 6)."
+        ],
+        "tip": "Rreshti gri poshtë turqishtes është shqiptimi i saj me shkronja shqipe. Mund ta fikësh te Preferencat.",
+        "cta": "Hap Bisedën e shpejtë"
+      },
+      "myPhrases": {
+        "title": "Fjalitë e tua",
+        "intro": "Adresa jote, kodi i derës, “Lëreni pakon para derës”… Ruaji një herë fjalitë që i thua shpesh.",
+        "steps": [
+          "Te Biseda e shpejtë shko te “Fjalitë e mia” dhe prek “Shto fjali”.",
+          "Shkruaj njërën gjuhë. Nëse e di edhe tjetrën, shkruaje vetë; përndryshe prek “Përkthe automatikisht”.",
+          "Prek “Ruaj”. Fjalia shfaqet me etiketën “Jotja” dhe mund ta tregosh, ta dëgjosh dhe ta fiksosh si çdo fjali tjetër.",
+          "Për ta ndryshuar ose fshirë, hape dhe prek “Ndrysho”."
+        ],
+        "tip": "Deri në 50 fjali. Përkthimi automatik kërkon hyrje në llogari dhe llogaritet në përkthimet ditore.",
+        "cta": "Shto fjali"
+      },
+      "translate": {
+        "title": "Përkthim",
+        "intro": "Për të kuptuar një mesazh, një shpallje ose atë që të shkroi dikush. Zhargoni dhe e folmja e Kosovës përkthehen sipas kuptimit.",
+        "steps": [
+          "Hyr në llogari (mjafton llogaria falas) dhe hap Përkthimin.",
+          "Zgjidh drejtimin: turqisht → shqip ose shqip → turqisht. Butoni me shigjeta e ndërron drejtimin.",
+          "Kur përkthen nga turqishtja, zgjidh llojin e shqipes: “Kosovë” (e folur) ose “Standarde” (zyrtare).",
+          "Shkruaj ose ngjit tekstin (deri në {maxChars} shenja) dhe prek “Përkthe”.",
+          "Merre rezultatin me “Kopjo”. Nëse teksti ka zhargon, poshtë shfaqen shënimet “Kuptimi”.",
+          "Nëse përkthimi është gabim, prek “Përkthim i gabuar?” dhe shkruaj të saktin. Ekipi ynë e shqyrton."
+        ],
+        "tip": "Me llogari falas ke {freeTranslations} përkthime në ditë; rinovohen çdo ditë. Për shëndet ose çështje ligjore pyet një përkthyes.",
+        "cta": "Hap Përkthimin"
+      },
+      "learn": {
+        "title": "Mësimet",
+        "intro": "Mësime 5-minutëshe sipas situatave të vërteta. Pak çdo ditë; Mirhaba i mban mend fjalët që të vështirësojnë.",
+        "steps": [
+          "Hap Mëso. Kurset dhe njësitë janë me radhë; prek mësimin “Në vijim”.",
+          "Fjalët e reja vijnë fillimisht si karta: dëgjoje, shiko shqiptimin, prek “E kuptova”.",
+          "Pastaj ushtrimet: zgjidh kuptimin e saktë, gjej çiftet, ndërto fjalinë duke prekur fjalët me radhë, shkruaje fjalën.",
+          "Kur shkruan, përdor butonat për shkronjat e veçanta. Nëse harron një shenjë, prapë llogaritet e saktë dhe të tregohet drejtshkrimi.",
+          "Pyetja që e gabove kthehet edhe një herë në fund. Pikët janë përgjigjet e sakta në provën e parë.",
+          "Nëse përfundon të paktën një mësim në ditë, seria jote rritet. Fjalët e vështira mblidhen te “Përsërit fjalët e dobëta”."
+        ],
+        "tip": "Flet shqip dhe do të mësosh turqisht? Lart në faqen Mëso zgjidh “Turqisht”: të njëjtat mësime vijnë në drejtimin tjetër.",
+        "cta": "Fillo mësimin"
+      },
+      "dictionary": {
+        "title": "Fjalori i zhargonit",
+        "intro": "qysh, çka, kerr… kuptimi i vërtetë i fjalëve që dëgjon në rrugë, dhe fjalët që vijnë nga turqishtja.",
+        "steps": [
+          "Hap Fjalorin dhe kërko fjalën. E gjen edhe me gabime shkronjash (p.sh. c në vend të ç).",
+          "Ngushto me filtrat sipas llojit të fjalës.",
+          "Prek një fjalë: hapet kuptimi, një shembull, prejardhja dhe burimet.",
+          "Nga fundi i faqes mund ta provosh fjalën te Përkthimi ose te Biseda e shpejtë."
+        ],
+        "tip": "Fjalët me shënimin “Ende pa u kontrolluar nga një folës vendas” po i shqyrtojnë folës vendas të Prishtinës.",
+        "cta": "Hap fjalorin"
+      },
+      "dashboard": {
+        "title": "Paneli yt",
+        "intro": "Pasi hyn në llogari, ikona e personit lart djathtas hap panelin. Ka tri skeda: Përmbledhje, Preferencat, Llogaria.",
+        "steps": [
+          "Përmbledhje: seria ditore, mësimet e përfunduara, fjalët e mësuara dhe fjalitë e preferuara.",
+          "Qëllimi ditor: sa mësime ke bërë sot. Butoni i mësimit të çon drejt te mësimi i radhës.",
+          "Fjalia e ditës: prek kartën për ta parë përkthimin, “Dëgjo” për ta dëgjuar.",
+          "Këtë javë: si po shkon krahasuar me javën e kaluar.",
+          "Distinktivët: mësimi i parë, seri 3 dhe 7 ditë, 25 fjalë, 3 fjali të fiksuara, 10 mësime. Ndaje serinë ose distinktivin e ri si foto me “Shpërndaj”."
+        ],
+        "tip": "Pas regjistrimit të pyesim për emrin dhe qëllimin ditor; të dyja mund t'i ndryshosh më vonë te Preferencat.",
+        "cta": "Hap panelin"
+      },
+      "preferences": {
+        "title": "Preferencat",
+        "intro": "Rregulloje Mirhaba-n sipas vetes. Ndryshimet zbatohen menjëherë dhe të ndjekin në çdo pajisje.",
+        "steps": [
+          "Nofka: përdoret në përshëndetje, e sheh vetëm ti.",
+          "Çfarë po mëson?: shqip apo turqisht. Nëse do, ndryshon edhe gjuhën e ndërfaqes.",
+          "Qëllimi ditor: 1, 2, 3 ose 5 mësime në ditë.",
+          "Zëri dhe shqiptimi: shpejtësia e zërit (Ngadalë, Normal, Shpejt) dhe shfaq/fshih rreshtin e shqiptimit.",
+          "Pamja: temë e çelët ose e errët, shkronja të mëdha, më pak animacione.",
+          "Nëse diçka nuk shkon, kthehu në fillim me “Rivendos preferencat”."
+        ],
+        "tip": "Për të moshuarit në familje: aktivizo “Shkronja të mëdha” dhe vendos zërin “Ngadalë”.",
+        "cta": "Hap Preferencat"
+      },
+      "reminders": {
+        "title": "Kujtesa ditore",
+        "intro": "Nëse sot s'ke bërë mësim, në orën që zgjedh të vjen një njoftim i vogël. Të paralajmëron kur seria është gati të prishet.",
+        "steps": [
+          "Shko te Paneli → Preferencat → Kujtesa.",
+          "Aktivizo “Kujtesë ditore” dhe zgjidh orën.",
+          "Shfletuesi kërkon leje për njoftime: prek “Lejo”. Të vjen një njoftim prove.",
+          "Ditët kur bën mësim nuk vjen njoftim. Për ta fikur, çaktivizoje butonin."
+        ],
+        "tip": "Në iPhone njoftimet punojnë vetëm kur Mirhaba është shtuar në ekranin bazë: Ndaj → “Shto në ekranin bazë”, pastaj hape prej andej.",
+        "cta": "Vendos kujtesën"
+      },
+      "account": {
+        "title": "Llogaria dhe privatësia",
+        "intro": "Te skeda “Llogaria” e panelit janë plani yt, mënyra e hyrjes dhe të dhënat e tua.",
+        "steps": [
+          "Fjalëkalimi: vendose ose ndryshoje. Nëse e ke harruar, te ekrani i hyrjes prek “Kam harruar fjalëkalimin”; lidhja në email të çon te fjalëkalimi i ri.",
+          "Gjuha e ndërfaqes dhe emailet e marketingut: ndryshoji kurdo.",
+          "“Shkarko të dhënat e mia”: gjithçka nga llogaria në një skedar.",
+          "“Dil nga të gjitha pajisjet”: nëse e ke humbur telefonin.",
+          "“Fshi llogarinë”: profili, progresi dhe të preferuarat fshihen përgjithmonë."
+        ],
+        "tip": "Tekstet që shkruan për përkthim nuk ruhen. Hollësitë janë te politika e privatësisë.",
+        "cta": "Hap llogarinë"
+      },
+      "premium": {
+        "title": "Premium dhe ftesat",
+        "intro": "Biseda e shpejtë është gjithmonë falas. Premium është për më shumë përkthime dhe shtesa.",
+        "steps": [
+          "Premium: {monthly} € në muaj ose {yearly} € në vit (me TVSH). Deri në {paidTranslations} përkthime në ditë (përdorim i arsyeshëm) dhe mbrojtje e serisë: edhe nëse humbet një ditë në javë, seria nuk prishet.",
+          "Blerja: zgjidh planin te faqja e Çmimeve dhe paguaj me kartelë në faqen e sigurt të Raiffeisen Bank. Të dhënat e kartelës nuk na arrijnë kurrë.",
+          "Pa rinovim automatik: kur mbaron periudha, Premium përfundon vetë. Nëse paguan para se të mbarojë, koha i shtohet asaj që ke.",
+          "Fto një shok: Paneli → Përmbledhje → “Fto një shok”. Kur shoku hap llogari të re me lidhjen tënde, të dy merrni 7 ditë Premium."
+        ],
+        "tip": "Nëse pothuajse nuk i ke përdorur veçoritë me pagesë, brenda 14 ditëve merr kthim të plotë të parave.",
+        "cta": "Shiko çmimet"
+      },
+      "offline": {
+        "title": "Pa internet",
+        "intro": "Në ashensor, në bodrum ose kur të mbaron interneti, Mirhaba është me ty.",
+        "steps": [
+          "Hape Mirhaba-n një herë me internet. Pas kësaj Biseda e shpejtë punon pa internet.",
+          "Fjalitë e fiksuara, fjalitë e tua dhe progresi i mësimeve ruhen në telefon.",
+          "Mësimet dhe faqet e fjalorit që i ke hapur më parë hapen edhe pa internet.",
+          "Përkthimi, hyrja dhe pagesa kërkojnë internet. Kur kthehet interneti, progresi sinkronizohet vetë me llogarinë."
+        ],
+        "tip": "Nëse e shton në ekranin kryesor, hapet shumë më shpejt pa internet.",
+        "cta": ""
+      }
+    },
+    "troubleTitle": "Ke ndonjë problem?",
+    "trouble": [
+      {
+        "q": "“Lexoje me zë” nuk punon ose thotë që nuk ka zë.",
+        "a": "Disa telefona nuk kanë zërin e duhur të instaluar. Shiko gjuhët e “Tekst në të folur” (TTS) te cilësimet e telefonit. Deri atëherë trego tekstin me “Ekran i plotë”: funksionon."
+      },
+      {
+        "q": "Nuk më erdhi emaili i konfirmimit ose i hyrjes.",
+        "a": "Prit një minutë dhe shiko dosjen e postës së padëshiruar (spam). Nëse ende s'ka, dërgoje përsëri nga ekrani i hyrjes. Më mirë hape lidhjen në të njëjtin shfletues ku e ke Mirhaba-n."
+      },
+      {
+        "q": "Kërkimi me zë nuk punon.",
+        "a": "Duhet leja për mikrofonin. Nëse e ke refuzuar, lejoje Mirhaba-n te cilësimet e shfletuesit. Disa shfletues nuk e mbështesin kërkimin me zë; atëherë kërko duke shkruar."
+      },
+      {
+        "q": "M'u mbaruan përkthimet e sotme.",
+        "a": "Rinovohen të nesërmen (sipas orës së Kosovës). Biseda e shpejtë dhe fjalori janë pa kufi. Për më shumë përkthime shiko Premium-in."
+      },
+      {
+        "q": "Në telefonin e ri nuk e kam progresin ose të preferuarat.",
+        "a": "Hyr me të njëjtën llogari në të dy telefonat dhe lidhu me internet. Kur hap Mëso dhe Bisedën e shpejtë, progresi dhe të preferuarat bashkohen; asgjë nuk humbet."
+      },
+      {
+        "q": "Nuk më vjen njoftimi i kujtesës.",
+        "a": "Kontrollo lejen për njoftime. Në iPhone Mirhaba duhet të jetë shtuar në ekranin bazë dhe të hapet prej andej. Nëse sot ke bërë mësim, njoftimi nuk dërgohet."
+      },
+      {
+        "q": "Pagova, por Premium nuk shfaqet.",
+        "a": "Ndonjëherë konfirmimi zgjat disa minuta. Rifresko faqen e llogarisë; pagesa kontrollohet vetë sërish. Nëse ende nuk shfaqet, na shkruaj."
+      },
+      {
+        "q": "Dua ta shoh sërish turin hyrës.",
+        "a": "Prek lidhjen “Si përdoret?” në fund të faqes ose “Fillo turin” në krye të kësaj faqeje."
+      }
+    ],
+    "moreTitle": "Nuk e gjete përgjigjen?",
+    "moreBody": "Shiko pyetjet e shpeshta ose na shkruaj.",
+    "moreFaq": "Pyetjet e shpeshta"
   }
 }

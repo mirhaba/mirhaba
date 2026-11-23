@@ -23,6 +23,11 @@ export function SiteFooter({ lang, t }: { lang: Locale; t: Messages }) {
             </li>
           ))}
           <li>
+            <Link href={`/${lang}/help`} className="inline-flex min-h-11 items-center px-2 font-medium text-foreground hover:text-accent-text">
+              {t.footer.help}
+            </Link>
+          </li>
+          <li>
             <OpenGuideButton
               label={t.guide.howTo}
               className="inline-flex min-h-11 items-center px-2 font-medium text-foreground hover:text-accent-text"

@@ -119,7 +119,8 @@
     "address": "Adres",
     "email": "E-posta",
     "phone": "Telefon",
-    "companyPending": "Şirket bilgileri, Kosova'daki şirket kaydı tamamlanınca burada yayınlanacak."
+    "companyPending": "Şirket bilgileri, Kosova'daki şirket kaydı tamamlanınca burada yayınlanacak.",
+    "help": "Kullanım kılavuzu"
   },
   "legal": {
     "draft": "Taslak: Bu metin avukat kontrolünden önce yayınlanmış bir taslaktır.",
@@ -604,7 +605,8 @@
       }
     ],
     "contactTitle": "Sorunun burada yok mu?",
-    "contactBody": "Bize yaz, yardımcı olalım:"
+    "contactBody": "Bize yaz, yardımcı olalım:",
+    "guideLink": "Adım adım anlatım için kullanım kılavuzuna bak"
   },
   "learn": {
     "title": "Arnavutça öğren",
@@ -979,7 +981,9 @@
     "remindersUnsupported": "Bu tarayıcı bildirimleri desteklemiyor.",
     "remindersIos": "iPhone'da bildirimler için önce Mirhaba'yı ana ekrana ekle (Paylaş → Ana Ekrana Ekle) ve oradan aç.",
     "remindersNotConfigured": "Hatırlatıcılar henüz etkin değil.",
-    "remindersError": "Kaydedilemedi. Tekrar dene."
+    "remindersError": "Kaydedilemedi. Tekrar dene.",
+    "guideLink": "Kullanım kılavuzu",
+    "guideLinkHint": "Her özellik adım adım"
   },
   "reminders": {
     "streakTitle": "🔥 {n} günlük serin bu gece bitiyor!",
@@ -987,5 +991,226 @@
     "dailyTitleSq": "Bugünkü Arnavutça dersin hazır 🇦🇱",
     "dailyTitleTr": "Bugünkü Türkçe dersin hazır 🇹🇷",
     "dailyBody": "5 dakika yeter. Hedefine bir adım daha!"
+  },
+  "help": {
+    "metaTitle": "Kullanım kılavuzu",
+    "metaDescription": "Mirhaba nasıl kullanılır: Hızlı Konuş, çeviri, Arnavutça dersleri, argo sözlük, hatırlatıcılar ve internetsiz kullanım. Adım adım, ekran ekran.",
+    "eyebrow": "Yardım",
+    "title": "Kullanım kılavuzu",
+    "subtitle": "Mirhaba'daki her şey, adım adım. Bir bölüm seç ya da aşağı kaydır.",
+    "tourTitle": "Acelen mi var?",
+    "tourBody": "1 dakikalık tur ana özellikleri küçük denemelerle gösterir.",
+    "tourCta": "Turu başlat",
+    "tasksTitle": "Ne yapmak istiyorsun?",
+    "tasks": {
+      "courier": "Kapıdaki kuryeyle konuşmak",
+      "message": "Bir mesajı çevirmek",
+      "daily": "Her gün biraz Arnavutça",
+      "slang": "Duyduğum bir kelimeyi anlamak",
+      "offline": "İnternetsiz kullanmak",
+      "install": "Telefonuma uygulama gibi eklemek"
+    },
+    "contentsTitle": "İçindekiler",
+    "stepsLabel": "Adım adım",
+    "tipLabel": "İpucu",
+    "backToTop": "Başa dön",
+    "noAccount": "Hesap gerekmez",
+    "needsAccount": "Ücretsiz hesap gerekir",
+    "sections": {
+      "start": {
+        "title": "Başlarken",
+        "intro": "Mirhaba bir web uygulamasıdır: indirmen gerekmez, tarayıcıda açılır. Ana ekrana eklersen normal bir uygulama gibi çalışır.",
+        "steps": [
+          "Dili seç: sağ üstteki TR | SQ düğmesiyle arayüzü Türkçe ya da Arnavutça yap.",
+          "Telefona ekle (Android): tarayıcı menüsünü (⋮) aç, “Ana ekrana ekle”ye dokun. Mirhaba ekranın altında “Ekle” önerisi de gösterebilir.",
+          "Telefona ekle (iPhone): Safari'de Paylaş düğmesine, sonra “Ana Ekrana Ekle”ye dokun.",
+          "Hesap aç (isteğe bağlı): sağ üstteki kişi simgesine dokun, e-posta ve şifreyle ya da Google ile kaydol. E-postana gelen bağlantıya dokunarak hesabını onayla.",
+          "Menü: telefonda alttaki çubuk, bilgisayarda üstteki menü. Dört bölüm var: Hızlı Konuş, Çeviri, Öğren, Argo Sözlük."
+        ],
+        "tip": "Hızlı Konuş, sözlük ve dersler hesapsız da çalışır. Hesap; çeviri, tüm cihazlarda aynı ilerleme ve rozetler içindir.",
+        "cta": "Ücretsiz hesap oluştur"
+      },
+      "quickTalk": {
+        "title": "Hızlı Konuş",
+        "intro": "Kapıda, dükkânda, doktorda: hazır cümleyi seç, ekranı karşındakine göster ya da sesli okut.",
+        "steps": [
+          "Bir kategori seç (Selamlaşma, Teslimat, Ev ve ev sahibi, Doktor ve eczane, Taksi…) ya da arama kutusuna bir kelime yaz: “kapı”, “kira”, “doktor”.",
+          "Mikrofon simgesine dokunarak sesle de arayabilirsin. İlk seferde mikrofon izni ister.",
+          "Bir cümleye dokun. Büyük harflerle Arnavutçası, altında Türkçesi açılır.",
+          "Bazı cümlelerde seçenek vardır (ör. hangi giriş, hangi gün). Doğru seçeneğe dokun; cümle kendiliğinden değişir.",
+          "“Sesli oku” ile telefon cümleyi Arnavutça okur. “Tam ekran” ile yazı çok büyür; telefonu yan çevirirsen daha da büyür. Kapatmak için ekrana dokun.",
+          "Telefonu karşındakine uzat: alttaki cevap düğmelerine (Evet, Hayır, Biraz bekle, 2. kat…) o dokunur, sen cevabın Türkçesini görürsün.",
+          "Cümlenin yıldızına dokun: en üstteki “Sık kullandıklarım” listesine eklenir (en fazla 6)."
+        ],
+        "tip": "Arnavutçanın altındaki gri satır okunuşudur, Türk harfleriyle: “Jam te dera” → “yam te dera”. Tercihler'den kapatabilirsin.",
+        "cta": "Hızlı Konuş'u aç"
+      },
+      "myPhrases": {
+        "title": "Kendi cümlelerin",
+        "intro": "Adresin, kapı kodun, “Paketi kapının önüne bırakın”… Sık söylediklerini bir kez kaydet, hep elinin altında olsun.",
+        "steps": [
+          "Hızlı Konuş'ta “Kendi cümlelerim” bölümüne git ve “Cümle ekle”ye dokun.",
+          "Türkçesini yaz. Arnavutçasını biliyorsan kendin yaz, bilmiyorsan “Otomatik çevir”e dokun.",
+          "“Kaydet”e dokun. Cümlen “Senin” etiketiyle görünür ve diğer cümleler gibi gösterilir, okunur, sabitlenir.",
+          "Değiştirmek ya da silmek için cümleyi açıp “Düzenle”ye dokun."
+        ],
+        "tip": "En fazla 50 cümle. Otomatik çeviri için giriş yapman gerekir ve günlük çeviri hakkından düşer.",
+        "cta": "Cümle ekle"
+      },
+      "translate": {
+        "title": "Çeviri",
+        "intro": "Bir mesajı, ilanı ya da ev sahibinin yazdığını anlamak için. Argo ve Kosova ağzı anlamına göre çevrilir.",
+        "steps": [
+          "Giriş yap (ücretsiz hesap yeter) ve Çeviri'yi aç.",
+          "Yönü seç: Türkçe → Arnavutça ya da Arnavutça → Türkçe. Ok düğmesi yönü değiştirir.",
+          "Türkçeden çeviriyorsan Arnavutça türünü seç: “Kosova” (günlük konuşma) ya da “Standart” (resmî yazışma).",
+          "Metni yaz ya da yapıştır (en fazla {maxChars} karakter) ve “Çevir”e dokun.",
+          "Sonucu “Kopyala” ile al. Metinde argo varsa altında “Anlamı” notları çıkar.",
+          "Çeviri yanlışsa “Yanlış çeviri mi?”ye dokun ve doğrusunu yaz. Ekibimiz inceler."
+        ],
+        "tip": "Ücretsiz hesapla günde {freeTranslations} çeviri; hak her gün yenilenir. Sağlık ve hukuk gibi önemli konularda bir tercümana danış.",
+        "cta": "Çeviri'yi aç"
+      },
+      "learn": {
+        "title": "Dersler",
+        "intro": "Gerçek durumlara göre 5 dakikalık dersler. Her gün biraz; Mirhaba zorlandığın kelimeleri hatırlar.",
+        "steps": [
+          "Öğren'i aç. Parkurlar ve üniteler sırayla dizilidir; “Sıradaki” derse dokun.",
+          "Yeni kelimeler önce kart olarak gelir: dinle, okunuşuna bak, “Anladım”a dokun.",
+          "Sonra alıştırmalar: doğru anlamı seç, eşleri bul, kelimelere sırayla dokunup cümleyi kur, Arnavutçasını yaz.",
+          "Yazarken ë ve ç düğmelerini kullan. Şapkayı ya da noktayı unutursan yine doğru sayılır, doğru yazılışı gösterilir.",
+          "Yanlış yaptığın soru dersin sonunda bir kez daha gelir. Puanın, ilk denemede doğru yaptıklarındır.",
+          "Her gün en az bir ders bitirirsen günlük serin büyür. Zorlandığın kelimeler “Zayıf kelimeleri tekrar et” bölümünde birikir."
+        ],
+        "tip": "Arnavutça konuşuyor ve Türkçe öğrenmek mi istiyorsun? Öğren sayfasının üstünden “Türkçe”yi seç: aynı dersler ters yönde gelir.",
+        "cta": "Derse başla"
+      },
+      "dictionary": {
+        "title": "Argo Sözlük",
+        "intro": "qysh, çka, kerr… Kosova sokağında duyduğun kelimelerin gerçek anlamı.",
+        "steps": [
+          "Argo Sözlük'ü aç ve kelimeyi ara. Harf hatası yapsan da bulur (ç yerine c yazmak gibi).",
+          "Filtrelerle daralt: “Kosova kelimeleri”, “Türkçeden geçenler”, “Türk argosu → Arnavutça”.",
+          "Bir kelimeye dokun: anlamı, örnek cümle, nereden geldiği ve kaynakları açılır.",
+          "Sayfanın altından kelimeyi Çeviri'de ya da Hızlı Konuş'ta deneyebilirsin."
+        ],
+        "tip": "“Henüz anadili konuşan biri tarafından kontrol edilmedi” yazan kelimeleri anadili Priştine Arnavutçası olan kişiler inceliyor.",
+        "cta": "Sözlüğü aç"
+      },
+      "dashboard": {
+        "title": "Panelin",
+        "intro": "Giriş yapınca sağ üstteki kişi simgesi paneli açar. Üç sekme var: Genel bakış, Tercihler, Hesap.",
+        "steps": [
+          "Genel bakış: günlük seri, biten dersler, öğrenilen kelimeler ve favori cümle sayın.",
+          "Günlük hedef: bugün kaç ders bitirdiğini gösterir. “Derse başla” seni doğrudan sıradaki derse götürür.",
+          "Günün cümlesi: çevirisini görmek için karta dokun, “Dinle” ile okunuşunu duy.",
+          "Bu hafta: geçen haftaya göre nasıl gittiğini gösterir.",
+          "Rozetler: ilk ders, 3 ve 7 günlük seri, 25 kelime, 3 sabit cümle, 10 ders. Serini ya da yeni rozetini “Paylaş” ile resim olarak paylaş."
+        ],
+        "tip": "Hesap açtıktan sonra ilk ekranda adını ve günlük hedefini sorarız; ikisini de sonra Tercihler'den değiştirebilirsin.",
+        "cta": "Panelimi aç"
+      },
+      "preferences": {
+        "title": "Tercihler",
+        "intro": "Mirhaba'yı kendine göre ayarla. Değişiklikler anında uygulanır ve tüm cihazlarına taşınır.",
+        "steps": [
+          "Takma ad: selamlamada kullanılır, yalnızca sen görürsün.",
+          "Ne öğreniyorsun?: Arnavutça mı, Türkçe mi. İstersen arayüz dilini de değiştirir.",
+          "Günlük hedef: günde 1, 2, 3 ya da 5 ders.",
+          "Ses ve okunuş: konuşma hızı (Yavaş, Normal, Hızlı) ve okunuş satırını göster/gizle.",
+          "Görünüm: açık ya da koyu tema, büyük yazı, animasyonları azalt.",
+          "Bir şey ters giderse “Tercihleri sıfırla” ile başa dön."
+        ],
+        "tip": "Yaşlı aile büyüklerin için: “Büyük yazı”yı aç ve konuşma hızını “Yavaş” yap.",
+        "cta": "Tercihleri aç"
+      },
+      "reminders": {
+        "title": "Günlük hatırlatıcı",
+        "intro": "O gün ders yapmadıysan seçtiğin saatte telefonuna küçük bir bildirim gelir. Serin bozulmak üzereyse uyarır.",
+        "steps": [
+          "Panel → Tercihler → Hatırlatıcı bölümüne git.",
+          "“Günlük hatırlatıcı”yı aç ve saati seç.",
+          "Tarayıcı bildirim izni ister: “İzin ver”e dokun. Bir deneme bildirimi gelir.",
+          "Ders yaptığın günler bildirim gelmez. Kapatmak için düğmeyi geri kapat."
+        ],
+        "tip": "iPhone'da bildirimler yalnızca ana ekrana eklenmiş Mirhaba'da çalışır: önce Paylaş → “Ana Ekrana Ekle”, sonra uygulamayı oradan aç.",
+        "cta": "Hatırlatıcıyı kur"
+      },
+      "account": {
+        "title": "Hesap ve gizlilik",
+        "intro": "Panelin “Hesap” sekmesinde planın, giriş yöntemin ve verilerin.",
+        "steps": [
+          "Şifre: şifre belirle ya da değiştir. Şifreni unuttuysan giriş ekranında “Şifremi unuttum”a dokun; e-postana gelen bağlantı seni yeni şifre ekranına götürür.",
+          "Arayüz dili ve pazarlama e-postaları: istediğin zaman değiştir.",
+          "“Verilerimi indir”: hesabındaki her şey tek bir dosya olarak.",
+          "“Tüm cihazlardan çıkış yap”: telefonunu kaybettiysen.",
+          "“Hesabı sil”: profilin, ilerlemen ve favorilerin kalıcı olarak silinir."
+        ],
+        "tip": "Çeviri için yazdığın metinler saklanmaz. Ayrıntılar gizlilik politikasında.",
+        "cta": "Hesabımı aç"
+      },
+      "premium": {
+        "title": "Premium ve davetler",
+        "intro": "Hızlı Konuş her zaman ücretsiz. Premium daha fazla çeviri ve ekstralar içindir.",
+        "steps": [
+          "Premium: aylık {monthly} € ya da yıllık {yearly} € (KDV dahil). Günde {paidTranslations} çeviriye kadar (adil kullanım) ve seri koruması: haftada bir gün kaçırsan da serin bozulmaz.",
+          "Satın almak: Fiyatlar sayfasında planı seç, Raiffeisen Bank'ın güvenli sayfasında kartla öde. Kart bilgilerin bize hiç ulaşmaz.",
+          "Otomatik yenileme yok: süre bitince Premium kendiliğinden biter. Süre bitmeden yeniden ödersen kalan sürenin üstüne eklenir.",
+          "Arkadaşını davet et: Panel → Genel bakış → “Arkadaşını davet et”. Arkadaşın bağlantınla yeni hesap açınca ikinize de 7 gün Premium."
+        ],
+        "tip": "Ücretli özellikleri neredeyse hiç kullanmadıysan 14 gün içinde tam iade alabilirsin.",
+        "cta": "Fiyatları gör"
+      },
+      "offline": {
+        "title": "İnternetsiz kullanım",
+        "intro": "Asansörde, bodrumda, mobil veri bittiğinde de Mirhaba yanında.",
+        "steps": [
+          "Mirhaba'yı internet varken bir kez aç. Hızlı Konuş bundan sonra internetsiz çalışır.",
+          "Sabitlediğin cümleler, kendi cümlelerin ve ders ilerlemen telefonunda saklanır.",
+          "Daha önce açtığın dersler ve sözlük sayfaları da internetsiz açılır.",
+          "Çeviri, giriş ve ödeme için internet gerekir. İnternet gelince ilerlemen hesabınla kendiliğinden eşitlenir."
+        ],
+        "tip": "Ana ekrana eklersen internetsiz açılış çok daha hızlı olur.",
+        "cta": ""
+      }
+    },
+    "troubleTitle": "Sorun mu var?",
+    "trouble": [
+      {
+        "q": "“Sesli oku” çalışmıyor ya da “Arnavutça ses yok” diyor.",
+        "a": "Bazı telefonlarda Arnavutça okuma sesi yüklü değildir. Telefon ayarlarında “Metin okuma” (TTS) dillerine bak. O zamana kadar “Tam ekran” ile yazıyı göster: işe yarar."
+      },
+      {
+        "q": "Onay ya da giriş e-postası gelmedi.",
+        "a": "Bir dakika bekle ve gereksiz (spam) klasörüne bak. Hâlâ yoksa giriş ekranından yeniden gönder. Bağlantıyı, Mirhaba'yı açtığın tarayıcıda açman en iyisi."
+      },
+      {
+        "q": "Sesle arama çalışmıyor.",
+        "a": "Mikrofon izni vermen gerekir. İzni reddettiysen tarayıcı ayarlarından Mirhaba'ya izin ver. Bazı tarayıcılar sesle aramayı desteklemez; o zaman yazarak ara."
+      },
+      {
+        "q": "Günlük çeviri hakkım bitti.",
+        "a": "Hakkın ertesi gün (Kosova saatiyle) yenilenir. Hızlı Konuş ve sözlük sınırsızdır. Daha fazla çeviri için Premium'a bakabilirsin."
+      },
+      {
+        "q": "Yeni telefonumda ilerlemem ya da favorilerim yok.",
+        "a": "İki telefonda da aynı hesapla giriş yap ve internete bağlan. Öğren'i ve Hızlı Konuş'u açınca ilerlemen ve favorilerin birleşir; hiçbiri kaybolmaz."
+      },
+      {
+        "q": "Hatırlatıcı bildirimi gelmiyor.",
+        "a": "Bildirim iznini kontrol et. iPhone'da Mirhaba'yı ana ekrana eklemiş ve oradan açmış olman gerekir. O gün ders yaptıysan bildirim gönderilmez."
+      },
+      {
+        "q": "Ödeme yaptım ama Premium görünmüyor.",
+        "a": "Bazen onay birkaç dakika sürer. Hesap sayfasını yenile; ödeme kendiliğinden yeniden kontrol edilir. Yine görünmezse bize yaz."
+      },
+      {
+        "q": "Tanıtım turunu yeniden görmek istiyorum.",
+        "a": "Sayfanın en altındaki “Nasıl kullanılır?” bağlantısına ya da bu sayfanın başındaki “Turu başlat”a dokun."
+      }
+    ],
+    "moreTitle": "Cevabını bulamadın mı?",
+    "moreBody": "Sık sorulan sorulara bak ya da bize yaz.",
+    "moreFaq": "Sık sorulan sorular"
   }
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useTransition, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
-import { ArrowRight, ChevronRight, CircleHelp, Compass, Monitor, Moon, RotateCcw, Sun, Volume2 } from "lucide-react";
+import { ArrowRight, BookOpenText, ChevronRight, CircleHelp, Compass, Monitor, Moon, RotateCcw, Sun, Volume2 } from "lucide-react";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/dictionaries";
 import {
@@ -297,6 +297,14 @@ export function PreferencesPanel({
           </span>
           <ChevronRight aria-hidden="true" className="h-4 w-4 text-muted/60" />
         </button>
+        <Link href={`/${lang}/help`} className="flex min-h-14 items-center gap-3 px-4 py-3 transition-colors duration-150 active:bg-surface-2">
+          <BookOpenText aria-hidden="true" className="h-5 w-5 shrink-0 text-accent-text" />
+          <span className="flex-1">
+            <span className="block text-[17px]">{t.guideLink}</span>
+            <span className="block text-[13px] text-muted">{t.guideLinkHint}</span>
+          </span>
+          <ChevronRight aria-hidden="true" className="h-4 w-4 text-muted/60" />
+        </Link>
         <Link href={`/${lang}/faq`} className="flex min-h-14 items-center gap-3 px-4 py-3 transition-colors duration-150 active:bg-surface-2">
           <CircleHelp aria-hidden="true" className="h-5 w-5 shrink-0 text-accent-text" />
           <span className="flex-1">

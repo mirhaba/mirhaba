@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronDown, Mail } from "lucide-react";
+import { ArrowRight, BookOpenText, ChevronDown, Mail } from "lucide-react";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import { business } from "@/lib/business";
@@ -34,6 +35,14 @@ export default async function FaqPage({ params }: PageProps<"/[lang]/faq">) {
       <div>
         <h1 className="text-[34px] leading-tight font-bold">{t.title}</h1>
         <p className="mt-1 text-[15px] text-muted">{t.subtitle}</p>
+        <Link
+          href={`/${lang}/help`}
+          className="mt-3 inline-flex min-h-11 items-center gap-2 text-[15px] font-semibold text-accent-text hover:underline"
+        >
+          <BookOpenText aria-hidden="true" className="h-4 w-4 shrink-0" />
+          {t.guideLink}
+          <ArrowRight aria-hidden="true" className="h-4 w-4 shrink-0" />
+        </Link>
       </div>
 
       {/* Native <details>: keyboard and screen-reader friendly, works without JavaScript. */}

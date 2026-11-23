@@ -21,6 +21,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...pair("/tr/about", "/sq/about", { changeFrequency: "monthly", priority: 0.9 }),
     ...pair("/tr/pricing", "/sq/pricing", { changeFrequency: "monthly", priority: 0.8 }),
     ...pair("/tr/faq", "/sq/faq", { changeFrequency: "monthly", priority: 0.7 }),
+    ...pair("/tr/help", "/sq/help", { changeFrequency: "monthly", priority: 0.7 }),
     ...pair("/tr/translate", "/sq/translate", { changeFrequency: "monthly", priority: 0.8 }),
     ...pair("/tr/learn", "/sq/learn", { changeFrequency: "weekly", priority: 0.8 }),
     ...pair(dictionaryPath("tr"), dictionaryPath("sq"), { changeFrequency: "weekly", priority: 0.9 }),
