@@ -170,7 +170,7 @@
       "source": "Geçmiş olsun.",
       "expected": "Shërim të shpejtë.",
       "mustInclude": [
-        "shër"
+        "shër|shkoft"
       ],
       "tags": [
         "idiom"
@@ -208,7 +208,7 @@
       "direction": "tr-sq",
       "variant": "kosovan",
       "source": "Ne yapıyorsun şimdi?",
-      "expected": "Çka po bën tash?",
+      "expected": "Çka po bon tash?",
       "tags": [
         "kosovan"
       ]
@@ -678,6 +678,109 @@
       ],
       "tags": [
         "safety"
+      ]
+    },
+    {
+      "id": "tr-sq-051",
+      "direction": "tr-sq",
+      "variant": "kosovan",
+      "source": "Bugün gelemiyorum.",
+      "expected": "Sot s'po mundem me ardhë.",
+      "tags": [
+        "kosovan",
+        "prishtina"
+      ]
+    },
+    {
+      "id": "tr-sq-052",
+      "direction": "tr-sq",
+      "variant": "kosovan",
+      "source": "Kartla ödeyebilir miyim?",
+      "expected": "A bon me kartelë?",
+      "mustInclude": [
+        "kartel"
+      ],
+      "tags": [
+        "kosovan",
+        "prishtina"
+      ]
+    },
+    {
+      "id": "tr-sq-053",
+      "direction": "tr-sq",
+      "variant": "kosovan",
+      "source": "Bilmiyorum.",
+      "expected": "S'po di.",
+      "tags": [
+        "kosovan",
+        "prishtina"
+      ]
+    },
+    {
+      "id": "tr-sq-054",
+      "direction": "tr-sq",
+      "variant": "kosovan",
+      "source": "Nereye gidiyorsun?",
+      "expected": "Kah po shkon?",
+      "mustInclude": [
+        "shkon"
+      ],
+      "tags": [
+        "kosovan",
+        "prishtina"
+      ]
+    },
+    {
+      "id": "tr-sq-055",
+      "direction": "tr-sq",
+      "variant": "kosovan",
+      "source": "Gitmem lazım.",
+      "expected": "Duhet me shku.",
+      "mustInclude": [
+        "duhet"
+      ],
+      "tags": [
+        "kosovan",
+        "prishtina"
+      ]
+    },
+    {
+      "id": "tr-sq-056",
+      "direction": "tr-sq",
+      "variant": "kosovan",
+      "source": "Her şey yolunda.",
+      "expected": "Krejt në rregull.",
+      "mustInclude": [
+        "rregull|mirë"
+      ],
+      "tags": [
+        "kosovan",
+        "prishtina"
+      ]
+    },
+    {
+      "id": "tr-sq-057",
+      "direction": "tr-sq",
+      "variant": "kosovan",
+      "source": "Yine mi sen?",
+      "expected": "Apet ti?",
+      "tags": [
+        "kosovan",
+        "prishtina"
+      ]
+    },
+    {
+      "id": "tr-sq-058",
+      "direction": "tr-sq",
+      "variant": "kosovan",
+      "source": "Bana yardım edebilir misin?",
+      "expected": "A mundesh me m'ndihmu?",
+      "mustInclude": [
+        "ndihm"
+      ],
+      "tags": [
+        "kosovan",
+        "prishtina"
       ]
     },
     {
@@ -1392,6 +1495,133 @@
       ],
       "tags": [
         "health"
+      ]
+    },
+    {
+      "id": "sq-tr-051",
+      "direction": "sq-tr",
+      "variant": "standard",
+      "source": "A bon?",
+      "expected": "Olur mu?",
+      "mustInclude": [
+        "olur|uyar|uygun|tamam"
+      ],
+      "mustNotInclude": [
+        "yap"
+      ],
+      "tags": [
+        "kosovan",
+        "context"
+      ]
+    },
+    {
+      "id": "sq-tr-052",
+      "direction": "sq-tr",
+      "variant": "standard",
+      "source": "A bon me hy?",
+      "expected": "Girebilir miyim?",
+      "mustInclude": [
+        "gir"
+      ],
+      "mustNotInclude": [
+        "yap"
+      ],
+      "tags": [
+        "kosovan",
+        "context"
+      ]
+    },
+    {
+      "id": "sq-tr-053",
+      "direction": "sq-tr",
+      "variant": "standard",
+      "source": "Po bon, s'ka problem.",
+      "expected": "Olur, sorun değil.",
+      "mustInclude": [
+        "olur|tamam|uyar"
+      ],
+      "mustNotInclude": [
+        "yap"
+      ],
+      "tags": [
+        "kosovan",
+        "context"
+      ]
+    },
+    {
+      "id": "sq-tr-054",
+      "direction": "sq-tr",
+      "variant": "standard",
+      "source": "Bon, bon.",
+      "expected": "Tamam, olur.",
+      "mustInclude": [
+        "tamam|olur"
+      ],
+      "mustNotInclude": [
+        "yap"
+      ],
+      "tags": [
+        "kosovan",
+        "context"
+      ]
+    },
+    {
+      "id": "sq-tr-055",
+      "direction": "sq-tr",
+      "variant": "standard",
+      "source": "Sa bon kjo?",
+      "expected": "Bu ne kadar?",
+      "mustInclude": [
+        "ne kadar"
+      ],
+      "mustNotInclude": [
+        "yap"
+      ],
+      "tags": [
+        "kosovan",
+        "context"
+      ]
+    },
+    {
+      "id": "sq-tr-056",
+      "direction": "sq-tr",
+      "variant": "standard",
+      "source": "Çka po bon?",
+      "expected": "Ne yapıyorsun?",
+      "mustInclude": [
+        "ne yap"
+      ],
+      "tags": [
+        "kosovan",
+        "context"
+      ]
+    },
+    {
+      "id": "sq-tr-057",
+      "direction": "sq-tr",
+      "variant": "standard",
+      "source": "Kah po shkon?",
+      "expected": "Nereye gidiyorsun?",
+      "mustInclude": [
+        "nereye"
+      ],
+      "tags": [
+        "kosovan",
+        "context"
+      ]
+    },
+    {
+      "id": "sq-tr-058",
+      "direction": "sq-tr",
+      "variant": "standard",
+      "source": "Jam kah vij.",
+      "expected": "Geliyorum.",
+      "mustInclude": [
+        "gel"
+      ],
+      "tags": [
+        "kosovan",
+        "context"
       ]
     }
   ]

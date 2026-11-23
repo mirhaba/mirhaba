@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Mirhaba: Kosova'da Arnavutça konuş",
-    "description": "Kosova'da yaşayan ve oraya taşınacak herkes için: hazır cümleler, Priştine argosu ve gerçek konuşulan Arnavutça. İnternetsiz çalışır."
+    "description": "Kosova'da yaşayan ve oraya taşınacak herkes için: hazır cümleler, Priştine ağzı ve gerçek konuşulan Arnavutça. İnternetsiz çalışır."
   },
   "common": {
     "skipToContent": "İçeriğe geç",
@@ -17,7 +17,7 @@
     "quickTalk": "Hızlı Konuş",
     "translate": "Çeviri",
     "learn": "Öğren",
-    "dictionary": "Argo Sözlük",
+    "dictionary": "Kosova Sözlüğü",
     "account": "Hesap",
     "main": "Ana menü",
     "signIn": "Giriş yap"
@@ -325,7 +325,7 @@
     "inputLabelTr": "Türkçe metin",
     "inputLabelSq": "Arnavutça metin",
     "placeholderTr": "örn. Kanka, 10 dakikaya kapıdayım",
-    "placeholderSq": "p.sh. Qysh je, lali?",
+    "placeholderSq": "p.sh. Çka po bon, vlla?",
     "chars": "{n} / {max}",
     "submit": "Çevir",
     "translating": "Çevriliyor…",
@@ -383,18 +383,22 @@
     "openHint": "Düzeltmeleri incele"
   },
   "dictionary": {
-    "title": "Argo Sözlük",
+    "title": "Kosova Sözlüğü",
     "subtitle": "Kosova ve Priştine'de gerçekten konuşulan kelimeler, Türkçe karşılıklarıyla.",
-    "metaDescription": "Kosova Arnavutçası argo ve günlük kelimeler sözlüğü: qysh, çka, kerr, gepek, Türkçeden geçen kelimeler (belesh, zor, avash) ve kanka, abi gibi Türk argosunun Kosova'daki karşılıkları.",
+    "metaDescription": "Kosova Arnavutçası sözlüğü: günlük Kosova ağzı (qysh, çka, tash, bon), yerel kelimeler (kerr, gepek), argo, Türkçeden geçen kelimeler (belesh, zor, avash) ve kanka, abi gibi Türk argosunun Kosova'daki karşılıkları.",
     "searchLabel": "Kelime ara",
     "searchPlaceholder": "örn. qysh, kanka, araba",
     "filters": "Tür",
     "all": "Tümü",
-    "kosovan": "Kosova kelimeleri",
+    "kosovan": "Kosova ağzı",
+    "regional": "Yerel kelimeler",
+    "slang": "Argo",
     "loanword": "Türkçeden geçenler",
     "turkish_slang": "Türk argosu → Arnavutça",
     "kindHint": {
-      "kosovan": "Kosova'da standart Arnavutçadan farklı söylenen kelimeler.",
+      "kosovan": "Standart Arnavutça kelimelerin Kosova ve Priştine'deki günlük söylenişi. Bazılarının anlamı bağlama göre değişir.",
+      "regional": "Kosova'da standart kelimenin yerine kullanılan yerel kelimeler.",
+      "slang": "Gerçek sokak ve gençlik argosu; bazıları kaba ya da aşağılayıcıdır.",
       "loanword": "Türkçeden geçmiş, Kosova'da hâlâ kullanılan kelimeler. Bunları zaten biliyorsun!",
       "turkish_slang": "Türkçe argo ve kalıpların Kosova'da nasıl söylendiği."
     },
@@ -455,7 +459,7 @@
         "body": "Türkçe ↔ Arnavutça, Kosova ağzı ya da standart. Argo, anlamına göre çevrilir."
       },
       {
-        "title": "Argo Sözlük",
+        "title": "Kosova Sözlüğü",
         "body": "qysh, çka, kerr… Kosova'da gerçekten kullanılan kelimeler ve Türkçeden geçenler."
       },
       {
@@ -511,7 +515,7 @@
         "premium": "Var"
       },
       {
-        "label": "Argo sözlük",
+        "label": "Kosova Sözlüğü",
         "free": "Var",
         "premium": "Var, sesli (yakında)"
       },
@@ -581,7 +585,7 @@
       },
       {
         "q": "Kosova Arnavutçası standart Arnavutçadan farklı mı?",
-        "a": "Evet, biraz. Kosova'da kuzey (Geg) ağzı konuşulur: \"si\" yerine \"qysh\", \"çfarë\" yerine \"çka\" denir. Çeviride \"Kosova\" ya da \"Standart\" seçebilirsin."
+        "a": "Evet, epey. Kosova'da kuzey (Geg) ağzı konuşulur: \"si\" yerine \"qysh\", \"çfarë\" yerine \"çka\", \"tani\" yerine \"tash\", \"Duhet të shkoj\" yerine \"Duhet me shku\" denir. Hızlı Konuş cümleleri Kosova ağzıyla yazılmıştır; çeviride \"Kosova\" ya da \"Standart\" seçebilirsin."
       },
       {
         "q": "Çeviriler ne kadar doğru?",
@@ -746,7 +750,7 @@
         "tip": "Zayıf kelimeler otomatik olarak tekrar karşına çıkar."
       },
       {
-        "title": "Argo Sözlük",
+        "title": "Kosova Sözlüğü",
         "body": "qysh, çka, kerr… Sokakta duyduğun kelimelerin gerçek anlamı ve Türkçeden geçen kelimeler.",
         "tip": "Arama, harf hatalarını da anlar."
       },
@@ -770,7 +774,7 @@
       "Hayır",
       "Biraz bekle"
     ],
-    "demoTranslateIn": "Qysh je, lali?",
+    "demoTranslateIn": "Çka ka, vlla?",
     "demoTranslateOut": "Naber kanka?",
     "quizQuestion": "“Faleminderit” ne demek?",
     "quizRight": "Teşekkürler",
@@ -994,7 +998,7 @@
   },
   "help": {
     "metaTitle": "Kullanım kılavuzu",
-    "metaDescription": "Mirhaba nasıl kullanılır: Hızlı Konuş, çeviri, Arnavutça dersleri, argo sözlük, hatırlatıcılar ve internetsiz kullanım. Adım adım, ekran ekran.",
+    "metaDescription": "Mirhaba nasıl kullanılır: Hızlı Konuş, çeviri, Arnavutça dersleri, Kosova Sözlüğü, hatırlatıcılar ve internetsiz kullanım. Adım adım, ekran ekran.",
     "eyebrow": "Yardım",
     "title": "Kullanım kılavuzu",
     "subtitle": "Mirhaba'daki her şey, adım adım. Bir bölüm seç ya da aşağı kaydır.",
@@ -1025,7 +1029,7 @@
           "Telefona ekle (Android): tarayıcı menüsünü (⋮) aç, “Ana ekrana ekle”ye dokun. Mirhaba ekranın altında “Ekle” önerisi de gösterebilir.",
           "Telefona ekle (iPhone): Safari'de Paylaş düğmesine, sonra “Ana Ekrana Ekle”ye dokun.",
           "Hesap aç (isteğe bağlı): sağ üstteki kişi simgesine dokun, e-posta ve şifreyle ya da Google ile kaydol. E-postana gelen bağlantıya dokunarak hesabını onayla.",
-          "Menü: telefonda alttaki çubuk, bilgisayarda üstteki menü. Dört bölüm var: Hızlı Konuş, Çeviri, Öğren, Argo Sözlük."
+          "Menü: telefonda alttaki çubuk, bilgisayarda üstteki menü. Dört bölüm var: Hızlı Konuş, Çeviri, Öğren, Kosova Sözlüğü."
         ],
         "tip": "Hızlı Konuş, sözlük ve dersler hesapsız da çalışır. Hesap; çeviri, tüm cihazlarda aynı ilerleme ve rozetler içindir.",
         "cta": "Ücretsiz hesap oluştur"
@@ -1086,11 +1090,11 @@
         "cta": "Derse başla"
       },
       "dictionary": {
-        "title": "Argo Sözlük",
-        "intro": "qysh, çka, kerr… Kosova sokağında duyduğun kelimelerin gerçek anlamı.",
+        "title": "Kosova Sözlüğü",
+        "intro": "qysh, çka, bon, kerr… Kosova sokağında duyduğun kelimelerin bağlama göre gerçek anlamı ve Türkçeden geçen kelimeler.",
         "steps": [
-          "Argo Sözlük'ü aç ve kelimeyi ara. Harf hatası yapsan da bulur (ç yerine c yazmak gibi).",
-          "Filtrelerle daralt: “Kosova kelimeleri”, “Türkçeden geçenler”, “Türk argosu → Arnavutça”.",
+          "Kosova Sözlüğü'nü aç ve kelimeyi ara. Harf hatası yapsan da bulur (ç yerine c yazmak gibi).",
+          "Filtrelerle daralt: “Kosova ağzı”, “Yerel kelimeler”, “Argo”, “Türkçeden geçenler”, “Türk argosu → Arnavutça”.",
           "Bir kelimeye dokun: anlamı, örnek cümle, nereden geldiği ve kaynakları açılır.",
           "Sayfanın altından kelimeyi Çeviri'de ya da Hızlı Konuş'ta deneyebilirsin."
         ],

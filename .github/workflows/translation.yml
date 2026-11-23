@@ -1,6 +1,6 @@
 # Translation quality gate. Runs when the prompt, model setup, glossary or regression set changes.
 #  - npm test: glossary matching/injection + the regression set's own consistency (no network).
-#  - With the GROQ_API_KEY repository secret: the full 100-case regression run against the model.
+#  - With the GROQ_API_KEY repository secret: the full 116-case regression run against the model.
 #    Without it: checks that evals/translation/last-run.json was recorded for the current prompt/model.
 name: Translation regression
 

@@ -1,7 +1,7 @@
 // Translation regression run: translates every case in evals/translation/cases.json with the
 // app's own prompt, glossary matching and model (src/lib/translate/engine.ts), then scores it.
 //
-//   npm run eval                      all 100 cases; writes evals/translation/last-run.json
+//   npm run eval                      all 116 cases; writes evals/translation/last-run.json
 //   npm run eval -- --only=slang      only cases with this tag or id (comma-separated); writes nothing
 //
 // Run it after EVERY prompt, model or glossary-format change and commit last-run.json:

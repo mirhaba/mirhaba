@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { slugs } from "@/lib/content/model";
 import { adminAction, check, int, ok, optional, refreshContent, required, slugOf, str, UserError, type ActionResult } from "@/lib/admin/actions-kit";
 
-const KINDS = ["kosovan", "loanword", "turkish_slang"];
+const KINDS = ["kosovan", "regional", "slang", "loanword", "turkish_slang"];
 const REGISTERS = ["neutral", "casual", "vulgar"];
 const ORIGINS = ["albanian", "turkish", "serbian", "german", "english", "latin"];
 

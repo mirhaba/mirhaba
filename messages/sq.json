@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Mirhaba: Fol shqip në Kosovë",
-    "description": "Për çdo turk që jeton ose do të jetojë në Kosovë: fjali të gatshme, zhargon prishtinas dhe shqipja ashtu siç flitet. Punon edhe pa internet."
+    "description": "Për çdo turk që jeton ose do të jetojë në Kosovë: fjali të gatshme, fjalët e Prishtinës dhe shqipja ashtu siç flitet vërtet. Punon edhe pa internet."
   },
   "common": {
     "skipToContent": "Kalo te përmbajtja",
@@ -17,14 +17,14 @@
     "quickTalk": "Bisedë e shpejtë",
     "translate": "Përkthim",
     "learn": "Mëso",
-    "dictionary": "Fjalori i zhargonit",
+    "dictionary": "Fjalori i Kosovës",
     "account": "Llogaria",
     "main": "Menyja kryesore",
     "signIn": "Hyr"
   },
   "quickTalk": {
     "title": "Bisedë e shpejtë",
-    "subtitle": "Prek një fjali, tregoja ose dëgjoja personit përballë.",
+    "subtitle": "Prek një fjali, tregoja personit përballë ose lexoje me zë.",
     "categories": "Kategoritë",
     "favorites": "Të preferuarat",
     "favoritesEmpty": "Prek yllin e një fjalie që të qëndrojë këtu lart (deri në 6).",
@@ -260,7 +260,7 @@
     "yourData": "Të dhënat e tua",
     "export": "Shkarko të dhënat e mia",
     "exportHint": "Të gjitha të dhënat e llogarisë, në një skedar JSON.",
-    "sessions": "Seanca",
+    "sessions": "Seancat",
     "signOut": "Dil",
     "signOutAll": "Dil nga të gjitha pajisjet",
     "deleteTitle": "Fshi llogarinë",
@@ -325,7 +325,7 @@
     "inputLabelTr": "Teksti në turqisht",
     "inputLabelSq": "Teksti në shqip",
     "placeholderTr": "p.sh. Kanka, 10 dakikaya kapıdayım",
-    "placeholderSq": "p.sh. Qysh je, lali?",
+    "placeholderSq": "p.sh. Çka po bon, vlla?",
     "chars": "{n} / {max}",
     "submit": "Përkthe",
     "translating": "Duke përkthyer…",
@@ -383,18 +383,22 @@
     "openHint": "Shqyrto korrigjimet"
   },
   "dictionary": {
-    "title": "Fjalori i zhargonit",
+    "title": "Fjalori i Kosovës",
     "subtitle": "Fjalët që fliten vërtet në Kosovë e Prishtinë, me kuptimin në turqisht.",
-    "metaDescription": "Fjalor i zhargonit dhe i fjalëve të përditshme kosovare: qysh, çka, kerr, gepek, fjalë me prejardhje turke (belesh, zor, avash) dhe si thuhet në Kosovë zhargoni turk si kanka, abi.",
+    "metaDescription": "Fjalori i Kosovës: e folmja e përditshme (qysh, çka, tash, bon), fjalë vendore (kerr, gepek), zhargon, fjalë me prejardhje turke (belesh, zor, avash) dhe si thuhen në Kosovë shprehjet turke si kanka, abi.",
     "searchLabel": "Kërko fjalë",
     "searchPlaceholder": "p.sh. qysh, kanka, kerr",
     "filters": "Lloji",
     "all": "Të gjitha",
-    "kosovan": "Fjalë kosovare",
+    "kosovan": "E folmja e Kosovës",
+    "regional": "Fjalë vendore",
+    "slang": "Zhargon",
     "loanword": "Nga turqishtja",
     "turkish_slang": "Zhargon turk → shqip",
     "kindHint": {
-      "kosovan": "Fjalë që në Kosovë thuhen ndryshe nga shqipja standarde.",
+      "kosovan": "Format e përditshme të Kosovës e Prishtinës për fjalë të shqipes standarde. Disa e ndryshojnë kuptimin sipas kontekstit.",
+      "regional": "Fjalë vendore që në Kosovë përdoren në vend të fjalës standarde.",
+      "slang": "Zhargon i vërtetë i rrugës dhe i të rinjve; disa fjalë janë fyese.",
       "loanword": "Fjalë me prejardhje turke që ende përdoren në Kosovë.",
       "turkish_slang": "Si thuhen në Kosovë shprehjet e zhargonit turk."
     },
@@ -455,7 +459,7 @@
         "body": "Turqisht ↔ shqip, në të folmen e Kosovës ose në standard. Zhargoni përkthehet sipas kuptimit."
       },
       {
-        "title": "Fjalori i zhargonit",
+        "title": "Fjalori i Kosovës",
         "body": "qysh, çka, kerr… fjalët që përdoren vërtet në Kosovë dhe ato që vijnë nga turqishtja."
       },
       {
@@ -511,7 +515,7 @@
         "premium": "Po"
       },
       {
-        "label": "Fjalori i zhargonit",
+        "label": "Fjalori i Kosovës",
         "free": "Po",
         "premium": "Po, me zë (së shpejti)"
       },
@@ -581,7 +585,7 @@
       },
       {
         "q": "A ndryshon shqipja e Kosovës nga standardi?",
-        "a": "Po, pak. Në Kosovë flitet gegërisht: \"qysh\" në vend të \"si\", \"çka\" në vend të \"çfarë\". Te përkthimi mund të zgjedhësh \"Kosovë\" ose \"Standarde\"."
+        "a": "Po, mjaft. Në Kosovë flitet gegërisht: \"qysh\" në vend të \"si\", \"çka\" në vend të \"çfarë\", \"tash\" në vend të \"tani\", \"Duhet me shku\" në vend të \"Duhet të shkoj\". Biseda e shpejtë është në të folmen e Kosovës; te përkthimi mund të zgjedhësh \"Kosovë\" ose \"Standarde\"."
       },
       {
         "q": "Sa të sakta janë përkthimet?",
@@ -713,7 +717,7 @@
     "dialogLabel": "Mirë se erdhe në Mirhaba",
     "switchLang": "Ndërroni gjuhën",
     "skip": "Kapërce",
-    "next": "Para",
+    "next": "Vazhdo",
     "back": "Prapa",
     "step": "Hapi {n} / {total}",
     "hello": "Mirë se erdhe! 👋",
@@ -737,7 +741,7 @@
       },
       {
         "title": "Përkthim i zgjuar",
-        "body": "Shkruaj ose ngjit tekstin. Zhargoni dhe e folmja e Kosovës përkthehen sipas kuptimit; ti zgjedh mes kosovarishtes dhe standardit.",
+        "body": "Shkruaj ose ngjit tekstin. Zhargoni dhe e folmja e Kosovës përkthehen sipas kuptimit; ti zgjedh mes të folmes së Kosovës dhe shqipes standarde.",
         "tip": "Me llogari falas ke përkthime çdo ditë."
       },
       {
@@ -746,7 +750,7 @@
         "tip": "Fjalët e dobëta të dalin vetë për përsëritje."
       },
       {
-        "title": "Fjalori i zhargonit",
+        "title": "Fjalori i Kosovës",
         "body": "qysh, çka, kerr… kuptimi i vërtetë i fjalëve që dëgjon në rrugë dhe fjalët që vijnë nga turqishtja.",
         "tip": "Kërkimi i kupton edhe gabimet e shkronjave."
       },
@@ -771,7 +775,7 @@
       "Prit pak"
     ],
     "demoTranslateIn": "Naber kanka?",
-    "demoTranslateOut": "Qysh je, lali?",
+    "demoTranslateOut": "Çka ka, vlla?",
     "quizQuestion": "Çfarë do të thotë “Teşekkürler”?",
     "quizRight": "Faleminderit",
     "quizWrong": "Mirëmëngjes",
@@ -788,7 +792,7 @@
       },
       {
         "w": "kerr",
-        "m": "makinë"
+        "m": "veturë"
       }
     ],
     "doneTitle": "Je gati!",
@@ -994,7 +998,7 @@
   },
   "help": {
     "metaTitle": "Udhëzuesi i përdorimit",
-    "metaDescription": "Si përdoret Mirhaba: Biseda e shpejtë, përkthimi, mësimet, fjalori i zhargonit, kujtesat dhe përdorimi pa internet. Hap pas hapi.",
+    "metaDescription": "Si përdoret Mirhaba: Biseda e shpejtë, përkthimi, mësimet, Fjalori i Kosovës, kujtesat dhe përdorimi pa internet. Hap pas hapi.",
     "eyebrow": "Ndihmë",
     "title": "Udhëzuesi i përdorimit",
     "subtitle": "Gjithçka në Mirhaba, hap pas hapi. Zgjidh një pjesë ose lëviz poshtë.",
@@ -1025,7 +1029,7 @@
           "Shtoje në telefon (Android): hap menynë e shfletuesit (⋮) dhe prek “Shto në ekranin kryesor”. Mirhaba mund ta sugjerojë edhe vetë poshtë ekranit me butonin “Shto”.",
           "Shtoje në telefon (iPhone): në Safari prek butonin Ndaj, pastaj “Shto në ekranin bazë”.",
           "Hap llogari (sipas dëshirës): prek ikonën e personit lart djathtas dhe regjistrohu me email e fjalëkalim ose me Google. Konfirmoje llogarinë me lidhjen që të vjen në email.",
-          "Menyja: në telefon shiriti poshtë, në kompjuter menyja lart. Ka katër pjesë: Bisedë e shpejtë, Përkthim, Mëso, Fjalori i zhargonit."
+          "Menyja: në telefon shiriti poshtë, në kompjuter menyja lart. Ka katër pjesë: Bisedë e shpejtë, Përkthim, Mëso, Fjalori i Kosovës."
         ],
         "tip": "Biseda e shpejtë, fjalori dhe mësimet punojnë edhe pa llogari. Llogaria duhet për përkthim, progres të njëjtë në çdo pajisje dhe distinktivë.",
         "cta": "Krijo llogari falas"
@@ -1086,8 +1090,8 @@
         "cta": "Fillo mësimin"
       },
       "dictionary": {
-        "title": "Fjalori i zhargonit",
-        "intro": "qysh, çka, kerr… kuptimi i vërtetë i fjalëve që dëgjon në rrugë, dhe fjalët që vijnë nga turqishtja.",
+        "title": "Fjalori i Kosovës",
+        "intro": "qysh, çka, bon, kerr… kuptimi i vërtetë i fjalëve që dëgjon në rrugë, sipas kontekstit, dhe fjalët që vijnë nga turqishtja.",
         "steps": [
           "Hap Fjalorin dhe kërko fjalën. E gjen edhe me gabime shkronjash (p.sh. c në vend të ç).",
           "Ngushto me filtrat sipas llojit të fjalës.",

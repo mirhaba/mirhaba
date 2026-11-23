@@ -198,7 +198,7 @@ export function PreferencesPanel({
             </p>
             <button
               type="button"
-              onClick={() => speakAlbanian("Mirëdita, si jeni?")}
+              onClick={() => speakAlbanian("Mirëdita, qysh jeni?")}
               className="pressable flex h-9 items-center gap-1.5 rounded-full bg-accent-soft px-3 text-[14px] font-semibold text-accent-text"
             >
               <Volume2 aria-hidden="true" className="h-4 w-4" />

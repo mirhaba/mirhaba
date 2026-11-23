@@ -78,7 +78,9 @@ export default async function WordAdmin({ params, searchParams }: PageProps<"/ad
               )}
               <Field label="Kind">
                 <select name="kind" defaultValue={e?.kind ?? (prefill.term_lang === "tr" ? "turkish_slang" : "kosovan")} className={inputClass}>
-                  <option value="kosovan">Kosovan word</option>
+                  <option value="kosovan">Kosovo dialect form (qysh, çka, bon…)</option>
+                  <option value="regional">Regional word used in Kosovo (kerr, gepek…)</option>
+                  <option value="slang">Slang (quzë, nub…)</option>
                   <option value="loanword">Turkish loanword used in Kosovo</option>
                   <option value="turkish_slang">Turkish slang → Kosovan</option>
                 </select>

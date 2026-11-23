@@ -56,9 +56,9 @@ test("the system prompt forbids copying or Albanianising Turkish words", () => {
   assert.match(SYSTEM, /"argë" is not a word/);
 });
 
-test("the regression set: 50 + 50 cases, unique ids, the argo case included", () => {
-  assert.equal(cases.filter((c) => c.direction === "tr-sq").length, 50);
-  assert.equal(cases.filter((c) => c.direction === "sq-tr").length, 50);
+test("the regression set: 58 + 58 cases, unique ids, the argo case included", () => {
+  assert.equal(cases.filter((c) => c.direction === "tr-sq").length, 58);
+  assert.equal(cases.filter((c) => c.direction === "sq-tr").length, 58);
   assert.equal(new Set(cases.map((c) => c.id)).size, cases.length);
   const argo = cases.find((c) => c.source === "Kosova'da Arnavutça, argo dahil");
   assert.equal(argo?.expected, "Shqipja e Kosovës, edhe me zhargon");

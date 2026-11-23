@@ -10,7 +10,13 @@ export const metadata = { title: "Dictionary" };
 // Private dashboard: pages read fresh data on every visit, so navigations may wait for it.
 export const instant = false;
 
-const KIND_LABEL = { kosovan: "Kosovan", loanword: "Turkish loanword", turkish_slang: "Turkish slang" } as const;
+const KIND_LABEL = {
+  kosovan: "Kosovo dialect",
+  regional: "Regional word",
+  slang: "Slang",
+  loanword: "Turkish loanword",
+  turkish_slang: "Turkish slang",
+} as const;
 
 export default async function DictionaryAdmin({ searchParams }: PageProps<"/admin/dictionary">) {
   await requireAdmin();

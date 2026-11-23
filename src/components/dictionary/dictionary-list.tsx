@@ -11,7 +11,7 @@ import { normalizeForSearch } from "@/lib/text";
 import { StateView } from "@/components/state-view";
 
 type T = Messages["dictionary"];
-const KINDS: (Kind | "all")[] = ["all", "kosovan", "loanword", "turkish_slang"];
+const KINDS: (Kind | "all")[] = ["all", "kosovan", "regional", "slang", "loanword", "turkish_slang"];
 
 /** What to show next to the headword: the other language's equivalent. */
 export function equivalentOf(entry: SlangEntry): string {

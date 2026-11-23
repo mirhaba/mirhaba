@@ -19,7 +19,7 @@ mini demos. Anyone can reopen it from the footer ("Nasıl kullanılır?").
 | **Hızlı Konuş** (Quick Talk), the home page | Ready-made Albanian phrases in 11 categories (greetings, delivery, landlord, work, doctor, bank, municipality, school, shopping, taxi…). Tap one to show it big on screen, read it aloud, or go full screen. Below it are **reply buttons** (Yes / No / Wait / 2nd floor…) the Kosovan taps to answer, and you see the answer in Turkish. Search by typing or by voice. | No |
 | **Çeviri** (Translate) | AI translation Turkish ⇄ Albanian, with a "Kosovan" or "Standard" Albanian option. Understands slang and adds "meaning" notes. "Wrong translation?" sends a correction to you. | Yes (free) |
 | **Öğren** (Learn) | 5-minute lessons: word cards, multiple choice, matching, sentence building, typing. Daily streak, review of weak words. Switch at the top to learn **Turkish** instead (for Albanian speakers). | No |
-| **Argo Sözlük** (Slang dictionary) | Kosovan words, Turkish loanwords, Turkish slang → Kosovan, each on its own page with meaning, example and sources. | No |
+| **Kosova Sözlüğü / Fjalori i Kosovës** (Kosovo dictionary) | Kosovo dialect forms (qysh, çka, bon…), regional words (kerr, gepek…), genuine slang, Turkish loanwords, Turkish slang → Kosovan, each on its own page with meaning, example and sources. | No |
 
 Other Quick Talk features: **star** a phrase to pin it at the top (max 6), and **"Kendi cümlelerim"** (my phrases) lets
 people save up to 50 of their own phrases, with optional auto-translation.
