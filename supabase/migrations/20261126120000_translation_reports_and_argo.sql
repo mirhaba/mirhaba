@@ -21,9 +21,9 @@ from (
 ) parsed
 where public.corrections.id = parsed.id and parsed.m is not null;
 
-alter table public.corrections drop constraint if exists corrections_check;
+-- New reports still write a short free_text ("[tr-sq] source"), so the existing
+-- "variant_id or free_text" check keeps holding; nothing is dropped.
 alter table public.corrections
-  add constraint corrections_has_subject check (variant_id is not null or free_text is not null or source_text is not null),
   add constraint corrections_text_report_complete check (
     source_text is null or (direction is not null and output_text is not null)
   );

@@ -165,8 +165,11 @@ export async function submitCorrection(raw: z.input<typeof correctionSchema>): P
 
   const { direction, source, translation, suggestion } = parsed.data;
   const variant = direction === "tr-sq" ? (parsed.data.variant ?? "kosovan") : "standard";
-  const { error } = await supabase.from("corrections").insert({
+  const legacy = `[${direction}] ${source}\n→ ${translation}`.slice(0, 1000);
+  let { error } = await supabase.from("corrections").insert({
     user_id: auth.user.id,
+    // Short summary for older readers (and the "variant_id or free_text" check).
+    free_text: `[${direction}] ${source}`.slice(0, 1000),
     direction,
     variant,
     source_text: source,
@@ -174,6 +177,11 @@ export async function submitCorrection(raw: z.input<typeof correctionSchema>): P
     suggestion,
     prompt_version: PROMPT_VERSION,
   });
+  // Database without migration 20261126120000 yet (no source_text/output_text columns, code 42703 or
+  // PGRST204): save the report the old way instead of losing it.
+  if (error && (error.code === "42703" || error.code === "PGRST204")) {
+    ({ error } = await supabase.from("corrections").insert({ user_id: auth.user.id, free_text: legacy, suggestion }));
+  }
   if (error) console.error("correction insert failed", error.message);
   return { ok: !error };
 }
